@@ -1,24 +1,28 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { Switch, Route } from "react-router-dom";
+
+import Home from "./pages/Home";
+import MapCreator from "./pages/MapCreator";
+import Tutorial from "./pages/Tutorial";
+import Navigation from "./components/Navigation";
 
 function App() {
+  //items for navigation bar
+  const menuItems = [
+    { route: "/mapcreator", linkText: "Mapcreator" },
+    { route: "/tutorial", linkText: "Tutorial" },
+  ];
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Navigation menuItems={menuItems} />
+      <Switch>
+        <Route exact path="/" component={Home} />
+        <Route path="/mapcreator" component={MapCreator} />
+        <Route path="/tutorial" component={Tutorial} />
+        {/* <Route path="/signup" component={SignUp} />
+        <Route path="/login" component={Login} /> */}
+      </Switch>
     </div>
   );
 }
