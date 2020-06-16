@@ -1,10 +1,10 @@
 import React from "react";
-import { Typograpy } from "@material-ui/core";
+import { Typography } from "@material-ui/core";
 
 export default function Tutorial() {
   return (
     <div>
-      <Typograpy variant="h1">Tutorial</Typograpy>
+      <Typography variant="h1">Tutorial</Typography>
     </div>
   );
 }
