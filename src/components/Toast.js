@@ -1,8 +1,8 @@
 import React from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { selectMessage, selectShowMessage } from "../store/appState/selectors";
-import { setShowMessage } from "../store/appState/actions";
 import { DEFAULT_MESSAGE_TIMEOUT } from "../config/constants";
+import { useApolloClient } from "@apollo/react-hooks";
+import { useQuery } from "react-apollo";
+import { MESSAGE } from "../cache/queries";
 
 import Snackbar from "@material-ui/core/Snackbar";
 import IconButton from "@material-ui/core/IconButton";
@@ -14,12 +14,11 @@ function Alert(props) {
 }
 
 export default function Toast() {
-  const message = useSelector(selectMessage);
-  const show = useSelector(selectShowMessage);
-  const dispatch = useDispatch();
+  const client = useApolloClient();
+  const { data } = useQuery(MESSAGE);
 
   const handleClose = (event, reason) => {
-    dispatch(setShowMessage(false));
+    client.writeData({ data: { showMessage: false } });
   };
 
   return (
@@ -29,7 +28,7 @@ export default function Toast() {
           vertical: "bottom",
           horizontal: "right",
         }}
-        open={show}
+        open={data && data.showMessage}
         autoHideDuration={DEFAULT_MESSAGE_TIMEOUT}
         onClose={handleClose}
         action={
@@ -45,8 +44,8 @@ export default function Toast() {
           </React.Fragment>
         }
       >
-        <Alert onClose={handleClose} severity={message.severity}>
-          {message.text}
+        <Alert onClose={handleClose} severity={data && data.message.severity}>
+          {data && data.message.text}
         </Alert>
       </Snackbar>
     </div>

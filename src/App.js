@@ -1,7 +1,6 @@
 import React from "react";
 import { Switch, Route } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { showMessage } from "./store/appState/actions";
+import { useApolloClient } from "@apollo/react-hooks";
 
 import Home from "./pages/Home";
 import MapCreator from "./pages/MapCreator";
@@ -11,8 +10,19 @@ import Loader from "./components/Loader";
 import Toast from "./components/Toast";
 
 function App() {
-  // const dispatch = useDispatch();
-  // dispatch(showMessage("info", "Toast is working"));
+  // const client = useApolloClient();
+  // client.writeData({ data: { appLoading: true } });
+  // setTimeout(() => client.writeData({ data: { appLoading: false } }), 5000);
+  // client.writeData({
+  //   data: {
+  //     message: {
+  //       __typename: "Message",
+  //       severity: "success",
+  //       text: "test message",
+  //     },
+  //     showMessage: true,
+  //   },
+  // });
 
   //items for navigation bar
   const menuItems = [

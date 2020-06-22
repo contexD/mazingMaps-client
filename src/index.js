@@ -7,12 +7,44 @@ import store from "./store";
 import "fontsource-roboto";
 import { Provider } from "react-redux";
 import { BrowserRouter as Router } from "react-router-dom";
+import { ApolloProvider } from "react-apollo";
+import { ApolloClient } from "apollo-client";
+import { createHttpLink } from "apollo-link-http";
+import { InMemoryCache } from "apollo-cache-inmemory";
+import { resolvers } from "./cache/resolvers";
+import { typeDefs } from "./cache/schema";
+
+const httpLink = createHttpLink({
+  uri: "http://localhost:4000/graphql",
+  headers: {
+    authorization: localStorage.getItem("token"),
+  },
+});
+
+const cache = new InMemoryCache();
+
+const client = new ApolloClient({
+  link: httpLink,
+  cache,
+  typeDefs,
+  resolvers,
+  connectToDevTools: true,
+});
+
+cache.writeData({
+  data: {
+    isLoggedIn: false,
+    appLoading: false,
+    showMessage: false,
+    message: { __typename: "Message", severity: "", text: "" },
+  },
+});
 
 ReactDOM.render(
   <Router>
-    <Provider store={store}>
+    <ApolloProvider client={client}>
       <App />
-    </Provider>
+    </ApolloProvider>
   </Router>,
   document.getElementById("root")
 );

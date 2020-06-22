@@ -3,6 +3,7 @@ import { Link as RouterLink } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import { AppBar, Toolbar, IconButton, Button } from "@material-ui/core";
 import HomeIcon from "@material-ui/icons/Home";
+import { useApolloClient } from "react-apollo";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -18,6 +19,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Navigation(props) {
   const classes = useStyles();
+  const client = useApolloClient();
 
   return (
     <div>
