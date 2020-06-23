@@ -1,5 +1,17 @@
 import gql from "graphql-tag";
 
+export const GET_APP_STATE = gql`
+  query getAppState {
+    loggedIn @client
+    appLoading @client
+    showMessage @client
+    message @client {
+      severity
+      text
+    }
+  }
+`;
+
 export const IS_LOGGED_IN = gql`
   query getAppState {
     loggedIn @client

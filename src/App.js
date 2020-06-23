@@ -1,24 +1,31 @@
 import React from "react";
-import { Switch, Route } from "react-router-dom";
+import { Switch, Route, Redirect } from "react-router-dom";
 import { useApolloClient, useQuery } from "@apollo/react-hooks";
 
 import Home from "./pages/Home";
 import MapCreator from "./pages/MapCreator";
 import Tutorial from "./pages/Tutorial";
 import Login from "./pages/Login";
+import SignUp from "./pages/SignUp";
 import Navigation from "./components/Navigation";
 import Loader from "./components/Loader";
 import Toast from "./components/Toast";
-import { ME } from "./cache/queries";
+import { ME, IS_LOGGED_IN } from "./cache/queries";
 
 function App() {
+  const token = localStorage.getItem("token");
   const client = useApolloClient();
   const { data } = useQuery(ME, { pollInterval: 20000 });
+  const {
+    data: { loggedIn },
+  } = useQuery(IS_LOGGED_IN);
+
+  console.log("\n loggedIn \n ", loggedIn);
+  console.log("\n token \n ", token);
 
   /* check whether JWT is still valid;
   update local state accordingly */
   if (data && !data.me) {
-    console.log("me", data.me);
     localStorage.setItem("token", null);
     client.writeData({ data: { loggedIn: false } });
   } else if (data && data.me) {
@@ -53,8 +60,12 @@ function App() {
         <Route exact path="/" component={Home} />
         <Route path="/mapcreator" component={MapCreator} />
         <Route path="/tutorial" component={Tutorial} />
-        {/* <Route path="/signup" component={SignUp} /> */}
-        <Route path="/login" component={Login} />
+        <Route path="/signup">
+          {loggedIn ? <Redirect to="/mapcreator" /> : <SignUp />}
+        </Route>
+        <Route path="/login">
+          {loggedIn ? <Redirect to="/mapcreator" /> : <Login />}
+        </Route>
       </Switch>
     </div>
   );

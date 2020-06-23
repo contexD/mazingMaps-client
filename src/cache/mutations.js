@@ -7,3 +7,21 @@ export const SEND_LOGIN_DATA = gql`
     }
   }
 `;
+
+export const SEND_SIGN_UP_DATA = gql`
+  mutation signup(
+    $email: String!
+    $password: String!
+    $firstName: String!
+    $lastName: String!
+  ) {
+    signUp(
+      email: $email
+      password: $password
+      firstName: $firstName
+      lastName: $lastName
+    ) {
+      token
+    }
+  }
+`;
