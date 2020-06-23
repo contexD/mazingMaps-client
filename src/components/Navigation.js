@@ -3,7 +3,8 @@ import { Link as RouterLink } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import { AppBar, Toolbar, IconButton, Button } from "@material-ui/core";
 import HomeIcon from "@material-ui/icons/Home";
-import { useApolloClient } from "react-apollo";
+import { useQuery, useApolloClient } from "react-apollo";
+import { IS_LOGGED_IN } from "../cache/queries";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -20,6 +21,22 @@ const useStyles = makeStyles((theme) => ({
 export default function Navigation(props) {
   const classes = useStyles();
   const client = useApolloClient();
+  const { data } = useQuery(IS_LOGGED_IN);
+
+  const logoutHandler = () => {
+    localStorage.setItem("token", null);
+    client.writeData({
+      data: {
+        loggedIn: false,
+        message: {
+          __typename: "Message",
+          severity: "success",
+          text: "You're logged out now",
+        },
+        showMessage: true,
+      },
+    });
+  };
 
   return (
     <div>
@@ -48,9 +65,22 @@ export default function Navigation(props) {
               </Button>
             );
           })}
-          <Button color="inherit" edge="">
-            Login
-          </Button>
+          {data && data.loggedIn ? (
+            <Button color="inherit" edge="" onClick={logoutHandler}>
+              Logout
+            </Button>
+          ) : (
+            <>
+              <Button
+                color="inherit"
+                edge=""
+                component={RouterLink}
+                to={"/login"}
+              >
+                Login
+              </Button>
+            </>
+          )}
         </Toolbar>
       </AppBar>
     </div>

@@ -14,10 +14,19 @@ import { InMemoryCache } from "apollo-cache-inmemory";
 import { resolvers } from "./cache/resolvers";
 import { typeDefs } from "./cache/schema";
 
+const token = localStorage.getItem("token");
+
 const httpLink = createHttpLink({
   uri: "http://localhost:4000/graphql",
+  request: (operation) => {
+    operation.setContext({
+      headers: {
+        authorization: token ? `Bearer ${token}` : "",
+      },
+    });
+  },
   headers: {
-    authorization: localStorage.getItem("token"),
+    authorization: token ? `Bearer ${token}` : "",
   },
 });
 
@@ -33,7 +42,7 @@ const client = new ApolloClient({
 
 cache.writeData({
   data: {
-    isLoggedIn: false,
+    loggedIn: false,
     appLoading: false,
     showMessage: false,
     message: { __typename: "Message", severity: "", text: "" },

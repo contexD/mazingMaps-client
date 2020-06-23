@@ -1,23 +1,23 @@
 import React from "react";
-import TextField from "@material-ui/core/TextField";
+import { Grid } from "@material-ui/core";
+import LoginForm from "../components/LoginForm";
+
+import { makeStyles } from "@material-ui/core/styles";
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    spacing: theme.spacing(0),
+    direction: "column",
+    alignItems: "center",
+    minHeight: "100vh",
+  },
+}));
 
 export default function Login() {
+  const classes = useStyles();
   return (
-    <form>
-      <TextField
-        id="outlined-email-input"
-        label="Email"
-        type="email"
-        autoComplete="current-password"
-        variant="outlined"
-      />
-      <TextField
-        id="outlined-password-input"
-        label="Password"
-        type="password"
-        autoComplete="current-password"
-        variant="outlined"
-      />
-    </form>
+    <Grid container className={classes.root}>
+      <LoginForm />
+    </Grid>
   );
 }

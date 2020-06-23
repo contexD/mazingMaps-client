@@ -1,16 +1,30 @@
 import React from "react";
 import { Switch, Route } from "react-router-dom";
-import { useApolloClient } from "@apollo/react-hooks";
+import { useApolloClient, useQuery } from "@apollo/react-hooks";
 
 import Home from "./pages/Home";
 import MapCreator from "./pages/MapCreator";
 import Tutorial from "./pages/Tutorial";
+import Login from "./pages/Login";
 import Navigation from "./components/Navigation";
 import Loader from "./components/Loader";
 import Toast from "./components/Toast";
+import { ME } from "./cache/queries";
 
 function App() {
-  // const client = useApolloClient();
+  const client = useApolloClient();
+  const { data } = useQuery(ME, { pollInterval: 20000 });
+
+  /* check whether JWT is still valid;
+  update local state accordingly */
+  if (data && !data.me) {
+    console.log("me", data.me);
+    localStorage.setItem("token", null);
+    client.writeData({ data: { loggedIn: false } });
+  } else if (data && data.me) {
+    client.writeData({ data: { loggedIn: true } });
+  }
+
   // client.writeData({ data: { appLoading: true } });
   // setTimeout(() => client.writeData({ data: { appLoading: false } }), 5000);
   // client.writeData({
@@ -39,8 +53,8 @@ function App() {
         <Route exact path="/" component={Home} />
         <Route path="/mapcreator" component={MapCreator} />
         <Route path="/tutorial" component={Tutorial} />
-        {/* <Route path="/signup" component={SignUp} />
-        <Route path="/login" component={Login} /> */}
+        {/* <Route path="/signup" component={SignUp} /> */}
+        <Route path="/login" component={Login} />
       </Switch>
     </div>
   );
