@@ -85,7 +85,7 @@ export default function LoginForm(props) {
         },
       });
     }
-  }, [data, error]);
+  }, [data, error, client, props]);
 
   //   if (data && data.signIn.token && !meLoading) {
   //     const updateCache = async () => {

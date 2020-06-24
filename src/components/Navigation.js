@@ -1,7 +1,13 @@
 import React from "react";
 import { Link as RouterLink } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
-import { AppBar, Toolbar, IconButton, Button } from "@material-ui/core";
+import {
+  AppBar,
+  Toolbar,
+  IconButton,
+  Button,
+  Typography,
+} from "@material-ui/core";
 import HomeIcon from "@material-ui/icons/Home";
 import { useQuery, useApolloClient } from "react-apollo";
 import { ME } from "../cache/queries";
@@ -62,7 +68,7 @@ export default function Navigation(props) {
   };
 
   return (
-    <div>
+    <div className={classes.root}>
       <AppBar position="static">
         <Toolbar>
           <IconButton
@@ -81,6 +87,7 @@ export default function Navigation(props) {
               <Button
                 color="inherit"
                 variant="text"
+                className={classes.title}
                 component={RouterLink}
                 to={item.route}
               >
@@ -88,6 +95,21 @@ export default function Navigation(props) {
               </Button>
             );
           })}
+          {data && data.me ? (
+            <Button
+              color="inherit"
+              className={classes.title}
+              to={"/mymaps/" + data.me.id}
+              component={RouterLink}
+            >
+              MyMaps
+            </Button>
+          ) : null}
+          {data && data.me ? (
+            <Typography variant="h6" className={classes.title}>
+              {data.me.firstName}
+            </Typography>
+          ) : null}
           {data && data.me ? (
             <Button
               color="inherit"

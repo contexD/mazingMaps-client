@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
-import { useApolloClient, useQuery } from "@apollo/react-hooks";
+import { useQuery } from "@apollo/react-hooks";
 
 import Home from "./pages/Home";
 import MapCreator from "./pages/MapCreator";
@@ -10,23 +10,23 @@ import SignUp from "./pages/SignUp";
 import Navigation from "./components/Navigation";
 import Loader from "./components/Loader";
 import Toast from "./components/Toast";
-import { ME_CACHE, IS_LOGGED_IN, ME } from "./cache/queries";
+import MyMaps from "./pages/MyMaps";
+import { ME } from "./cache/queries";
 
 function App() {
   // const client = useApolloClient();
   // const { meData } = client.readQuery({ query: ME });
-  const { data, refetch } = useQuery(ME);
+  const { data, refetch, loading } = useQuery(ME);
 
   const refetchMe = () => refetch();
 
+  if (data) console.log("me in App", data.me);
   // try {
   //   const { meData } = client.readQuery({ query: ME });
   //   me = meData;
   // } catch (e) {
   //   me = null;
   // }
-
-  if (data) console.log("me in App", data.me);
 
   // const loginUser = (me) => {
   //   const { id, firstName, lastName, email } = me;
@@ -83,7 +83,7 @@ function App() {
   //   },
   // });
 
-  //items for navigation bar
+  //items for navigation bar (public)
   const menuItems = [
     { route: "/mapcreator", linkText: "Mapcreator" },
     { route: "/tutorial", linkText: "Tutorial" },
@@ -98,6 +98,9 @@ function App() {
         <Route exact path="/" component={Home} />
         <Route path="/mapcreator" component={MapCreator} />
         <Route path="/tutorial" component={Tutorial} />
+        <Route path="/mymaps/:id">
+          <MyMaps />
+        </Route>
         <Route path="/signup">
           {data && data.me ? (
             <Redirect to="/mapcreator" />

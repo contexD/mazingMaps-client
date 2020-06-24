@@ -76,7 +76,7 @@ export default function SignUpForm(props) {
         },
       });
     }
-  }, [data, client, error]);
+  }, [data, client, error, props]);
 
   const signUpHandler = (event) => {
     event.preventDefault();
