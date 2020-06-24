@@ -3,14 +3,13 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
-import store from "./store";
 import "fontsource-roboto";
-import { Provider } from "react-redux";
 import { BrowserRouter as Router } from "react-router-dom";
 import { ApolloProvider } from "react-apollo";
 import { ApolloClient } from "apollo-client";
 import { createHttpLink } from "apollo-link-http";
 import { InMemoryCache } from "apollo-cache-inmemory";
+import { setContext } from "apollo-link-context";
 import { resolvers } from "./cache/resolvers";
 import { typeDefs } from "./cache/schema";
 
@@ -18,22 +17,34 @@ const token = localStorage.getItem("token");
 
 const httpLink = createHttpLink({
   uri: "http://localhost:4000/graphql",
-  request: (operation) => {
-    operation.setContext({
-      headers: {
-        authorization: token ? `Bearer ${token}` : "",
-      },
-    });
-  },
-  headers: {
-    authorization: token ? `Bearer ${token}` : "",
-  },
+  // request: (operation) => {
+  //   operation.setContext({
+  //     headers: {
+  //       authorization: token ? `Bearer ${token}` : "",
+  //     },
+  //   });
+  // },
+  // headers: {
+  //   authorization: token ? `Bearer ${token}` : "",
+  // },
+});
+
+const authLink = setContext((_, { headers }) => {
+  // get the authentication token from local storage if it exists
+  const token = localStorage.getItem("token");
+  // return the headers to the context so httpLink can read them
+  return {
+    headers: {
+      ...headers,
+      authorization: token ? `Bearer ${token}` : "",
+    },
+  };
 });
 
 const cache = new InMemoryCache();
 
 const client = new ApolloClient({
-  link: httpLink,
+  link: authLink.concat(httpLink),
   cache,
   typeDefs,
   resolvers,
@@ -42,10 +53,20 @@ const client = new ApolloClient({
 
 cache.writeData({
   data: {
-    loggedIn: false,
     appLoading: false,
     showMessage: false,
     message: { __typename: "Message", severity: "", text: "" },
+    auth: {
+      __typename: "Auth",
+      me: {
+        __typename: "User",
+        id: null,
+        email: "",
+        firstName: "",
+        lastName: "",
+      },
+      accessToken: null,
+    },
   },
 });
 

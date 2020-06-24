@@ -6,14 +6,26 @@ export const typeDefs = gql`
   }
 
   type appState {
-    isLoggedIn: Boolean!
     appLoading: Boolean!
     showMessage: Boolean!
     message: Message!
+    auth: Auth!
   }
 
   type Message {
     severity: String!
     text: String!
+  }
+
+  type Auth {
+    me: User
+    accessToken: String
+  }
+
+  type User {
+    id: ID
+    email: String
+    firstName: String
+    lastName: String
   }
 `;

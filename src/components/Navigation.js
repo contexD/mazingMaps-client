@@ -4,7 +4,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { AppBar, Toolbar, IconButton, Button } from "@material-ui/core";
 import HomeIcon from "@material-ui/icons/Home";
 import { useQuery, useApolloClient } from "react-apollo";
-import { IS_LOGGED_IN } from "../cache/queries";
+import { ME } from "../cache/queries";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -21,21 +21,44 @@ const useStyles = makeStyles((theme) => ({
 export default function Navigation(props) {
   const classes = useStyles();
   const client = useApolloClient();
-  const { data } = useQuery(IS_LOGGED_IN);
+  const { data } = useQuery(ME);
+  // const { data } = useQuery(IS_LOGGED_IN);
+  // let me = null;
 
-  const logoutHandler = () => {
-    localStorage.setItem("token", null);
-    client.writeData({
+  // try {
+  //   const { meData } = client.readQuery({ query: ME });
+  //   me = meData;
+  // } catch (e) {
+  //   me = null;
+  // }
+
+  console.log("me in Navbar", data && data.me);
+
+  const logoutHandler = async () => {
+    await localStorage.removeItem("token");
+    await client.resetStore();
+    await client.writeData({
       data: {
-        loggedIn: false,
         message: {
           __typename: "Message",
           severity: "success",
           text: "You're logged out now",
         },
         showMessage: true,
+        auth: {
+          __typename: "Auth",
+          accessToken: null,
+          me: {
+            __typename: "User",
+            id: "",
+            email: "",
+            firstName: "",
+            lastName: "",
+          },
+        },
       },
     });
+    props.refetchMe();
   };
 
   return (
@@ -65,8 +88,14 @@ export default function Navigation(props) {
               </Button>
             );
           })}
-          {data && data.loggedIn ? (
-            <Button color="inherit" edge="" onClick={logoutHandler}>
+          {data && data.me ? (
+            <Button
+              color="inherit"
+              edge=""
+              onClick={logoutHandler}
+              component={RouterLink}
+              to={"/"}
+            >
               Logout
             </Button>
           ) : (

@@ -9,12 +9,23 @@ export const GET_APP_STATE = gql`
       severity
       text
     }
+    auth @client {
+      accessToken
+      me {
+        id
+        firstName
+        lastName
+        email
+      }
+    }
   }
 `;
 
 export const IS_LOGGED_IN = gql`
-  query getAppState {
-    loggedIn @client
+  query {
+    getAppState {
+      loggedIn @client
+    }
   }
 `;
 
@@ -22,6 +33,20 @@ export const ME = gql`
   query {
     me {
       id
+      firstName
+      lastName
+      email
+    }
+  }
+`;
+
+export const ME_CACHE = gql`
+  query {
+    me @client {
+      id
+      firstName
+      lastName
+      email
     }
   }
 `;

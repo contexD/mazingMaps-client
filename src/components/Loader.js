@@ -4,12 +4,12 @@ import Backdrop from "@material-ui/core/Backdrop";
 import { useQuery } from "react-apollo";
 import { IS_APP_LOADING } from "../cache/queries";
 
-export default function Loader() {
+export default function Loader(props) {
   const { data } = useQuery(IS_APP_LOADING);
 
   return (
     <div>
-      <Backdrop open={data && data.appLoading}>
+      <Backdrop open={(data && data.appLoading) || props.loading}>
         <CircularProgress />
       </Backdrop>
     </div>

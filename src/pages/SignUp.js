@@ -13,11 +13,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SignUp() {
+export default function SignUp(props) {
   const classes = useStyles();
   return (
     <Grid container className={classes.root}>
-      <SignUpForm />
+      <SignUpForm refetchMe={props.refetchMe} />
     </Grid>
   );
 }

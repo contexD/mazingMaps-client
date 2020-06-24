@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Grid,
   Paper,
@@ -10,8 +10,15 @@ import {
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { Link as RouterLink } from "react-router-dom";
-import { useMutation, useApolloClient } from "@apollo/react-hooks";
+import {
+  useMutation,
+  useApolloClient,
+  useQuery,
+  useLazyQuery,
+} from "@apollo/react-hooks";
 import { SEND_LOGIN_DATA } from "../cache/mutations";
+import Loader from "./Loader";
+import { ME } from "../cache/queries";
 
 function Buffer(email = "", password = "") {
   this.email = email;
@@ -30,51 +37,100 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function LoginForm() {
-  const [buffer, setBuffer] = useState(new Buffer());
-  const [sendLogin, { data, error }] = useMutation(SEND_LOGIN_DATA);
-  const client = useApolloClient();
+export default function LoginForm(props) {
+  const [trigger, setTrigger] = useState(false);
   const classes = useStyles();
+  const client = useApolloClient();
+  const [buffer, setBuffer] = useState(new Buffer());
+  const [sendLogin, { data, error, loading }] = useMutation(SEND_LOGIN_DATA);
+  //   const [getMe, { data: me, meLoading }] = useLazyQuery(ME);
 
-  console.log("data", data);
+  //   console.log("me", me);
 
-  if (data && data.signIn.token) {
-    localStorage.setItem("token", data.signIn.token);
-    client.writeData({
-      data: {
-        loggedIn: true,
-        message: {
-          __typename: "Message",
-          severity: "success",
-          text: "You're logged in now",
+  useEffect(() => {
+    if (!loading) {
+      setTrigger(false);
+    }
+  }, [loading]);
+
+  useEffect(() => {
+    if (data && data.signIn.token) {
+      const updateCache = async () => {
+        await localStorage.setItem("token", data.signIn.token);
+        await client.resetStore();
+        await client.writeData({
+          data: {
+            message: {
+              __typename: "Message",
+              severity: "success",
+              text: "You're logged in now",
+            },
+            showMessage: true,
+            loggedIn: true,
+            auth: { __typename: "Auth", accessToken: data.signIn.token },
+          },
+        });
+        props.refetchMe();
+      };
+      updateCache();
+    } else if (error) {
+      client.writeData({
+        data: {
+          message: {
+            __typename: "Message",
+            severity: "error",
+            text: "Login failed. Please provide valid credentials.",
+          },
+          showMessage: true,
         },
-        showMessage: true,
-      },
-    });
-    console.log("token in local Storage", localStorage.getItem("token"));
-  } else if (error) {
-    console.log("error", error);
-    client.writeData({
-      data: {
-        message: {
-          __typename: "Message",
-          severity: "error",
-          text: "Login failed. Please provide valid credentials.",
-        },
-        showMessage: true,
-      },
-    });
-  }
+      });
+    }
+  }, [data, error]);
+
+  //   if (data && data.signIn.token && !meLoading) {
+  //     const updateCache = async () => {
+  //       await client.resetStore();
+  //       await client.writeData({
+  //         data: {
+  //           message: {
+  //             __typename: "Message",
+  //             severity: "success",
+  //             text: "You're logged in now",
+  //           },
+  //           showMessage: true,
+  //           loggedIn: true,
+  //           auth: { __typename: "Auth", accessToken: data.signIn.token },
+  //         },
+  //       });
+  //       await localStorage.setItem("token", data.signIn.token);
+  //     };
+  //     updateCache();
+  //   } else if (error) {
+  //     client.writeData({
+  //       data: {
+  //         message: {
+  //           __typename: "Message",
+  //           severity: "error",
+  //           text: "Login failed. Please provide valid credentials.",
+  //         },
+  //         showMessage: true,
+  //       },
+  //     });
+  //   }
 
   const loginHandler = (event) => {
     event.preventDefault();
+    // client.resetStore();
+    setTrigger(true);
     sendLogin({
       variables: { login: buffer.email, password: buffer.password },
     });
     setBuffer(new Buffer());
   };
 
-  return (
+  return trigger ? (
+    <Loader loading />
+  ) : (
     <Grid container justify="center">
       <Paper className={classes.paper}>
         <Typography variant="h3">Login</Typography>

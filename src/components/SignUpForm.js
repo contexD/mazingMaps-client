@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Grid,
   Paper,
@@ -38,38 +38,45 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function LoginForm() {
+export default function SignUpForm(props) {
   const [buffer, setBuffer] = useState(new Buffer());
   const [sendSignUp, { data, error }] = useMutation(SEND_SIGN_UP_DATA);
   const client = useApolloClient();
   const classes = useStyles();
 
-  if (data && data.signUp.token) {
-    localStorage.setItem("token", data.signUp.token);
-    client.writeData({
-      data: {
-        loggedIn: true,
-        message: {
-          __typename: "Message",
-          severity: "success",
-          text: "You're signed up",
+  useEffect(() => {
+    if (data && data.signUp.token) {
+      const updateCache = async () => {
+        await localStorage.setItem("token", data.signUp.token);
+        await client.resetStore();
+        await client.writeData({
+          data: {
+            message: {
+              __typename: "Message",
+              severity: "success",
+              text: "You're signed up",
+            },
+            showMessage: true,
+            auth: { __typename: "Auth", accessToken: data.signUp.token },
+          },
+        });
+        props.refetchMe();
+      };
+      updateCache();
+    } else if (error) {
+      console.log("error", error);
+      client.writeData({
+        data: {
+          message: {
+            __typename: "Message",
+            severity: "error",
+            text: "Signup failed. Please try again.",
+          },
+          showMessage: true,
         },
-        showMessage: true,
-      },
-    });
-  } else if (error) {
-    console.log("error", error);
-    client.writeData({
-      data: {
-        message: {
-          __typename: "Message",
-          severity: "error",
-          text: "Signup failed. Please try again.",
-        },
-        showMessage: true,
-      },
-    });
-  }
+      });
+    }
+  }, [data, client, error]);
 
   const signUpHandler = (event) => {
     event.preventDefault();
