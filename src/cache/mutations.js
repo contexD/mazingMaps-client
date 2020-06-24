@@ -1,9 +1,13 @@
 import gql from "graphql-tag";
 
 export const SEND_LOGIN_DATA = gql`
-  mutation login($login: String!, $password: String!) {
+  mutation ($login: String!, $password: String!) {
     signIn(login: $login, password: $password) {
-      token
+      message
+      success
+      token {
+        jwt
+      }
     }
   }
 `;
@@ -21,7 +25,18 @@ export const SEND_SIGN_UP_DATA = gql`
       firstName: $firstName
       lastName: $lastName
     ) {
-      token
+      message
+      success
+      token {
+        jwt
+      }
     }
+  }
+`;
+
+// mutations for mind-maps
+export const DELETE_GRAPH = gql`
+  mutation deleteGraph($id: ID!) {
+    deleteGraph(id: $id)
   }
 `;

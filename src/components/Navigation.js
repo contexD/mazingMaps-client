@@ -11,6 +11,7 @@ import {
 import HomeIcon from "@material-ui/icons/Home";
 import { useQuery, useApolloClient } from "react-apollo";
 import { ME } from "../cache/queries";
+import { showMessage } from "../utils/appState";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -26,44 +27,12 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Navigation(props) {
   const classes = useStyles();
-  const client = useApolloClient();
-  const { data } = useQuery(ME);
-  // const { data } = useQuery(IS_LOGGED_IN);
-  // let me = null;
-
-  // try {
-  //   const { meData } = client.readQuery({ query: ME });
-  //   me = meData;
-  // } catch (e) {
-  //   me = null;
-  // }
-
-  console.log("me in Navbar", data && data.me);
+  const { data, client } = useQuery(ME);
 
   const logoutHandler = async () => {
     await localStorage.removeItem("token");
     await client.resetStore();
-    await client.writeData({
-      data: {
-        message: {
-          __typename: "Message",
-          severity: "success",
-          text: "You're logged out now",
-        },
-        showMessage: true,
-        auth: {
-          __typename: "Auth",
-          accessToken: null,
-          me: {
-            __typename: "User",
-            id: "",
-            email: "",
-            firstName: "",
-            lastName: "",
-          },
-        },
-      },
-    });
+    showMessage(client, "You're logged out now", true);
     props.refetchMe();
   };
 

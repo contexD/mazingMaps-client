@@ -10,6 +10,7 @@ import {
 import { makeStyles } from "@material-ui/core/styles";
 import { useMutation, useApolloClient } from "@apollo/react-hooks";
 import { SEND_SIGN_UP_DATA } from "../cache/mutations";
+import { showMessage } from "../utils/appState";
 
 function Buffer(
   email = "",
@@ -40,41 +41,20 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignUpForm(props) {
   const [buffer, setBuffer] = useState(new Buffer());
-  const [sendSignUp, { data, error }] = useMutation(SEND_SIGN_UP_DATA);
-  const client = useApolloClient();
+  const [sendSignUp, { data, error, client }] = useMutation(SEND_SIGN_UP_DATA);
   const classes = useStyles();
 
   useEffect(() => {
-    if (data && data.signUp.token) {
+    if (data && data.signUp.token.jwt) {
       const updateCache = async () => {
-        await localStorage.setItem("token", data.signUp.token);
+        await localStorage.setItem("token", data.signUp.token.jwt);
         await client.resetStore();
-        await client.writeData({
-          data: {
-            message: {
-              __typename: "Message",
-              severity: "success",
-              text: "You're signed up",
-            },
-            showMessage: true,
-            auth: { __typename: "Auth", accessToken: data.signUp.token },
-          },
-        });
+        showMessage(client, data.signUp.message, data.signUp.success);
         props.refetchMe();
       };
       updateCache();
-    } else if (error) {
-      console.log("error", error);
-      client.writeData({
-        data: {
-          message: {
-            __typename: "Message",
-            severity: "error",
-            text: "Signup failed. Please try again.",
-          },
-          showMessage: true,
-        },
-      });
+    } else if (data) {
+      showMessage(client, data.signUp.message, data.signUp.success);
     }
   }, [data, client, error, props]);
 

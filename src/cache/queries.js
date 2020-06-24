@@ -66,3 +66,14 @@ export const MESSAGE = gql`
     }
   }
 `;
+
+/* queries for queriying graphs, vertices etc. */
+
+export const GET_GRAPHS = gql`
+  query {
+    allGraphs {
+      id
+      name
+    }
+  }
+`;
