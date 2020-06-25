@@ -103,7 +103,9 @@ export default function LoginForm(props) {
     setBuffer(new Buffer());
   };
 
-  return (
+  return loading ? (
+    <Loader open={loading} />
+  ) : (
     <Grid container justify="center">
       <Paper className={classes.paper}>
         <Typography variant="h3">Login</Typography>

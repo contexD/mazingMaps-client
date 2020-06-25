@@ -1,20 +1,28 @@
 import React from "react";
-import { appLoading } from "../utils/appState";
-import Graph from "../components/Graph";
-import Loader from "../components/Loader";
-import { makeStyles } from "@material-ui/core/styles";
-import List from "@material-ui/core/List";
-import Grid from "@material-ui/core/Grid";
-import Typography from "@material-ui/core/Typography";
 import { useParams } from "react-router-dom";
 import { useQuery, useMutation } from "react-apollo";
 import { GET_GRAPHS } from "../cache/queries";
 import { DELETE_GRAPH } from "../cache/mutations";
+import {
+  makeStyles,
+  Fab,
+  List,
+  Grid,
+  Typography,
+  Divider,
+} from "@material-ui/core";
+import AddIcon from "@material-ui/icons/Add";
+import Graph from "../components/Graph";
+import Loader from "../components/Loader";
 
 const useStyles = makeStyles((theme) => ({
   root: {
+    display: "flex",
+    padding: theme.spacing(2),
+    textAlign: "center",
+    color: theme.palette.text.secondary,
     flexGrow: 1,
-    maxWidth: 752,
+    minHeight: "100vh",
   },
   demo: {
     backgroundColor: theme.palette.background.paper,
@@ -24,18 +32,51 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const updateAfterDelete = {
+  update(
+    cache,
+    {
+      resDelete: {
+        graph: { id },
+      },
+    }
+  ) {
+    const { allGraphs } = cache.readQuery({ query: GET_GRAPHS });
+    cache.writeQuery({
+      query: GET_GRAPHS,
+      data: { allGraphs: allGraphs.filter((graph) => graph.id !== id) },
+    });
+  },
+};
+
 export default function MyMaps(props) {
-  const { id: userId } = useParams();
   const classes = useStyles();
 
   /* fetch graphs */
   const { data, loading, client } = useQuery(GET_GRAPHS);
-  const [deleteGraph, { data: resDelete }] = useMutation(DELETE_GRAPH);
+
+  /* mutation for deleting graphs */
+  const [deleteGraph, { data: resDelete }] = useMutation(DELETE_GRAPH, {
+    update(
+      cache,
+      {
+        data: {
+          deleteGraph: {
+            graph: { id },
+          },
+        },
+      }
+    ) {
+      const { allGraphs } = cache.readQuery({ query: GET_GRAPHS });
+      cache.writeQuery({
+        query: GET_GRAPHS,
+        data: { allGraphs: allGraphs.filter((graph) => graph.id !== id) },
+      });
+    },
+  });
 
   /* thunk for deleting graphs */
   const deleteGraphThunk = (id) => {
-    const index = data.allGraphs.findIndex((graph) => graph.id === id);
-    data.allGraphs.splice(index, 0);
     deleteGraph({ variables: { id } });
   };
 
@@ -50,27 +91,34 @@ export default function MyMaps(props) {
     <Loader open={loading} />
   ) : (
     <div>
-      <Grid container justify="center">
-        <Grid className={classes.root}>
-          <Grid item xs={12} md={6}>
+      <Grid container className={classes.root} justify="center">
+        <Grid row="true">
+          <Grid item>
             <Typography variant="h6" className={classes.title}>
               MyMaps
             </Typography>
             <div className={classes.demo}>
               <List dense={false}>
-                {!loading &&
-                  data.allGraphs.map((graph) => {
+                {data &&
+                  data.allGraphs.map((graph, index) => {
                     return (
-                      <Graph
-                        key={graph.id}
-                        id={graph.id}
-                        name={graph.name}
-                        delete={deleteGraphThunk}
-                      />
+                      <div key={index}>
+                        <Graph
+                          id={graph.id}
+                          name={graph.name}
+                          delete={deleteGraphThunk}
+                        />
+                        <Divider variant="inset" component="li" />
+                      </div>
                     );
                   })}
               </List>
             </div>
+          </Grid>
+          <Grid item>
+            <Fab color="primary" aria-label="add">
+              <AddIcon />
+            </Fab>
           </Grid>
         </Grid>
       </Grid>

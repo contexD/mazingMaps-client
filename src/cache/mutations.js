@@ -37,6 +37,10 @@ export const SEND_SIGN_UP_DATA = gql`
 // mutations for mind-maps
 export const DELETE_GRAPH = gql`
   mutation deleteGraph($id: ID!) {
-    deleteGraph(id: $id)
+    deleteGraph(id: $id) {
+      graph {
+        id
+      }
+    }
   }
 `;
