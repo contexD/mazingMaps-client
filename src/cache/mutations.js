@@ -1,7 +1,7 @@
 import gql from "graphql-tag";
 
 export const SEND_LOGIN_DATA = gql`
-  mutation ($login: String!, $password: String!) {
+  mutation($login: String!, $password: String!) {
     signIn(login: $login, password: $password) {
       message
       success
@@ -41,6 +41,21 @@ export const DELETE_GRAPH = gql`
       graph {
         id
       }
+      success
+      message
+    }
+  }
+`;
+
+export const CREATE_GRAPH = gql`
+  mutation createGraph($name: String!) {
+    createGraph(name: $name) {
+      graph {
+        id
+        name
+      }
+      success
+      message
     }
   }
 `;

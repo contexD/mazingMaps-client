@@ -37,8 +37,8 @@ function App() {
         <Route exact path="/" component={Home} />
         <Route path="/mapcreator" component={MapCreator} />
         <Route path="/tutorial" component={Tutorial} />
-        <Route path="/mymaps/:id">
-          <MyMaps />
+        <Route path="/mymaps">
+          {data && data.me ? <MyMaps /> : <Redirect to="/" />}
         </Route>
         <Route path="/signup">
           {data && data.me ? (

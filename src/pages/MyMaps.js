@@ -1,19 +1,13 @@
 import React from "react";
-import { useParams } from "react-router-dom";
 import { useQuery, useMutation } from "react-apollo";
 import { GET_GRAPHS } from "../cache/queries";
-import { DELETE_GRAPH } from "../cache/mutations";
-import {
-  makeStyles,
-  Fab,
-  List,
-  Grid,
-  Typography,
-  Divider,
-} from "@material-ui/core";
-import AddIcon from "@material-ui/icons/Add";
+import { DELETE_GRAPH, CREATE_GRAPH } from "../cache/mutations";
+import { makeStyles, List, Grid, Typography, Divider } from "@material-ui/core";
+
 import Graph from "../components/Graph";
 import Loader from "../components/Loader";
+import DialogForm from "../components/DialogForm";
+import { showMessage } from "../utils/appState";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -32,23 +26,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const updateAfterDelete = {
-  update(
-    cache,
-    {
-      resDelete: {
-        graph: { id },
-      },
-    }
-  ) {
-    const { allGraphs } = cache.readQuery({ query: GET_GRAPHS });
-    cache.writeQuery({
-      query: GET_GRAPHS,
-      data: { allGraphs: allGraphs.filter((graph) => graph.id !== id) },
-    });
-  },
-};
-
 export default function MyMaps(props) {
   const classes = useStyles();
 
@@ -56,36 +33,70 @@ export default function MyMaps(props) {
   const { data, loading, client } = useQuery(GET_GRAPHS);
 
   /* mutation for deleting graphs */
-  const [deleteGraph, { data: resDelete }] = useMutation(DELETE_GRAPH, {
-    update(
-      cache,
-      {
-        data: {
-          deleteGraph: {
-            graph: { id },
+  const [deleteGraph, { data: responseDeleteGraph }] = useMutation(
+    DELETE_GRAPH,
+    {
+      update(
+        cache,
+        {
+          data: {
+            deleteGraph: {
+              graph: { id },
+            },
           },
-        },
-      }
-    ) {
-      const { allGraphs } = cache.readQuery({ query: GET_GRAPHS });
-      cache.writeQuery({
-        query: GET_GRAPHS,
-        data: { allGraphs: allGraphs.filter((graph) => graph.id !== id) },
-      });
-    },
-  });
+        }
+      ) {
+        const { allGraphs } = cache.readQuery({ query: GET_GRAPHS });
+        cache.writeQuery({
+          query: GET_GRAPHS,
+          data: { allGraphs: allGraphs.filter((graph) => graph.id !== id) },
+        });
+      },
+      onCompleted(data) {
+        const {
+          deleteGraph: { message, success },
+        } = data;
+        showMessage(client, message, success);
+      },
+    }
+  );
 
   /* thunk for deleting graphs */
   const deleteGraphThunk = (id) => {
     deleteGraph({ variables: { id } });
   };
 
-  if (!loading) {
-    console.log("graph data", data);
-  }
-  if (resDelete) {
-    console.log("resDelete", resDelete);
-  }
+  /* mutation for creating graphs */
+  const [createGraph, { data: responseCreateGraph }] = useMutation(
+    CREATE_GRAPH,
+    {
+      update(
+        cache,
+        {
+          data: {
+            createGraph: { graph },
+          },
+        }
+      ) {
+        const { allGraphs } = cache.readQuery({ query: GET_GRAPHS });
+        cache.writeQuery({
+          query: GET_GRAPHS,
+          data: { allGraphs: [...allGraphs, graph] },
+        });
+      },
+      onCompleted(data) {
+        const {
+          createGraph: { message, success },
+        } = data;
+        showMessage(client, message, success);
+      },
+    }
+  );
+
+  /* thunk for creating graphs */
+  const createGraphThunk = (name) => {
+    createGraph({ variables: { name } });
+  };
 
   return loading ? (
     <Loader open={loading} />
@@ -116,9 +127,7 @@ export default function MyMaps(props) {
             </div>
           </Grid>
           <Grid item>
-            <Fab color="primary" aria-label="add">
-              <AddIcon />
-            </Fab>
+            <DialogForm create={createGraphThunk} />
           </Grid>
         </Grid>
       </Grid>
