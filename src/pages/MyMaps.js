@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { useQuery, useMutation } from "react-apollo";
 import { GET_GRAPHS } from "../cache/queries";
 import { DELETE_GRAPH, CREATE_GRAPH } from "../cache/mutations";
-import { makeStyles, List, Grid, Typography, Divider } from "@material-ui/core";
+import { makeStyles, List, Grid, Typography, Divider, Fab } from "@material-ui/core";
+import AddIcon from "@material-ui/icons/Add";
 
 import Graph from "../components/Graph";
 import Loader from "../components/Loader";
@@ -27,7 +28,17 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function MyMaps(props) {
+  const [open, setOpen] = useState(false);
   const classes = useStyles();
+
+  /* handlers for showing form dialog */
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   /* fetch graphs */
   const { data, loading, client } = useQuery(GET_GRAPHS);
@@ -127,7 +138,17 @@ export default function MyMaps(props) {
             </div>
           </Grid>
           <Grid item>
-            <DialogForm create={createGraphThunk} />
+            <Fab color="primary" aria-label="add" onClick={handleClickOpen}>
+              <AddIcon />
+            </Fab>
+            <DialogForm
+              open={open}
+              handleClose={handleClose}
+              title="create new mind map"
+              create={createGraphThunk}
+              labelTextField="Name"
+              buttonText="create"
+            />
           </Grid>
         </Grid>
       </Grid>
