@@ -59,3 +59,74 @@ export const CREATE_GRAPH = gql`
     }
   }
 `;
+
+//mutations for vertices
+
+export const CREATE_VERTEX = gql`
+  mutation($data: String!, $x: Int, $y: Int, $graphId: ID!) {
+    createVertex(data: $data, x: $x, y: $y, graphId: $graphId) {
+      vertex {
+        id
+        data
+        x
+        y
+      }
+      success
+      message
+    }
+  }
+`;
+
+export const UPDATE_COORD = gql`
+  mutation($id: ID!, $x: Int!, $y: Int!) {
+    createVertex(id: $id, x: $x, y: $y) {
+      vertex {
+        id
+        data
+        x
+        y
+      }
+      success
+      message
+    }
+  }
+`;
+
+export const DELETE_VERTEX = gql`
+  mutation($id: ID!) {
+    deleteVertex(id: $id) {
+      vertex {
+        id
+      }
+      success
+      message
+    }
+  }
+`;
+
+// mutations for edges
+export const CREATE_EDGE = gql`
+  mutation($sourceId: ID!, $targetId: ID!) {
+    createEdge(sourceId: $sourceId, targetId: $targetId) {
+      edge {
+        sourceId
+        targetId
+      }
+      success
+      message
+    }
+  }
+`;
+
+export const DELETE_EDGE = gql`
+  mutation($sourceId: ID!, $targetId: ID!) {
+    deleteEdge(sourceId: $sourceId, targetId: $targetId) {
+      edge {
+        sourceId
+        targetId
+      }
+      success
+      message
+    }
+  }
+`;
