@@ -17,16 +17,6 @@ const token = localStorage.getItem("token");
 
 const httpLink = createHttpLink({
   uri: "http://localhost:4000/graphql",
-  // request: (operation) => {
-  //   operation.setContext({
-  //     headers: {
-  //       authorization: token ? `Bearer ${token}` : "",
-  //     },
-  //   });
-  // },
-  // headers: {
-  //   authorization: token ? `Bearer ${token}` : "",
-  // },
 });
 
 const authLink = setContext((_, { headers }) => {

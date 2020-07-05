@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
+import { PageTransition } from "@steveeeie/react-page-transition";
 import { useQuery } from "@apollo/react-hooks";
 
 import Home from "./pages/Home";
@@ -33,9 +34,10 @@ function App() {
       <Navigation menuItems={menuItems} refetchMe={refetchMe} />
       <Loader />
       <Toast />
+
       <Switch>
         <Route exact path="/" component={Home} />
-        <Route path="/mapcreator" component={MapCreator} />
+        <Route path="/mapcreator/:id" component={MapCreator} />
         <Route path="/tutorial" component={Tutorial} />
         <Route path="/mymaps">
           {data && data.me ? <MyMaps /> : <Redirect to="/" />}
@@ -49,7 +51,7 @@ function App() {
         </Route>
         <Route path="/login">
           {data && data.me ? (
-            <Redirect to="/mapcreator" />
+            <Redirect to="/mymaps" />
           ) : (
             <Login refetchMe={refetchMe} />
           )}

@@ -45,7 +45,7 @@ export default function Graph(props) {
           className={classes.item}
           size={sizeActionButton}
           component={RouterLink}
-          to={"/map/" + props.id}
+          to={"/mapcreator/" + props.id}
         >
           <EditIcon />
         </Fab>
