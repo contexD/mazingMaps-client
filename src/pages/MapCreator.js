@@ -1,11 +1,12 @@
 import React, { useState } from "react";
+import { useParams } from "react-router-dom";
 import { useQuery, useMutation } from "react-apollo";
 import { CREATE_VERTEX } from "../cache/mutations";
 import { GET_GRAPH } from "../cache/queries";
+
 import Map from "../components/Map";
 import Loader from "../components/Loader";
 import { parseVertices } from "../utils/index";
-import { useParams } from "react-router-dom";
 
 export default function MapCreator() {
   const [parsedData, setParsedData] = useState();
