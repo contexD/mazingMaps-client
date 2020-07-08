@@ -1,11 +1,18 @@
 import React, { useState, useEffect } from "react";
-import ReactFlow, { Background, Controls } from "react-flow-renderer";
+import { useApolloClient } from "react-apollo";
+import ReactFlow, { Background, Controls, isEdge } from "react-flow-renderer";
+
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import Typography from "@material-ui/core/Typography";
-import { showMessage } from "../utils/appState";
-import { useApolloClient } from "react-apollo";
+
 import DialogForm from "../components/DialogForm";
+import { showMessage } from "../utils/appState";
+
+const CustomNodeFlow = () => {
+  const [elements, setElements] = useState([]);
+
+
 
 // const elements = [
 //   { id: "1", data: { label: "Node 1" }, position: { x: 250, y: 5 } },
@@ -36,8 +43,6 @@ import DialogForm from "../components/DialogForm";
 
 const graphStyles = { width: "100%", height: "93vh" };
 
-// const BasicGraph = () => <ReactFlow elements={elements} style={graphStyles} />;
-
 const initialState = {
   mouseX: null,
   mouseY: null,
@@ -50,10 +55,10 @@ export default function Map(props) {
   const [newNodeData, setNewNodeData] = useState("");
   const [newNodeCoord, setNewNodeCoord] = useState({ x: null, y: null });
 
-//   useEffect(() => {
-//     if (newNodeData !== "") {
-//     }
-//   }, [newNodeData, newNodeData, props.cre]);
+  //   useEffect(() => {
+  //     if (newNodeData !== "") {
+  //     }
+  //   }, [newNodeData, newNodeData, props.cre]);
 
   /* handlers for context menu */
   const handleClickMenu = (event) => {

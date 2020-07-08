@@ -22,6 +22,7 @@ export default memo(({ data }) => {
       <div>
         <InputBase
           className={classes.margin}
+          value={data.label}
           defaultValue={data.label}
           onChange={data.onChange}
           inputProps={{ "aria-label": "naked" }}
