@@ -9,11 +9,6 @@ import Typography from "@material-ui/core/Typography";
 import DialogForm from "../components/DialogForm";
 import { showMessage } from "../utils/appState";
 
-const CustomNodeFlow = () => {
-  const [elements, setElements] = useState([]);
-
-
-
 // const elements = [
 //   { id: "1", data: { label: "Node 1" }, position: { x: 250, y: 5 } },
 //   { id: "2", data: { label: "Node 2" }, position: { x: 100, y: 100 } },
@@ -55,10 +50,7 @@ export default function Map(props) {
   const [newNodeData, setNewNodeData] = useState("");
   const [newNodeCoord, setNewNodeCoord] = useState({ x: null, y: null });
 
-  //   useEffect(() => {
-  //     if (newNodeData !== "") {
-  //     }
-  //   }, [newNodeData, newNodeData, props.cre]);
+
 
   /* handlers for context menu */
   const handleClickMenu = (event) => {
