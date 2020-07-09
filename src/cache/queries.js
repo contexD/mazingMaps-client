@@ -84,6 +84,7 @@ export const GET_GRAPH = gql`
       vertices {
         id
         data
+        type
         x
         y
         targets {
