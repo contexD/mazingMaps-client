@@ -15,7 +15,7 @@ export default memo(({ data }) => {
     <>
       <Handle
         type="target"
-        postion="left"
+        postion="bottom"
         style={{ background: "#fff" }}
         onConnect={(params) => console.log("handle onConnect", params)}
       />
