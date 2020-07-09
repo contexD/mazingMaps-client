@@ -16,7 +16,6 @@ export default function MapCreator() {
   const { data: graphData, loading, client } = useQuery(GET_GRAPH, {
     variables: { id: graphId },
     onCompleted: (data) => {
-      console.log("data", data);
       setParsedData(parseVertices(data.graph.vertices));
     },
   });
@@ -53,7 +52,7 @@ export default function MapCreator() {
     <Loader open={loading} />
   ) : (
     <div>
-      <Map data={parsedData} createVertex={createVertex}/>
+      <Map data={parsedData} createVertex={createVertex} />
     </div>
   );
 }
