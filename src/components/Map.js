@@ -8,6 +8,7 @@ import Typography from "@material-ui/core/Typography";
 
 import DialogForm from "../components/DialogForm";
 import { showMessage } from "../utils/appState";
+import { parseVertices } from "../utils";
 
 // const elements = [
 //   { id: "1", data: { label: "Node 1" }, position: { x: 250, y: 5 } },
@@ -44,13 +45,27 @@ const initialState = {
 };
 
 export default function Map(props) {
+  const [elements, setElements] = useState([]);
   const client = useApolloClient();
   const [open, setOpen] = useState(false);
   const [stateCoord, setStateCoord] = useState(initialState);
   const [newNodeData, setNewNodeData] = useState("");
   const [newNodeCoord, setNewNodeCoord] = useState({ x: null, y: null });
 
+  //pass onChange function...onChange, find the corresponding vertex, set its label to event value
+  //onChange thunk
+  const onChange = (id, elements) => (event) => {
+    const newElements = elements.map((ele) => {
+      return ele.id === id
+        ? { ...ele, data: { ...data, label: event.target.value } }
+        : ele;
+    });
+    setElements(newElements);
+  };
 
+  useEffect(() => {
+    setElements(parseVertices(props.vertexData, onChange));
+  }, []);
 
   /* handlers for context menu */
   const handleClickMenu = (event) => {
