@@ -13,12 +13,7 @@ export default memo(({ data }) => {
   const classes = useStyles();
   return (
     <>
-      <Handle
-        type="target"
-        postion="bottom"
-        style={{ background: "#fff" }}
-        onConnect={(params) => console.log("handle onConnect", params)}
-      />
+      <Handle type="target" postion="top" style={{ background: "#fff" }} />
       <div>
         <InputBase
           className={classes.margin}
@@ -29,15 +24,8 @@ export default memo(({ data }) => {
         />
         <Handle
           type="source"
-          position="right"
-          id="a"
-          style={{ top: 10, background: "#fff" }}
-        />
-        <Handle
-          type="source"
-          position="right"
-          id="b"
-          style={{ bottom: 10, top: "auto", background: "#fff" }}
+          position="bottom"
+          style={{ background: "#fff" }}
         />
       </div>
     </>
