@@ -15,12 +15,7 @@ export default function MapCreator() {
   //fetch graph
   const { data: graphData, loading, client } = useQuery(GET_GRAPH, {
     variables: { id: graphId },
-    onCompleted: (data) => {
-      setParsedData(parseVertices(data.graph.vertices));
-    },
   });
-
-//just data.graph.vertices? check this, move logic into map
 
   const [createVertex, { data: createdVertex }] = useMutation(CREATE_VERTEX);
 
@@ -35,7 +30,7 @@ export default function MapCreator() {
     <Loader open={loading} />
   ) : (
     <div>
-      <Map data={parsedData} createVertex={createVertex} />
+      <Map vertexData={graphData.graph.vertices} createVertex={createVertex} />
     </div>
   );
 }
