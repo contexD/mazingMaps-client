@@ -20,24 +20,7 @@ export default function MapCreator() {
     },
   });
 
-  // {
-  //   update(
-  //     cache,
-  //     {
-  //       data: {
-  //         deleteGraph: {
-  //           graph: { id },
-  //         },
-  //       },
-  //     }
-  //   ) {
-  //     const { allGraphs } = cache.readQuery({ query: GET_GRAPHS });
-  //     cache.writeQuery({
-  //       query: GET_GRAPHS,
-  //       data: { allGraphs: allGraphs.filter((graph) => graph.id !== id) },
-  //     });
-  //   },
-  // }
+//just data.graph.vertices? check this, move logic into map
 
   const [createVertex, { data: createdVertex }] = useMutation(CREATE_VERTEX);
 
