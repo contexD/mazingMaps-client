@@ -23,6 +23,7 @@ export function parseVertices(vertices, onChange, edgeIsAnimated = true) {
     } else if (type === "inputNode") {
       return {
         id: `${id}`,
+        type,
         data: { onChange: onChange(id), label: `${data}` },
         position: { x, y },
       };
