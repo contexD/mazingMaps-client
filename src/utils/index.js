@@ -1,5 +1,5 @@
 /* convert data into array for react flow renderer */
-export function parseVertices(vertices, onChange, edgeIsAnimated = true) {
+export function parseVertices(vertices, edgeIsAnimated = true) {
   let edges = [];
   // map over all the vertices in the graph
   const nodes = vertices.map((vertex) => {
@@ -24,7 +24,7 @@ export function parseVertices(vertices, onChange, edgeIsAnimated = true) {
       return {
         id: `${id}`,
         type,
-        data: { onChange: onChange(id), label: `${data}` },
+        data: { label: `${data}` },
         position: { x, y },
       };
     }
