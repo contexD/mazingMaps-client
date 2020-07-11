@@ -7,14 +7,15 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Typography from "@material-ui/core/Typography";
 
 import DialogForm from "../components/DialogForm";
+import inputNode from "./inputNode";
 import { showMessage } from "../utils/appState";
 import { parseVertices } from "../utils";
 
-// const elements = [
-//   { id: "1", data: { label: "Node 1" }, position: { x: 250, y: 5 } },
-//   { id: "2", data: { label: "Node 2" }, position: { x: 100, y: 100 } },
-//   { id: "e1-2", source: "1", target: "2", animated: true },
-// ];
+const elements = [
+  { id: "1", data: { label: "Node 1" }, position: { x: 250, y: 5 } },
+  { id: "2", data: { label: "Node 2" }, position: { x: 100, y: 100 } },
+  { id: "e1-2", source: "1", target: "2", animated: true },
+];
 
 // const elementsTypes = [
 //   {
@@ -45,7 +46,6 @@ const initialState = {
 };
 
 export default function Map(props) {
-  const [elements, setElements] = useState([]);
   const client = useApolloClient();
   const [open, setOpen] = useState(false);
   const [stateCoord, setStateCoord] = useState(initialState);
@@ -54,18 +54,13 @@ export default function Map(props) {
 
   //pass onChange function...onChange, find the corresponding vertex, set its label to event value
   //onChange thunk
-  const onChange = (id, elements) => (event) => {
-    const newElements = elements.map((ele) => {
-      return ele.id === id
-        ? { ...ele, data: { ...data, label: event.target.value } }
-        : ele;
-    });
-    setElements(newElements);
-  };
 
-  useEffect(() => {
-    setElements(parseVertices(props.vertexData, onChange));
-  }, []);
+  /* do local state management entirely with cache;
+  use query to query vertices
+  -> manipulation of vertices can be done when using query within onChange
+  -> Will the elements be automatically updated? In other words, are changes broadcasted from Mapcreator component to Map component?
+    - if yes: good
+    - if no: perhaps you want to change the business logic and situate the GET_GRAPH query within Map component */
 
   /* handlers for context menu */
   const handleClickMenu = (event) => {
@@ -97,7 +92,11 @@ export default function Map(props) {
 
   return (
     <div onContextMenu={handleClickMenu}>
-      <ReactFlow elements={props.data} style={graphStyles}>
+      <ReactFlow
+        elements={elements}
+        style={graphStyles}
+        nodeTypes={{ inputNode }}
+      >
         <Controls />
         <Background variant="dots" gap={12} size={1} />
       </ReactFlow>
