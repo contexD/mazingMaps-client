@@ -18,7 +18,6 @@ export default memo(({ data }) => {
         <InputBase
           className={classes.margin}
           value={data.label}
-          defaultValue={data.label}
           onChange={data.onChange}
           inputProps={{ "aria-label": "naked" }}
         />
