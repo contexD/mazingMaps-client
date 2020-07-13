@@ -9,36 +9,12 @@ import Loader from "../components/Loader";
 import { parseVertices } from "../utils/index";
 
 export default function MapCreator() {
-  const [parsedData, setParsedData] = useState();
   const graphId = useParams().id;
 
   //fetch graph
   const { data: graphData, loading, client } = useQuery(GET_GRAPH, {
     variables: { id: graphId },
-    onCompleted: (data) => {
-      console.log("data", data);
-      setParsedData(parseVertices(data.graph.vertices));
-    },
   });
-
-  // {
-  //   update(
-  //     cache,
-  //     {
-  //       data: {
-  //         deleteGraph: {
-  //           graph: { id },
-  //         },
-  //       },
-  //     }
-  //   ) {
-  //     const { allGraphs } = cache.readQuery({ query: GET_GRAPHS });
-  //     cache.writeQuery({
-  //       query: GET_GRAPHS,
-  //       data: { allGraphs: allGraphs.filter((graph) => graph.id !== id) },
-  //     });
-  //   },
-  // }
 
   const [createVertex, { data: createdVertex }] = useMutation(CREATE_VERTEX);
 
@@ -53,7 +29,7 @@ export default function MapCreator() {
     <Loader open={loading} />
   ) : (
     <div>
-      <Map data={parsedData} createVertex={createVertex}/>
+      <Map graphData={graphData.graph} createVertex={createVertex} />
     </div>
   );
 }

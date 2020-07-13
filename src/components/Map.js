@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from "react";
-import ReactFlow, { Background, Controls } from "react-flow-renderer";
+import { useApolloClient } from "react-apollo";
+import ReactFlow, { Background, Controls, isEdge } from "react-flow-renderer";
+
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import Typography from "@material-ui/core/Typography";
-import { showMessage } from "../utils/appState";
-import { useApolloClient } from "react-apollo";
+
 import DialogForm from "../components/DialogForm";
+import inputNode from "./inputNode";
+import { showMessage } from "../utils/appState";
+import { parseVertices } from "../utils";
 
 // const elements = [
 //   { id: "1", data: { label: "Node 1" }, position: { x: 250, y: 5 } },
@@ -13,30 +17,7 @@ import DialogForm from "../components/DialogForm";
 //   { id: "e1-2", source: "1", target: "2", animated: true },
 // ];
 
-// const elementsTypes = [
-//   {
-//     id: "1",
-//     type: "input",
-//     data: { label: "Input node" },
-//     position: { x: 100, y: 5 },
-//   },
-//   {
-//     id: "2",
-//     type: "default",
-//     data: { label: "Default node" },
-//     position: { x: 100, y: 100 },
-//   },
-//   {
-//     id: "3",
-//     type: "output",
-//     data: { label: "Output node" },
-//     position: { x: 100, y: 200 },
-//   },
-// ];
-
 const graphStyles = { width: "100%", height: "93vh" };
-
-// const BasicGraph = () => <ReactFlow elements={elements} style={graphStyles} />;
 
 const initialState = {
   mouseX: null,
@@ -50,10 +31,7 @@ export default function Map(props) {
   const [newNodeData, setNewNodeData] = useState("");
   const [newNodeCoord, setNewNodeCoord] = useState({ x: null, y: null });
 
-//   useEffect(() => {
-//     if (newNodeData !== "") {
-//     }
-//   }, [newNodeData, newNodeData, props.cre]);
+  const elements = [...props.graphData.vertices, ...props.graphData.edges];
 
   /* handlers for context menu */
   const handleClickMenu = (event) => {
@@ -85,7 +63,11 @@ export default function Map(props) {
 
   return (
     <div onContextMenu={handleClickMenu}>
-      <ReactFlow elements={props.data} style={graphStyles}>
+      <ReactFlow
+        elements={elements}
+        style={graphStyles}
+        nodeTypes={{ inputNode }}
+      >
         <Controls />
         <Background variant="dots" gap={12} size={1} />
       </ReactFlow>

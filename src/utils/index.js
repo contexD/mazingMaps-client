@@ -3,7 +3,7 @@ export function parseVertices(vertices, edgeIsAnimated = true) {
   let edges = [];
   // map over all the vertices in the graph
   const nodes = vertices.map((vertex) => {
-    const { id, data, x, y, targets } = vertex;
+    const { id, data, type, x, y, targets } = vertex;
     // extract all targets of this vertex
     if (targets.length !== 0) {
       const vertexTargets = targets.map((target) => {
@@ -17,7 +17,17 @@ export function parseVertices(vertices, edgeIsAnimated = true) {
       // append targets of this vertex to edges
       edges = edges.concat(vertexTargets);
     }
-    return { id: `${id}`, data: { label: `${data}` }, position: { x, y } };
+    // return correct node type
+    if (type === "default") {
+      return { id: `${id}`, data: { label: `${data}` }, position: { x, y } };
+    } else if (type === "inputNode") {
+      return {
+        id: `${id}`,
+        type,
+        data: { label: `${data}` },
+        position: { x, y },
+      };
+    }
   });
   return edges.length === 0 ? [...nodes] : [...nodes, ...edges];
 }
