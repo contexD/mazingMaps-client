@@ -17,27 +17,6 @@ import { parseVertices } from "../utils";
 //   { id: "e1-2", source: "1", target: "2", animated: true },
 // ];
 
-// const elementsTypes = [
-//   {
-//     id: "1",
-//     type: "input",
-//     data: { label: "Input node" },
-//     position: { x: 100, y: 5 },
-//   },
-//   {
-//     id: "2",
-//     type: "default",
-//     data: { label: "Default node" },
-//     position: { x: 100, y: 100 },
-//   },
-//   {
-//     id: "3",
-//     type: "output",
-//     data: { label: "Output node" },
-//     position: { x: 100, y: 200 },
-//   },
-// ];
-
 const graphStyles = { width: "100%", height: "93vh" };
 
 const initialState = {
@@ -53,16 +32,6 @@ export default function Map(props) {
   const [newNodeCoord, setNewNodeCoord] = useState({ x: null, y: null });
 
   const elements = [...props.graphData.vertices, ...props.graphData.edges];
-
-  //pass onChange function...onChange, find the corresponding vertex, set its label to event value
-  //onChange thunk
-
-  /* do local state management entirely with cache;
-  use query to query vertices
-  -> manipulation of vertices can be done when using query within onChange
-  -> Will the elements be automatically updated? In other words, are changes broadcasted from Mapcreator component to Map component?
-    - if yes: good
-    - if no: perhaps you want to change the business logic and situate the GET_GRAPH query within Map component */
 
   /* handlers for context menu */
   const handleClickMenu = (event) => {
