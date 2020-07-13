@@ -63,7 +63,7 @@ export const CREATE_GRAPH = gql`
 //mutations for vertices
 
 export const CREATE_VERTEX = gql`
-  mutation($data: String!, $x: Int, $y: Int, $graphId: ID!) {
+  mutation($data: Data!, $x: Int, $y: Int, $graphId: ID!) {
     createVertex(data: $data, x: $x, y: $y, graphId: $graphId) {
       vertex {
         id
@@ -128,5 +128,13 @@ export const DELETE_EDGE = gql`
       success
       message
     }
+  }
+`;
+
+//local mutations
+
+export const UPDATE_VERTEX_LABEL = gql`
+  mutation($id: Int!, $newLabel: String!) {
+    updateVertexLabel(id: $id, newLabel: $newLabel) @client
   }
 `;
