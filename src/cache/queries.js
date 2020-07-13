@@ -83,13 +83,20 @@ export const GET_GRAPH = gql`
     graph(id: $id) {
       vertices {
         id
-        data
         type
-        x
-        y
-        targets {
-          id
+        data {
+          label
         }
+        position {
+          x
+          y
+        }
+      }
+      edges {
+        id
+        source
+        target
+        animated
       }
     }
   }
