@@ -9,7 +9,6 @@ import Loader from "../components/Loader";
 import { parseVertices } from "../utils/index";
 
 export default function MapCreator() {
-  const [parsedData, setParsedData] = useState();
   const graphId = useParams().id;
 
   //fetch graph
@@ -30,7 +29,7 @@ export default function MapCreator() {
     <Loader open={loading} />
   ) : (
     <div>
-      <Map vertexData={graphData.graph.vertices} createVertex={createVertex} />
+      <Map graphData={graphData.graph} createVertex={createVertex} />
     </div>
   );
 }
