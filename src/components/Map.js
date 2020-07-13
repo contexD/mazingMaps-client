@@ -11,11 +11,11 @@ import inputNode from "./inputNode";
 import { showMessage } from "../utils/appState";
 import { parseVertices } from "../utils";
 
-const elements = [
-  { id: "1", data: { label: "Node 1" }, position: { x: 250, y: 5 } },
-  { id: "2", data: { label: "Node 2" }, position: { x: 100, y: 100 } },
-  { id: "e1-2", source: "1", target: "2", animated: true },
-];
+// const elements = [
+//   { id: "1", data: { label: "Node 1" }, position: { x: 250, y: 5 } },
+//   { id: "2", data: { label: "Node 2" }, position: { x: 100, y: 100 } },
+//   { id: "e1-2", source: "1", target: "2", animated: true },
+// ];
 
 // const elementsTypes = [
 //   {
@@ -51,6 +51,8 @@ export default function Map(props) {
   const [stateCoord, setStateCoord] = useState(initialState);
   const [newNodeData, setNewNodeData] = useState("");
   const [newNodeCoord, setNewNodeCoord] = useState({ x: null, y: null });
+
+  const elements = [...props.graphData.vertices, ...props.graphData.edges];
 
   //pass onChange function...onChange, find the corresponding vertex, set its label to event value
   //onChange thunk
