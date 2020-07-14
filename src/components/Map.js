@@ -8,7 +8,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import inputNode from "./inputNode";
 import { showMessage } from "../utils/appState";
 import { GET_GRAPH } from "../cache/queries";
-import { CREATE_VERTEX } from "../cache/mutations";
+import { CREATE_VERTEX, CREATE_EDGE } from "../cache/mutations";
 
 const graphStyles = { width: "100%", height: "93vh" };
 
@@ -39,6 +39,32 @@ export default function Map(props) {
       });
     },
   });
+
+  const [createEdge] = useMutation(CREATE_EDGE, {
+    update(
+      cache,
+      {
+        data: {
+          createEdge: { edge },
+        },
+      }
+    ) {
+      const data = cache.readQuery({
+        query: GET_GRAPH,
+        variables: { id: props.graphId },
+      });
+      data.graph.edges = [...data.graph.edges, edge];
+      cache.writeQuery({
+        query: GET_GRAPH,
+        variables: { id: props.graphId },
+        data,
+      });
+    },
+  });
+  //callback for react flow renderer
+  const makeEdge = ({ source, target }) => {
+    createEdge({ variables: { sourceId: source, targetId: target } });
+  };
 
   const [open, setOpen] = useState(false);
   const [stateCoord, setStateCoord] = useState(initialState);
@@ -72,6 +98,7 @@ export default function Map(props) {
         elements={elements}
         style={graphStyles}
         nodeTypes={{ inputNode }}
+        onConnect={makeEdge}
       >
         <Controls />
         <Background variant="dots" gap={12} size={1} />

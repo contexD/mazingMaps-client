@@ -10,7 +10,7 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(1),
   },
   node: {
-    background: "rgba(142,142,142,0.5)",
+    background: "rgb(193,193,193)",
     border: "2px",
     borderRadius: "5px",
     padding: "5%",
@@ -31,11 +31,6 @@ export default memo(({ id, data }) => {
 
   return (
     <>
-      <Handle
-        type="target"
-        postion="top"
-        style={{ background: "rgba(120,120,120,0.5)" }}
-      />
       <div>
         <InputBase
           value={data.label}
@@ -45,9 +40,14 @@ export default memo(({ id, data }) => {
           className={classes.node}
         />
         <Handle
-          type="source"
+          type="default"
+          postion="top"
+          style={{ background: "rgba(80,80,80,0.2)" }}
+        />
+        <Handle
+          type="default"
           position="bottom"
-          style={{ background: "rgba(120,120,120,0.5)" }}
+          style={{ background: "rgba(80,80,80,0.2)" }}
         />
       </div>
     </>
