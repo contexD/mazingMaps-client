@@ -100,7 +100,7 @@ export const UPDATE_VERTEX_DATA = gql`
 `;
 
 export const UPDATE_POSITION = gql`
-  mutation($id: ID!, $x: Int!, $y: Int!) {
+  mutation($id: ID!, $x: Float!, $y: Float!) {
     updateVertexPosition(id: $id, position: { x: $x, y: $y }) {
       vertex {
         id
