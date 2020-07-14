@@ -6,7 +6,6 @@ import { GET_GRAPH } from "../cache/queries";
 
 import Map from "../components/Map";
 import Loader from "../components/Loader";
-import { parseVertices } from "../utils/index";
 
 export default function MapCreator() {
   const graphId = useParams().id;
@@ -25,11 +24,17 @@ export default function MapCreator() {
     createVertexThunk({ variables: { data, x, y } });
   };
 
+  if (graphData) console.log("graphData", graphData);
+
   return loading && !graphData ? (
     <Loader open={loading} />
   ) : (
     <div>
-      <Map graphData={graphData.graph} createVertex={createVertex} />
+      <Map
+        graphData={graphData.graph}
+        createVertex={createVertex}
+        graphId={graphId}
+      />
     </div>
   );
 }
