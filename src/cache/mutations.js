@@ -131,8 +131,10 @@ export const CREATE_EDGE = gql`
   mutation($sourceId: ID!, $targetId: ID!) {
     createEdge(sourceId: $sourceId, targetId: $targetId) {
       edge {
-        sourceId
-        targetId
+        id
+        source
+        target
+        animated
       }
       success
       message
