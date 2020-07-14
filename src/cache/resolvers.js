@@ -1,4 +1,5 @@
 import gql from "graphql-tag";
+import { GET_VERTICES } from "./queries";
 
 export const resolvers = {
   Mutation: {
