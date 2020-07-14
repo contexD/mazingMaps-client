@@ -16,11 +16,12 @@ const useStyles = makeStyles((theme) => ({
     padding: "5%",
     boxShadow: "2px 2px 2px rgba(160,160,160,0.8)",
   },
+  selected: { border: "1px solid rgba(0,0,0, 0.5)" },
 }));
 
-export default memo(({ id, data }) => {
+export default memo(({ id, data, selected }) => {
   const classes = useStyles();
-  // const [updateLabel] = useMutation(UPDATE_VERTEX_LABEL);
+
   const [updateVertexData] = useMutation(UPDATE_VERTEX_DATA);
 
   const handleChange = (event) => {
@@ -37,7 +38,9 @@ export default memo(({ id, data }) => {
           onChange={handleChange}
           inputProps={{ style: { textAlign: "center" } }}
           multiline={true}
-          className={classes.node}
+          className={
+            selected ? `${classes.node} ${classes.selected}` : classes.node
+          }
         />
         <Handle
           type="default"
