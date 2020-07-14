@@ -99,17 +99,16 @@ export const UPDATE_VERTEX_DATA = gql`
   }
 `;
 
-export const UPDATE_COORD = gql`
+export const UPDATE_POSITION = gql`
   mutation($id: ID!, $x: Int!, $y: Int!) {
-    createVertex(id: $id, x: $x, y: $y) {
+    updateVertexPosition(id: $id, position: { x: $x, y: $y }) {
       vertex {
         id
-        data
-        x
-        y
+        position {
+          x
+          y
+        }
       }
-      success
-      message
     }
   }
 `;
