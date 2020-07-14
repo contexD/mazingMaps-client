@@ -1,15 +1,15 @@
-import React, { useState, useEffect } from "react";
-import { useApolloClient } from "react-apollo";
-import ReactFlow, { Background, Controls, isEdge } from "react-flow-renderer";
+import React, { useState } from "react";
+import { useApolloClient, useMutation, useQuery } from "react-apollo";
+import ReactFlow, { Background, Controls } from "react-flow-renderer";
 
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
-import Typography from "@material-ui/core/Typography";
 
 import DialogForm from "../components/DialogForm";
 import inputNode from "./inputNode";
 import { showMessage } from "../utils/appState";
-import { parseVertices } from "../utils";
+import { GET_GRAPH } from "../cache/queries";
+import { CREATE_VERTEX } from "../cache/mutations";
 
 // const elements = [
 //   { id: "1", data: { label: "Node 1" }, position: { x: 250, y: 5 } },
@@ -26,11 +26,36 @@ const initialState = {
 
 export default function Map(props) {
   const client = useApolloClient();
+
+  const [createVertex, { loading, error, data }] = useMutation(CREATE_VERTEX, {
+    update(
+      cache,
+      {
+        data: {
+          createVertex: { vertex },
+        },
+      }
+    ) {
+      const data = cache.readQuery({
+        query: GET_GRAPH,
+        variables: { id: props.graphId },
+      });
+      data.graph.vertices = [...data.graph.vertices, vertex];
+      cache.writeQuery({
+        query: GET_GRAPH,
+        variables: { id: props.graphId },
+        data,
+      });
+    },
+  });
+
   const [open, setOpen] = useState(false);
   const [stateCoord, setStateCoord] = useState(initialState);
   const [newNodeData, setNewNodeData] = useState("");
   const [newNodeCoord, setNewNodeCoord] = useState({ x: null, y: null });
 
+  if (!loading && data) console.log("vertices data", data);
+  if (error) console.log("error", error);
   const elements = [...props.graphData.vertices, ...props.graphData.edges];
 
   /* handlers for context menu */
@@ -47,18 +72,12 @@ export default function Map(props) {
     setStateCoord(initialState);
   };
 
-  /* handlers for dialog form */
-
-  const handleOpenForm = () => {
-    setOpen(true);
-  };
-
-  const handleCloseForm = () => {
-    setOpen(false);
-  };
-
-  const handleNodeCreation = (name) => {
-    setNewNodeData(name);
+  const handleMenuItemClick = (event) => {
+    const { mouseX: x, mouseY: y } = stateCoord;
+    createVertex({
+      variables: { label: "new node", x, y, graphId: props.graphId },
+    });
+    handleCloseMenu();
   };
 
   return (
@@ -82,23 +101,8 @@ export default function Map(props) {
             : undefined
         }
       >
-        <MenuItem
-          onClick={() => {
-            handleCloseMenu();
-            handleOpenForm();
-          }}
-        >
-          new node
-        </MenuItem>
+        <MenuItem onClick={handleMenuItemClick}>new node</MenuItem>
       </Menu>
-      <DialogForm
-        open={open}
-        handleClose={handleCloseForm}
-        title="new node"
-        create={handleNodeCreation}
-        labelTextField="Text"
-        buttonText="create"
-      />
     </div>
   );
 }
