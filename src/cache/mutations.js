@@ -63,16 +63,38 @@ export const CREATE_GRAPH = gql`
 //mutations for vertices
 
 export const CREATE_VERTEX = gql`
-  mutation($data: Data!, $x: Int, $y: Int, $graphId: ID!) {
-    createVertex(data: $data, x: $x, y: $y, graphId: $graphId) {
+  mutation($label: String!, $x: Int!, $y: Int!, $graphId: ID!) {
+    createVertex(
+      data: { label: $label }
+      position: { x: $x, y: $y }
+      graphId: $graphId
+    ) {
       vertex {
         id
-        data
-        x
-        y
+        data {
+          label
+        }
+        type
+        position {
+          x
+          y
+        }
       }
       success
       message
+    }
+  }
+`;
+
+export const UPDATE_VERTEX_DATA = gql`
+  mutation($id: ID!, $data: DataInput!) {
+    updateVertexData(id: $id, data: $data) {
+      vertex {
+        id
+        data {
+          label
+        }
+      }
     }
   }
 `;

@@ -3,7 +3,7 @@ import { Handle } from "react-flow-renderer";
 import InputBase from "@material-ui/core/InputBase";
 import { makeStyles } from "@material-ui/core/styles";
 import { useMutation } from "@apollo/react-hooks";
-import { UPDATE_VERTEX_LABEL } from "../cache/mutations";
+import { UPDATE_VERTEX_LABEL, UPDATE_VERTEX_DATA } from "../cache/mutations";
 
 const useStyles = makeStyles((theme) => ({
   margin: {
@@ -20,11 +20,12 @@ const useStyles = makeStyles((theme) => ({
 
 export default memo(({ id, data }) => {
   const classes = useStyles();
-  const [updateLabel] = useMutation(UPDATE_VERTEX_LABEL);
+  // const [updateLabel] = useMutation(UPDATE_VERTEX_LABEL);
+  const [updateVertexData] = useMutation(UPDATE_VERTEX_DATA);
 
   const handleChange = (event) => {
-    updateLabel({
-      variables: { id, newLabel: event.target.value },
+    updateVertexData({
+      variables: { id, data: { label: event.target.value } },
     });
   };
 

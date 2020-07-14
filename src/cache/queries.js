@@ -101,3 +101,23 @@ export const GET_GRAPH = gql`
     }
   }
 `;
+
+/* querying vertices */
+
+export const GET_VERTICES = gql`
+  query getVertices($id: ID!) {
+    graph(id: $id) @client {
+      vertices {
+        id
+        data {
+          label
+        }
+        position {
+          x
+          y
+        }
+        type
+      }
+    }
+  }
+`;
