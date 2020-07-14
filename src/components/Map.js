@@ -8,7 +8,11 @@ import MenuItem from "@material-ui/core/MenuItem";
 import inputNode from "./inputNode";
 import { showMessage } from "../utils/appState";
 import { GET_GRAPH } from "../cache/queries";
-import { CREATE_VERTEX, CREATE_EDGE } from "../cache/mutations";
+import {
+  CREATE_VERTEX,
+  CREATE_EDGE,
+  UPDATE_POSITION,
+} from "../cache/mutations";
 
 const graphStyles = { width: "100%", height: "93vh" };
 
@@ -61,6 +65,12 @@ export default function Map(props) {
       });
     },
   });
+
+  const [updatePosition] = useMutation(UPDATE_POSITION);
+  //callback for react flow renderer
+  const updateCoordinates = ({ id, position: { x, y } }) =>
+    updatePosition({ variables: { id, x, y } });
+
   //callback for react flow renderer
   const makeEdge = ({ source, target }) => {
     createEdge({ variables: { sourceId: source, targetId: target } });
@@ -99,6 +109,7 @@ export default function Map(props) {
         style={graphStyles}
         nodeTypes={{ inputNode }}
         onConnect={makeEdge}
+        onNodeDragStop={updateCoordinates}
       >
         <Controls />
         <Background variant="dots" gap={12} size={1} />
