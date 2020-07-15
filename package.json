@@ -19,6 +19,8 @@
     "react-contextmenu": "^2.14.0",
     "react-dom": "^16.13.1",
     "react-flow-renderer": "^3.2.4",
+    "react-helmet": "^6.1.0",
+    "react-latex": "^2.0.0",
     "react-redux": "^7.2.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.1",
