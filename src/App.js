@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
-import { PageTransition } from "@steveeeie/react-page-transition";
+import { Helmet } from "react-helmet";
 import { useQuery } from "@apollo/react-hooks";
 
 import Home from "./pages/Home";
@@ -31,6 +31,12 @@ function App() {
 
   return (
     <div className="App">
+      <Helmet>
+        <link
+          rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css"
+        />
+      </Helmet>
       <Navigation menuItems={menuItems} refetchMe={refetchMe} />
       <Loader />
       <Toast />
