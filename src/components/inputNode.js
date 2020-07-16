@@ -1,9 +1,17 @@
 import React, { memo, useState } from "react";
-import { Handle } from "react-flow-renderer";
-import InputBase from "@material-ui/core/InputBase";
-import { makeStyles } from "@material-ui/core/styles";
 import { useMutation } from "@apollo/react-hooks";
-import { UPDATE_VERTEX_LABEL, UPDATE_VERTEX_DATA } from "../cache/mutations";
+import { UPDATE_VERTEX_DATA } from "../cache/mutations";
+import { Handle } from "react-flow-renderer";
+
+import InputBase from "@material-ui/core/InputBase";
+import Typography from "@material-ui/core/Typography";
+import Card from "@material-ui/core/Card";
+import CardContent from "@material-ui/core/CardContent";
+import Paper from "@material-ui/core/Paper";
+import TextareaAutosize from "@material-ui/core/TextareaAutosize";
+import { makeStyles } from "@material-ui/core/styles";
+
+import Editable from "./Editable";
 
 const useStyles = makeStyles((theme) => ({
   margin: {
@@ -16,7 +24,18 @@ const useStyles = makeStyles((theme) => ({
     padding: "5%",
     boxShadow: "2px 2px 2px rgba(160,160,160,0.8)",
   },
+  newNode: {
+    border: "2px",
+    height: "100%",
+    width: "auto",
+    borderRadius: "5px",
+    padding: "5%",
+  },
   selected: { border: "1px solid rgba(0,0,0, 0.5)" },
+  paper: {
+    height: "50%",
+    margin: "2%",
+  },
 }));
 
 export default memo(({ id, data, selected }) => {
@@ -30,18 +49,15 @@ export default memo(({ id, data, selected }) => {
     });
   };
 
+  //   <TextareaAutosize
+  //   aria-label="textarea"
+  //   value={data.label}
+  //   onChange={handleChange}
+  // />
+
   return (
     <>
-      <div>
-        <InputBase
-          value={data.label}
-          onChange={handleChange}
-          inputProps={{ style: { textAlign: "center" } }}
-          multiline={true}
-          className={
-            selected ? `${classes.node} ${classes.selected}` : classes.node
-          }
-        />
+      <Card>
         <Handle
           type="default"
           postion="top"
@@ -52,7 +68,17 @@ export default memo(({ id, data, selected }) => {
           position="bottom"
           style={{ background: "rgba(80,80,80,0.2)" }}
         />
-      </div>
+        <CardContent>
+          <Editable text={data.label} type="textarea">
+            <InputBase
+              value={data.label}
+              onChange={handleChange}
+              multiline={true}
+              type="textarea"
+            ></InputBase>
+          </Editable>
+        </CardContent>
+      </Card>
     </>
   );
 });
