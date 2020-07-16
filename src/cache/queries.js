@@ -67,6 +67,14 @@ export const MESSAGE = gql`
   }
 `;
 
+export const GET_SELECTED_NODE = gql`
+  query {
+    selectedNode @client {
+      id
+    }
+  }
+`;
+
 /* queries for querying graphs */
 
 export const GET_GRAPHS = gql`
