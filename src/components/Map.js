@@ -1,6 +1,11 @@
 import React, { useState } from "react";
 import { useMutation } from "react-apollo";
-import ReactFlow, { Background, Controls } from "react-flow-renderer";
+import ReactFlow, {
+  Background,
+  Controls,
+  isNode,
+  isEdge,
+} from "react-flow-renderer";
 
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -22,6 +27,14 @@ const initialState = {
 };
 
 export default function Map(props) {
+  const [selectedElement, setSelectedElement] = useState();
+  const [open, setOpen] = useState(false);
+  const [stateCoord, setStateCoord] = useState(initialState);
+
+  const elements = [...props.graphData.vertices, ...props.graphData.edges];
+
+  console.log("selectedElement", selectedElement);
+
   const [createVertex, { loading, error, data }] = useMutation(CREATE_VERTEX, {
     update(
       cache,
@@ -76,11 +89,6 @@ export default function Map(props) {
     createEdge({ variables: { sourceId: source, targetId: target } });
   };
 
-  const [open, setOpen] = useState(false);
-  const [stateCoord, setStateCoord] = useState(initialState);
-
-  const elements = [...props.graphData.vertices, ...props.graphData.edges];
-
   /* handlers for context menu */
   const handleClickMenu = (event) => {
     event.preventDefault();
@@ -92,9 +100,10 @@ export default function Map(props) {
 
   const handleCloseMenu = () => {
     setStateCoord(initialState);
+    setTimeout(() => setSelectedElement(null), 1000);
   };
 
-  const handleMenuItemClick = (event) => {
+  const handleMenuItemClick = (item) => (event) => {
     const { mouseX: x, mouseY: y } = stateCoord;
     createVertex({
       variables: { label: "new node", x, y, graphId: props.graphId },
@@ -110,6 +119,9 @@ export default function Map(props) {
         nodeTypes={{ inputNode }}
         onConnect={makeEdge}
         onNodeDragStop={updateCoordinates}
+        onElementClick={(ele) =>
+          setSelectedElement({ ele, isNode: isNode(ele) })
+        }
       >
         <Controls />
         <Background variant="dots" gap={12} size={1} />
@@ -125,7 +137,17 @@ export default function Map(props) {
             : undefined
         }
       >
-        <MenuItem onClick={handleMenuItemClick}>new node</MenuItem>
+        {selectedElement ? (
+          selectedElement.isNode ? (
+            <MenuItem>delete node</MenuItem>
+          ) : (
+            <MenuItem>delete link</MenuItem>
+          )
+        ) : (
+          <MenuItem onClick={handleMenuItemClick("new node")}>
+            new node
+          </MenuItem>
+        )}
       </Menu>
     </div>
   );
