@@ -57,6 +57,10 @@ cache.writeData({
       },
       accessToken: null,
     },
+    selectedNode: {
+      __typename: "selectedNode",
+      id: null,
+    },
   },
 });
 
