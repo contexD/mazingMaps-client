@@ -1,14 +1,11 @@
-import React, { memo, useState } from "react";
+import React, { memo } from "react";
 import { useMutation } from "@apollo/react-hooks";
 import { UPDATE_VERTEX_DATA } from "../cache/mutations";
 import { Handle } from "react-flow-renderer";
 
 import InputBase from "@material-ui/core/InputBase";
-import Typography from "@material-ui/core/Typography";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
-import Paper from "@material-ui/core/Paper";
-import TextareaAutosize from "@material-ui/core/TextareaAutosize";
 import { makeStyles } from "@material-ui/core/styles";
 
 import Editable from "./Editable";
@@ -39,8 +36,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default memo(({ id, data, selected }) => {
-  const classes = useStyles();
-
   const [updateVertexData] = useMutation(UPDATE_VERTEX_DATA);
 
   const handleChange = (event) => {
@@ -48,12 +43,6 @@ export default memo(({ id, data, selected }) => {
       variables: { id, data: { label: event.target.value } },
     });
   };
-
-  //   <TextareaAutosize
-  //   aria-label="textarea"
-  //   value={data.label}
-  //   onChange={handleChange}
-  // />
 
   return (
     <>
