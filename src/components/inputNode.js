@@ -67,12 +67,12 @@ export default memo(({ id, data, selected }) => {
         />
         <CardContent>
           <Editable text={data.label} type="textarea">
-            <InputBase
-              value={data.label}
-              onChange={handleChange}
-              multiline={true}
-              type="textarea"
-            ></InputBase>
+              <InputBase
+                value={data.label}
+                onChange={handleChange}
+                multiline={true}
+                type="textarea"
+              ></InputBase>
           </Editable>
         </CardContent>
         <Handle
