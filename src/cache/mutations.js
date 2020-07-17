@@ -142,11 +142,10 @@ export const CREATE_EDGE = gql`
 `;
 
 export const DELETE_EDGE = gql`
-  mutation($sourceId: ID!, $targetId: ID!) {
-    deleteEdge(sourceId: $sourceId, targetId: $targetId) {
+  mutation($id: String!) {
+    deleteEdge(id: $id) {
       edge {
-        sourceId
-        targetId
+        id
       }
       success
       message
