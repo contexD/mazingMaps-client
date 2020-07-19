@@ -44,7 +44,7 @@ export default function MyMaps(props) {
   const { data, loading, client } = useQuery(GET_GRAPHS);
 
   /* mutation for deleting graphs */
-  const [deleteGraph, { data: responseDeleteGraph }] = useMutation(
+  const [deleteGraph] = useMutation(
     DELETE_GRAPH,
     {
       update(
