@@ -13,8 +13,6 @@ import { setContext } from "apollo-link-context";
 import { resolvers } from "./cache/resolvers";
 import { typeDefs } from "./cache/schema";
 
-const token = localStorage.getItem("token");
-
 const httpLink = createHttpLink({
   uri: "http://localhost:4000/graphql",
 });
