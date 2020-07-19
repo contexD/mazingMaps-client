@@ -48,7 +48,7 @@ export default memo(({ id, data, selected }) => {
     return () => {
       setSelectedNode(client, null);
     };
-  }, [selected]);
+  }, [client, id, selected]);
 
   const handleChange = (event) => {
     updateVertexData({
