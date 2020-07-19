@@ -1,5 +1,13 @@
 import React, { useState } from "react";
 import { useMutation, useQuery } from "react-apollo";
+import { GET_GRAPH, GET_SELECTED_NODE } from "../cache/queries";
+import {
+  CREATE_VERTEX,
+  CREATE_EDGE,
+  UPDATE_POSITION,
+  DELETE_VERTEX,
+  DELETE_EDGE,
+} from "../cache/mutations";
 import ReactFlow, {
   Background,
   Controls,
@@ -10,14 +18,6 @@ import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 
 import inputNode from "./inputNode";
-import { GET_GRAPH, GET_SELECTED_NODE } from "../cache/queries";
-import {
-  CREATE_VERTEX,
-  CREATE_EDGE,
-  UPDATE_POSITION,
-  DELETE_VERTEX,
-  DELETE_EDGE,
-} from "../cache/mutations";
 
 const graphStyles = { width: "100%", height: "93vh" };
 

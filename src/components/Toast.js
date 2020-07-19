@@ -1,5 +1,4 @@
 import React from "react";
-import { DEFAULT_MESSAGE_TIMEOUT } from "../config/constants";
 import { useApolloClient } from "@apollo/react-hooks";
 import { useQuery } from "react-apollo";
 import { MESSAGE } from "../cache/queries";
@@ -8,6 +7,8 @@ import Snackbar from "@material-ui/core/Snackbar";
 import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
 import MuiAlert from "@material-ui/lab/Alert";
+
+import { DEFAULT_MESSAGE_TIMEOUT } from "../config/constants";
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
