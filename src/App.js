@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import { useQuery } from "@apollo/react-hooks";

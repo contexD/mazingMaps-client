@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useQuery, useMutation } from "react-apollo";
 import { GET_GRAPHS } from "../cache/queries";
 import { DELETE_GRAPH, CREATE_GRAPH } from "../cache/mutations";
+
 import { makeStyles, List, Grid, Typography, Divider, Fab } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 
@@ -44,7 +45,7 @@ export default function MyMaps(props) {
   const { data, loading, client } = useQuery(GET_GRAPHS);
 
   /* mutation for deleting graphs */
-  const [deleteGraph, { data: responseDeleteGraph }] = useMutation(
+  const [deleteGraph] = useMutation(
     DELETE_GRAPH,
     {
       update(
@@ -78,7 +79,7 @@ export default function MyMaps(props) {
   };
 
   /* mutation for creating graphs */
-  const [createGraph, { data: responseCreateGraph }] = useMutation(
+  const [createGraph] = useMutation(
     CREATE_GRAPH,
     {
       update(

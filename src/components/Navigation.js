@@ -1,5 +1,8 @@
 import React from "react";
 import { Link as RouterLink } from "react-router-dom";
+import { useQuery } from "react-apollo";
+import { ME } from "../cache/queries";
+
 import { makeStyles } from "@material-ui/core/styles";
 import {
   AppBar,
@@ -9,8 +12,7 @@ import {
   Typography,
 } from "@material-ui/core";
 import HomeIcon from "@material-ui/icons/Home";
-import { useQuery, useApolloClient } from "react-apollo";
-import { ME } from "../cache/queries";
+
 import { showMessage } from "../utils/appState";
 
 const useStyles = makeStyles((theme) => ({

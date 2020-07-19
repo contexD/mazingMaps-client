@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import { useParams } from "react-router-dom";
-import { useQuery, useMutation } from "react-apollo";
-import { CREATE_VERTEX } from "../cache/mutations";
+import { useQuery } from "react-apollo";
 import { GET_GRAPH } from "../cache/queries";
 
 import Map from "../components/Map";
@@ -11,20 +10,9 @@ export default function MapCreator() {
   const graphId = useParams().id;
 
   //fetch graph
-  const { data: graphData, loading, client } = useQuery(GET_GRAPH, {
+  const { data: graphData, loading } = useQuery(GET_GRAPH, {
     variables: { id: graphId },
   });
-
-  const [createVertex, { data: createdVertex }] = useMutation(CREATE_VERTEX);
-
-  if (createdVertex) console.log(createdVertex);
-
-  /* thunk for creating vertices */
-  const createVertexThunk = (x, y) => (data) => {
-    createVertexThunk({ variables: { data, x, y } });
-  };
-
-  if (graphData) console.log("graphData", graphData);
 
   return loading && !graphData ? (
     <Loader open={loading} />
@@ -32,7 +20,6 @@ export default function MapCreator() {
     <div>
       <Map
         graphData={graphData.graph}
-        createVertex={createVertex}
         graphId={graphId}
       />
     </div>
