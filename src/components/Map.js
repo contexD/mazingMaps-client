@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useMutation, useQuery } from "react-apollo";
 import ReactFlow, {
   Background,
   Controls,
-  isNode,
   isEdge,
 } from "react-flow-renderer";
 
@@ -11,7 +10,6 @@ import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 
 import inputNode from "./inputNode";
-import { showMessage } from "../utils/appState";
 import { GET_GRAPH, GET_SELECTED_NODE } from "../cache/queries";
 import {
   CREATE_VERTEX,
@@ -31,12 +29,11 @@ const initialState = {
 export default function Map(props) {
   const { data: nodeData } = useQuery(GET_SELECTED_NODE);
   const [selectedEdge, setSelectedEdge] = useState(null);
-  const [open, setOpen] = useState(false);
   const [stateCoord, setStateCoord] = useState(initialState);
 
   const elements = [...props.graphData.vertices, ...props.graphData.edges];
 
-  const [createVertex, { loading, error, data }] = useMutation(CREATE_VERTEX, {
+  const [createVertex] = useMutation(CREATE_VERTEX, {
     update(
       cache,
       {
@@ -103,10 +100,10 @@ export default function Map(props) {
         variables: { id: props.graphId },
       });
       data.graph.vertices = [...data.graph.vertices].filter(
-        (ele) => ele.id != vertex.id
+        (ele) => ele.id !== vertex.id
       );
       data.graph.edges = [...data.graph.edges].filter(
-        (ele) => ele.source != vertex.id && ele.target != vertex.id
+        (ele) => ele.source !== vertex.id && ele.target !== vertex.id
       );
       cache.writeQuery({
         query: GET_GRAPH,
