@@ -9,7 +9,7 @@ import {
   Typography,
 } from "@material-ui/core";
 import HomeIcon from "@material-ui/icons/Home";
-import { useQuery, useApolloClient } from "react-apollo";
+import { useQuery } from "react-apollo";
 import { ME } from "../cache/queries";
 import { showMessage } from "../utils/appState";
 
