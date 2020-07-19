@@ -12,6 +12,10 @@ export const typeDefs = gql`
     auth: Auth!
   }
 
+  type selectedNode {
+    id: ID
+  }
+
   type Message {
     severity: String!
     text: String!

@@ -31,3 +31,14 @@ export function parseVertices(vertices, edgeIsAnimated = true) {
   });
   return edges.length === 0 ? [...nodes] : [...nodes, ...edges];
 }
+
+export function setSelectedNode(client, id) {
+  client.writeData({
+    data: {
+      selectedNode: {
+        __typename: "selectedNode",
+        id,
+      },
+    },
+  });
+}
