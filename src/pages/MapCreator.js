@@ -20,7 +20,6 @@ export default function MapCreator() {
     <div>
       <Map
         graphData={graphData.graph}
-        createVertex={createVertex}
         graphId={graphId}
       />
     </div>
