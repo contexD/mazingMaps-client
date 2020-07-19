@@ -130,7 +130,7 @@ export default function Map(props) {
         variables: { id: props.graphId },
       });
       data.graph.edges = [...data.graph.edges].filter(
-        (ele) => ele.id != edge.id
+        (ele) => ele.id !== edge.id
       );
       cache.writeQuery({
         query: GET_GRAPH,
