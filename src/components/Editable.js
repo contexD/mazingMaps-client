@@ -26,7 +26,7 @@ export default function Editable({
       ) : (
         <div onDoubleClick={() => setEditing(true)}>
           <Latex>{String.raw`${
-            text || placeholder || `Click to edit \LaTeX`
+            text
           }`}</Latex>
         </div>
       )}
