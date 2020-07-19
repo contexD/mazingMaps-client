@@ -78,7 +78,7 @@ export default function MyMaps(props) {
   };
 
   /* mutation for creating graphs */
-  const [createGraph, { data: responseCreateGraph }] = useMutation(
+  const [createGraph] = useMutation(
     CREATE_GRAPH,
     {
       update(
