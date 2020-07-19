@@ -1,5 +1,5 @@
 import React, { memo, useEffect } from "react";
-import { useMutation, useApolloClient, useQuery } from "@apollo/react-hooks";
+import { useMutation, useApolloClient } from "@apollo/react-hooks";
 import { UPDATE_VERTEX_DATA } from "../cache/mutations";
 import { Handle } from "react-flow-renderer";
 
@@ -10,7 +10,6 @@ import { makeStyles } from "@material-ui/core/styles";
 
 import Editable from "./Editable";
 import { setSelectedNode } from "../utils";
-import { GET_SELECTED_NODE } from "../cache/queries";
 
 const useStyles = makeStyles((theme) => ({
   margin: {
