@@ -13,12 +13,9 @@ import { Link as RouterLink } from "react-router-dom";
 import {
   useMutation,
   useApolloClient,
-  useQuery,
-  useLazyQuery,
 } from "@apollo/react-hooks";
 import { SEND_LOGIN_DATA } from "../cache/mutations";
 import Loader from "./Loader";
-import { ME } from "../cache/queries";
 import { showMessage } from "../utils/appState";
 
 function Buffer(email = "", password = "") {
