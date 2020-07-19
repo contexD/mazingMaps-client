@@ -8,7 +8,7 @@ import {
   Button,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import { useMutation, useApolloClient } from "@apollo/react-hooks";
+import { useMutation } from "@apollo/react-hooks";
 import { SEND_SIGN_UP_DATA } from "../cache/mutations";
 import { showMessage } from "../utils/appState";
 
