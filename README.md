@@ -2,17 +2,19 @@
 
 ## Table of Contents
 
-- [About](https://github.com/contexD/mazingMaps-client/edit/master/README.md/#About)
-- Demo
-- Tech
-- Learning Goals
-- User Stories
-- Data Model
-- Wireframes
-- Server Repo
-- Scripts
+- [About](https://github.com/contexD/mazingMaps-client#About)
+- [Demo](https://github.com/contexD/mazingMaps-client#Demo)
+- [Tech](https://github.com/contexD/mazingMaps-client#Tech)
+- [Learning Goals](https://github.com/contexD/mazingMaps-client#learning-goals)
+- [User Stories](https://github.com/contexD/mazingMaps-client#user-stories)
+- [Data Model](https://github.com/contexD/mazingMaps-client#data-model)
+- [Wireframes](https://github.com/contexD/mazingMaps-client#wireframes)
+- [Server Repo](https://github.com/contexD/mazingMaps-client#server-repo)
+- [Scripts](https://github.com/contexD/mazingMaps-client#available-scripts)
 
 ## About
+
+MazingMaps is an app for creating mind maps with $\LaTeX$ support.
 
 ## Demo
 
