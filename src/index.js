@@ -13,7 +13,7 @@ import { setContext } from "apollo-link-context";
 import { typeDefs } from "./cache/schema";
 
 const httpLink = createHttpLink({
-  uri: "https://mazing-mapper-server.herokuapp.com/",
+  uri: "https://mazing-mapper-server.herokuapp.com/graphql",
 });
 
 const authLink = setContext((_, { headers }) => {
