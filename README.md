@@ -4,10 +4,10 @@
 
 - [About](https://github.com/contexD/mazingMaps-client#About)
 - [Demo](https://github.com/contexD/mazingMaps-client#Demo)
+- [Learning Goals](https://github.com/contexD/mazingMaps-client#learning-goals)
 - [Tech](https://github.com/contexD/mazingMaps-client#Tech)
   - [Frontend](https://github.com/contexD/mazingMaps-client#frontend)
   - [Backend](https://github.com/contexD/mazingMaps-client#backend)
-- [Learning Goals](https://github.com/contexD/mazingMaps-client#learning-goals)
 - [User Stories](https://github.com/contexD/mazingMaps-client#user-stories)
 - [Data Model](https://github.com/contexD/mazingMaps-client#data-model)
 - [Wireframes](https://github.com/contexD/mazingMaps-client#wireframes)
@@ -20,7 +20,11 @@ MazingMaps is an app for creating mind maps with KaTeX (LaTeX) support. I love t
 
 ## Demo
 
+## Learning Goals
 
+My goal was to build a full stack app with a _clean_, _simple_ and _intuitive_ user interface. Besides applying learned concepts during the bootcamp, I also wanted to __dive deeper into new tools__ and libraries. 
+For this reason I chose to build my _backend architecture_ with __GraphQL and Apollo Server__. I designed a GraphQL schema and wrote the corresponding resolvers. On the _frontend_, __Apollo client__ handles state management.
+__React Flow__ was used to build the mind map. I wrote __custom nodes__ to enable inline editing and realize LaTeX support.
 
 ## Tech
 
@@ -44,12 +48,6 @@ MazingMaps is an app for creating mind maps with KaTeX (LaTeX) support. I love t
 - [Express](http://expressjs.com/)
 - [PostgreSQL](https://www.postgresql.org/)
 - [Sequelize](https://sequelize.org/)
-
-## Learning Goals
-
-My goals was to build a full stack app with a _clean_, _simple_ and _intuitive_ user interface. Besides applying learned concepts during the bootcamp, I also wanted to __dive deeper into new tools__ and libraries. 
-For this reason I chose to build my _backend architecture_ with __GraphQL and Apollo Server__. I designed a GraphQL schema and wrote the corresponding resolvers. On the _frontend_, __Apollo client__ handles state management.
-__React Flow__ was used to build the mind map. I wrote __custom nodes__ to enable inline editing and realize LaTeX support.
 
 ## User Stories
 
