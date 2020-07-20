@@ -1,3 +1,33 @@
+# MazingMaps
+
+## Table of Contents
+
+- [About](https://github.com/contexD/mazingMaps-client/edit/master/README.md/#About)
+- Demo
+- Tech
+- Learning Goals
+- User Stories
+- Data Model
+- Wireframes
+- Server Repo
+- Scripts
+
+## About
+
+## Demo
+
+## Tech
+
+## Learning Goals
+
+## User Stories
+
+## Data Model
+
+## Wireframes
+
+## Server Repo
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
