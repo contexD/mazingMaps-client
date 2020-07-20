@@ -14,11 +14,32 @@
 
 ## About
 
-MazingMaps is an app for creating mind maps with $\LaTeX$ support.
+MazingMaps is an app for creating mind maps with KaTeX (LaTeX) support. Since I love to organize new concepts I'm learning with the help of mind maps but none of the available apps I found supported LaTeX (for entering mathematical expressions), I decided to code my own.
 
 ## Demo
 
 ## Tech
+
+### Frontend
+
+- [React](https://reactjs.org/)
+- [Apollo Client](https://www.apollographql.com/docs/react/)
+- [GraphQL](https://graphql.org/)
+- [Node.js](https://nodejs.org/en/)
+- [React Flow](https://github.com/wbkd/react-flow)
+- [React Latex](https://www.npmjs.com/package/react-latex)
+- [KaTeX](https://katex.org/)
+- [React Helmet](https://github.com/nfl/react-helmet)
+- [MaterialUI](https://material-ui.com/)
+
+### Backend
+
+- [Node.js](https://nodejs.org/en/)
+- [Apollo Server](https://www.apollographql.com/docs/apollo-server/)
+- [GraphQL](https://graphql.org/)
+- [Express](http://expressjs.com/)
+- [PostgreSQL](https://www.postgresql.org/)
+- [Sequelize](https://sequelize.org/)
 
 ## Learning Goals
 
