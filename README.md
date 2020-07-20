@@ -20,6 +20,9 @@ MazingMaps is an app for creating mind maps with KaTeX (LaTeX) support. I love t
 
 ## Demo
 
+![alt text](https://github.com/contexD/mazingMaps-client/deletionDemo.gif)
+![alt text](https://github.com/contexD/mazingMaps-client/latexNodesDemo.gif)
+
 ## Learning Goals
 
 My goal was to build a full stack app with a _clean_, _simple_ and _intuitive_ user interface. Besides applying learned concepts during the bootcamp, I also wanted to __dive deeper into new tools__ and libraries. 
