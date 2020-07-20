@@ -5,6 +5,8 @@
 - [About](https://github.com/contexD/mazingMaps-client#About)
 - [Demo](https://github.com/contexD/mazingMaps-client#Demo)
 - [Tech](https://github.com/contexD/mazingMaps-client#Tech)
+  - [Frontend](https://github.com/contexD/mazingMaps-client#frontend)
+  - [Backend](https://github.com/contexD/mazingMaps-client#backend)
 - [Learning Goals](https://github.com/contexD/mazingMaps-client#learning-goals)
 - [User Stories](https://github.com/contexD/mazingMaps-client#user-stories)
 - [Data Model](https://github.com/contexD/mazingMaps-client#data-model)
@@ -14,9 +16,11 @@
 
 ## About
 
-MazingMaps is an app for creating mind maps with KaTeX (LaTeX) support. Since I love to organize new concepts I'm learning with the help of mind maps but none of the available apps I found supported LaTeX (for entering mathematical expressions), I decided to code my own.
+MazingMaps is an app for creating mind maps with KaTeX (LaTeX) support. I love to organize new concepts I'm learning with the help of mind maps and I like learning about math. Since none of the apps I use support LaTeX (for entering mathematical expressions), I decided to code my own.
 
 ## Demo
+
+
 
 ## Tech
 
@@ -43,17 +47,29 @@ MazingMaps is an app for creating mind maps with KaTeX (LaTeX) support. Since I 
 
 ## Learning Goals
 
+My goals was to build a full stack app with a _clean_, _simple_ and _intuitive_ user interface. Besides applying learned concepts during the bootcamp, I also wanted to __dive deeper into new tools__ and libraries. 
+For this reason I chose to build my _backend architecture_ with __GraphQL and Apollo Server__. I designed a GraphQL schema and wrote the corresponding resolvers. On the _frontend_, __Apollo client__ handles state management.
+__React Flow__ was used to build the mind map. I wrote __custom nodes__ to enable inline editing and realize LaTeX support.
+
 ## User Stories
+
+Take a look at my [user stories](https://github.com/contexD/mazingMaps-client/projects/1).
 
 ## Data Model
 
+[Here](https://github.com/contexD/mazingMaps-client/blob/master/ER_MazingMapper_wBG.png) you can find my DB model.
+
 ## Wireframes
+
+[This](https://github.com/contexD/mazingMaps-client/tree/master/wireframe) is how I envisioned my app.
 
 ## Server Repo
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+[Here's](https://github.com/contexD/mazingMaps-server) my server repo.
 
 ## Available Scripts
+
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 In the project directory, you can run:
 
