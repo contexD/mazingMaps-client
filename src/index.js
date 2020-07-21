@@ -8,12 +8,14 @@ import { BrowserRouter as Router } from "react-router-dom";
 import { ApolloProvider } from "@apollo/react-hooks";
 import { ApolloClient } from "apollo-client";
 import { createHttpLink } from "apollo-link-http";
-import { InMemoryCache } from "apollo-cache-inmemory";
 import { setContext } from "apollo-link-context";
+import { cache } from "./cache";
 import { typeDefs } from "./cache/schema";
+import { appLoading, showMessage } from "./utils/appState";
 
+//"https://mazing-mapper-server.herokuapp.com/graphql"
 const httpLink = createHttpLink({
-  uri: "https://mazing-mapper-server.herokuapp.com/graphql",
+  uri: "http://localhost:4000/graphql",
 });
 
 const authLink = setContext((_, { headers }) => {
@@ -28,8 +30,6 @@ const authLink = setContext((_, { headers }) => {
   };
 });
 
-const cache = new InMemoryCache();
-
 const client = new ApolloClient({
   link: authLink.concat(httpLink),
   cache,
@@ -39,20 +39,6 @@ const client = new ApolloClient({
 
 cache.writeData({
   data: {
-    appLoading: false,
-    showMessage: false,
-    message: { __typename: "Message", severity: "", text: "" },
-    auth: {
-      __typename: "Auth",
-      me: {
-        __typename: "User",
-        id: null,
-        email: "",
-        firstName: "",
-        lastName: "",
-      },
-      accessToken: null,
-    },
     selectedNode: {
       __typename: "selectedNode",
       id: null,
