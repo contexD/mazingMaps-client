@@ -17,6 +17,7 @@
 ## About
 
 MazingMaps is an app for creating mind maps with KaTeX (LaTeX) support. I love to organize new concepts I'm learning with the help of mind maps and I like learning about math. Since none of the apps I use support LaTeX (for entering mathematical expressions), I decided to code my own.
+Note: This is a MVC and a work in progress.
 
 ## Demo
 
@@ -30,6 +31,7 @@ MazingMaps is an app for creating mind maps with KaTeX (LaTeX) support. I love t
 My goal was to build a full stack app with a _clean_, _simple_ and _intuitive_ user interface. Besides applying learned concepts during the bootcamp, I also wanted to __dive deeper into new tools__ and libraries. 
 For this reason I chose to build my _backend architecture_ with __GraphQL and Apollo Server__. I designed a GraphQL schema and wrote the corresponding resolvers. On the _frontend_, __Apollo client__ handles state management.
 __React Flow__ was used to build the mind map. I wrote __custom nodes__ to enable inline editing and realize LaTeX support.
+In the near future, I plan to add extensive testing to this project.
 
 ## Tech
 
