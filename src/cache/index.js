@@ -4,7 +4,7 @@ import { InMemoryCache } from "apollo-cache-inmemory";
 //reactive variables for app state
 const appLoading = makeVar(false);
 const showToast = makeVar(false);
-const toastMessage = makeVar("");
+const toastMessage = makeVar({ text: "", severity: false });
 
 export const cache = new InMemoryCache({
   typePolicies: {
