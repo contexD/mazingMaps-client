@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link as RouterLink } from "react-router-dom";
-import { useMutation, useApolloClient } from "@apollo/react-hooks";
+import { useMutation, useApolloClient } from "@apollo/client";
 import { SEND_LOGIN_DATA } from "../cache/mutations";
 
 import { makeStyles } from "@material-ui/core/styles";
@@ -15,6 +15,7 @@ import {
 } from "@material-ui/core";
 
 import Loader from "./Loader";
+import { showToast, toastMessage } from "../cache";
 import { showMessage } from "../utils/appState";
 
 function Buffer(email = "", password = "") {
