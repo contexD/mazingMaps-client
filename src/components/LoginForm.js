@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link as RouterLink } from "react-router-dom";
-import {
-  useMutation,
-  useApolloClient,
-} from "@apollo/react-hooks";
+import { useMutation, useApolloClient } from "@apollo/react-hooks";
 import { SEND_LOGIN_DATA } from "../cache/mutations";
 
 import { makeStyles } from "@material-ui/core/styles";
@@ -41,7 +38,16 @@ export default function LoginForm(props) {
   const classes = useStyles();
   const client = useApolloClient();
   const [buffer, setBuffer] = useState(new Buffer());
-  const [sendLogin, { data, error, loading }] = useMutation(SEND_LOGIN_DATA);
+  const [sendLogin, { data, error, loading }] = useMutation(SEND_LOGIN_DATA, {
+    onCompleted: (data) => {
+      localStorage.setItem("token", data.signIn.token.jwt);
+      toastMessage({
+        text: data.signIn.message,
+        severity: data.signIn.success,
+      });
+      showToast(true);
+    },
+  });
   //   const [getMe, { data: me, meLoading }] = useLazyQuery(ME);
 
   //   console.log("me", me);
