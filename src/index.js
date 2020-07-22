@@ -1,17 +1,20 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import "./index.css";
-import App from "./App";
-import * as serviceWorker from "./serviceWorker";
-import "fontsource-roboto";
 import { BrowserRouter as Router } from "react-router-dom";
+
+import {
+  ApolloClient,
+  createHttpLink,
+} from "@apollo/client";
 import { ApolloProvider } from "@apollo/react-hooks";
-import { ApolloClient } from "apollo-client";
-import { createHttpLink } from "apollo-link-http";
 import { setContext } from "apollo-link-context";
 import { cache } from "./cache";
 import { typeDefs } from "./cache/schema";
-import { appLoading, showMessage } from "./utils/appState";
+
+import "fontsource-roboto";
+import "./index.css";
+import App from "./App";
+import * as serviceWorker from "./serviceWorker";
 
 //"https://mazing-mapper-server.herokuapp.com/graphql"
 const httpLink = createHttpLink({
