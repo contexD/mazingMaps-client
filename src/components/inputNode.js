@@ -1,5 +1,5 @@
 import React, { memo, useEffect } from "react";
-import { useMutation, useApolloClient } from "@apollo/react-hooks";
+import { useMutation, useApolloClient } from "@apollo/client";
 import { UPDATE_VERTEX_DATA } from "../cache/mutations";
 import { Handle } from "react-flow-renderer";
 
