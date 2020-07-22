@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useMutation, useQuery } from "react-apollo";
+import { useMutation, useQuery } from "@apollo/client";
 import { GET_GRAPH, GET_SELECTED_NODE } from "../cache/queries";
 import {
   CREATE_VERTEX,
