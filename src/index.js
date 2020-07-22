@@ -37,15 +37,6 @@ const client = new ApolloClient({
   connectToDevTools: true,
 });
 
-cache.writeData({
-  data: {
-    selectedNode: {
-      __typename: "selectedNode",
-      id: null,
-    },
-  },
-});
-
 ReactDOM.render(
   <Router>
     <ApolloProvider client={client}>
