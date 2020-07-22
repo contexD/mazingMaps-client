@@ -1,6 +1,6 @@
 import React from "react";
 import { Link as RouterLink } from "react-router-dom";
-import { useQuery } from "react-apollo";
+import { useQuery } from "@apollo/client";
 import { ME } from "../cache/queries";
 
 import { makeStyles } from "@material-ui/core/styles";
