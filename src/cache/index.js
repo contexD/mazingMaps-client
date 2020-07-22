@@ -1,17 +1,22 @@
-import { makeVar } from "@apollo/client";
-import { InMemoryCache } from "apollo-cache-inmemory";
+import { makeVar, InMemoryCache } from "@apollo/client";
 
 //reactive variables for app state
 export const isLoggedIn = makeVar(false);
 export const appLoading = makeVar(false);
 export const showToast = makeVar(false);
 export const toastMessage = makeVar({ text: "", severity: false });
+export const selectedNodeId = makeVar(null);
 
 export const cache = new InMemoryCache({
   typePolicies: {
     Query: {
       fields: {
-        loading: {
+        isLoggedIn: {
+          read() {
+            return isLoggedIn();
+          },
+        },
+        appLoading: {
           read() {
             return appLoading();
           },
@@ -26,6 +31,11 @@ export const cache = new InMemoryCache({
             return toastMessage();
           },
         },
+        selectedNodeId: {
+            read() {
+                return selectedNodeId();
+            }
+        }
       },
     },
   },
