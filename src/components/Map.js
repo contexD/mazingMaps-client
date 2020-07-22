@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+
 import { useMutation, useQuery } from "@apollo/client";
 import { GET_GRAPH, GET_SELECTED_NODE } from "../cache/queries";
 import {
@@ -8,12 +9,12 @@ import {
   DELETE_VERTEX,
   DELETE_EDGE,
 } from "../cache/mutations";
+
 import ReactFlow, {
   Background,
   Controls,
   isEdge,
 } from "react-flow-renderer";
-
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 
