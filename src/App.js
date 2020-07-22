@@ -1,7 +1,9 @@
 import React from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
 import { Helmet } from "react-helmet";
-import { useQuery } from "@apollo/react-hooks";
+
+import { useQuery } from "@apollo/client";
+import { ME } from "./cache/queries";
 
 import Home from "./pages/Home";
 import MapCreator from "./pages/MapCreator";
@@ -12,7 +14,6 @@ import Navigation from "./components/Navigation";
 import Loader from "./components/Loader";
 import Toast from "./components/Toast";
 import MyMaps from "./pages/MyMaps";
-import { ME } from "./cache/queries";
 
 function App() {
   //poll ME every 60 min, to check whether token expired
