@@ -2,6 +2,7 @@ import React from "react";
 import { useApolloClient } from "@apollo/react-hooks";
 import { useQuery } from "react-apollo";
 import { MESSAGE } from "../cache/queries";
+import { showToast } from "../cache";
 
 import Snackbar from "@material-ui/core/Snackbar";
 import IconButton from "@material-ui/core/IconButton";
@@ -18,8 +19,8 @@ export default function Toast() {
   const client = useApolloClient();
   const { data } = useQuery(MESSAGE);
 
-  const handleClose = (event, reason) => {
-    client.writeData({ data: { showMessage: false } });
+  const handleClose = () => {
+    showToast(false);
   };
 
   return (
