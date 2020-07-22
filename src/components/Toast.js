@@ -1,6 +1,6 @@
 import React from "react";
-import { useApolloClient } from "@apollo/react-hooks";
-import { useQuery } from "react-apollo";
+
+import { useQuery } from "@apollo/client";
 import { MESSAGE } from "../cache/queries";
 import { showToast } from "../cache";
 
@@ -16,7 +16,6 @@ function Alert(props) {
 }
 
 export default function Toast() {
-  const client = useApolloClient();
   const { data } = useQuery(MESSAGE);
 
   const handleClose = () => {
