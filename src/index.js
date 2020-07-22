@@ -2,11 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter as Router } from "react-router-dom";
 
-import {
-  ApolloClient,
-  createHttpLink,
-} from "@apollo/client";
-import { ApolloProvider } from "@apollo/react-hooks";
+import { ApolloClient, createHttpLink, ApolloProvider } from "@apollo/client";
 import { setContext } from "apollo-link-context";
 import { cache } from "./cache";
 import { typeDefs } from "./cache/schema";
@@ -41,11 +37,11 @@ const client = new ApolloClient({
 });
 
 ReactDOM.render(
-  <Router>
-    <ApolloProvider client={client}>
+  <ApolloProvider client={client}>
+    <Router>
       <App />
-    </ApolloProvider>
-  </Router>,
+    </Router>
+  </ApolloProvider>,
   document.getElementById("root")
 );
 
