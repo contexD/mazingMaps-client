@@ -8,7 +8,7 @@ export const toastMessage = makeVar({ text: "", severity: false });
 
 export const cache = new InMemoryCache({
   typePolicies: {
-    appState: {
+    Query: {
       fields: {
         loading: {
           read() {
