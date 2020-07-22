@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { useQuery, useMutation } from "react-apollo";
+
+import { useQuery, useMutation } from "@apollo/client";
 import { GET_GRAPHS } from "../cache/queries";
 import { DELETE_GRAPH, CREATE_GRAPH } from "../cache/mutations";
 
