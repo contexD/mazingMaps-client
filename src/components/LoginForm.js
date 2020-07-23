@@ -15,7 +15,7 @@ import {
 } from "@material-ui/core";
 
 import Loader from "./Loader";
-import { toastMessageVar } from "../model";
+import { toastMessageVar } from "../model/cache";
 import { showMessage } from "../utils/appState";
 
 function Buffer(email = "", password = "") {
