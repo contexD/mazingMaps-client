@@ -7,7 +7,8 @@ import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 
 import inputNode from "./inputNode";
-import { useNode } from "../hooks";
+import useNode from "../hooks/useNode";
+import useEdge from "../hooks/useEdge";
 
 const graphStyles = { width: "100%", height: "93vh" };
 
@@ -21,58 +22,10 @@ export default function Map(props) {
   const [selectedEdge, setSelectedEdge] = useState(null);
   const [stateCoord, setStateCoord] = useState(initialState);
   const { createNode, updateCoordinates, deleteNode } = useNode();
+  const {createLink, deleteLink} = useEdge();
 
   const elements = [...props.graphData.vertices, ...props.graphData.edges];
 
-  const [createEdge] = useMutation(CREATE_EDGE, {
-    update(
-      cache,
-      {
-        data: {
-          createEdge: { edge },
-        },
-      }
-    ) {
-      const data = cache.readQuery({
-        query: GET_GRAPH,
-        variables: { id: props.graphId },
-      });
-      data.graph.edges = [...data.graph.edges, edge];
-      cache.writeQuery({
-        query: GET_GRAPH,
-        variables: { id: props.graphId },
-        data,
-      });
-    },
-  });
-  //callback for react flow renderer
-  const makeEdge = ({ source, target }) => {
-    createEdge({ variables: { sourceId: source, targetId: target } });
-  };
-
-  const [deleteEdge] = useMutation(DELETE_EDGE, {
-    update(
-      cache,
-      {
-        data: {
-          deleteEdge: { edge },
-        },
-      }
-    ) {
-      const data = cache.readQuery({
-        query: GET_GRAPH,
-        variables: { id: props.graphId },
-      });
-      data.graph.edges = [...data.graph.edges].filter(
-        (ele) => ele.id !== edge.id
-      );
-      cache.writeQuery({
-        query: GET_GRAPH,
-        variables: { id: props.graphId },
-        data,
-      });
-    },
-  });
 
   /* handlers for context menu */
   const handleClickMenu = (event) => {
@@ -98,7 +51,7 @@ export default function Map(props) {
     } else if (item === "delete node") {
       deleteNode({ variables: { id: nodeData.selectedNode.id } });
     } else if (item === "delete link") {
-      deleteEdge({ variables: { id: selectedEdge.id } });
+      deleteLink({ variables: { id: selectedEdge.id } });
     }
 
     handleCloseMenu();
@@ -110,7 +63,7 @@ export default function Map(props) {
         elements={elements}
         style={graphStyles}
         nodeTypes={{ inputNode }}
-        onConnect={makeEdge}
+        onConnect={createLink}
         onNodeDragStop={updateCoordinates}
         onElementClick={(ele) => (isEdge(ele) ? setSelectedEdge(ele) : null)}
       >
