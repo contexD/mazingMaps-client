@@ -42,11 +42,10 @@ export default function LoginForm(props) {
   const [sendLogin, { data, error, loading }] = useMutation(SEND_LOGIN_DATA, {
     onCompleted: (data) => {
       localStorage.setItem("token", data.signIn.token.jwt);
-      toastMessage({
+      toastMessageVar({
         text: data.signIn.message,
         severity: data.signIn.success,
       });
-      showToast(true);
     },
   });
   //   const [getMe, { data: me, meLoading }] = useLazyQuery(ME);
