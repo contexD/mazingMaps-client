@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 
 import { useMutation, useQuery } from "@apollo/client";
-import { GET_GRAPH, GET_SELECTED_NODE } from "../model/queries";
+import { GET_GRAPH, GET_SELECTED_NODE } from "../model/operations/queries";
 import {
   CREATE_VERTEX,
   CREATE_EDGE,
   UPDATE_POSITION,
   DELETE_VERTEX,
   DELETE_EDGE,
-} from "../model/mutations";
+} from "../model/operations/mutations";
 
 import ReactFlow, {
   Background,

@@ -2,7 +2,7 @@ import React from "react";
 import { useParams } from "react-router-dom";
 
 import { useQuery } from "@apollo/client";
-import { GET_GRAPH } from "../model/queries";
+import { GET_GRAPH } from "../model/operations/queries";
 
 import Map from "../components/Map";
 import Loader from "../components/Loader";

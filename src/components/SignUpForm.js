@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useMutation } from "@apollo/client";
-import { SEND_SIGN_UP_DATA } from "../model/mutations";
+import { SEND_SIGN_UP_DATA } from "../model/operations/mutations";
 
 import { makeStyles } from "@material-ui/core/styles";
 import {
