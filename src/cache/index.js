@@ -2,7 +2,11 @@ import { makeVar, InMemoryCache } from "@apollo/client";
 
 //reactive variables for app state
 export const isLoggedInVar = makeVar(false);
-export const toastMessageVar = makeVar({ text: "", severity: false, show: false });
+export const toastMessageVar = makeVar({
+  text: "",
+  severity: false,
+  show: false,
+});
 export const selectedNodeIdVar = makeVar(null);
 
 export const cache = new InMemoryCache({
@@ -20,10 +24,10 @@ export const cache = new InMemoryCache({
           },
         },
         selectedNodeId: {
-            read() {
-                return selectedNodeIdVar();
-            }
-        }
+          read() {
+            return selectedNodeIdVar();
+          },
+        },
       },
     },
   },
