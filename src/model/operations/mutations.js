@@ -1,5 +1,7 @@
 import gql from "graphql-tag";
 
+//login and signup
+
 export const SEND_LOGIN_DATA = gql`
   mutation($login: String!, $password: String!) {
     signIn(login: $login, password: $password) {
@@ -34,18 +36,7 @@ export const SEND_SIGN_UP_DATA = gql`
   }
 `;
 
-// mutations for mind-maps
-export const DELETE_GRAPH = gql`
-  mutation deleteGraph($id: ID!) {
-    deleteGraph(id: $id) {
-      graph {
-        id
-      }
-      success
-      message
-    }
-  }
-`;
+//graph
 
 export const CREATE_GRAPH = gql`
   mutation createGraph($name: String!) {
@@ -60,7 +51,19 @@ export const CREATE_GRAPH = gql`
   }
 `;
 
-//mutations for vertices
+export const DELETE_GRAPH = gql`
+  mutation deleteGraph($id: ID!) {
+    deleteGraph(id: $id) {
+      graph {
+        id
+      }
+      success
+      message
+    }
+  }
+`;
+
+//vertices
 
 export const CREATE_VERTEX = gql`
   mutation($label: String!, $x: Float!, $y: Float!, $graphId: ID!) {
@@ -125,7 +128,8 @@ export const DELETE_VERTEX = gql`
   }
 `;
 
-// mutations for edges
+//edges
+
 export const CREATE_EDGE = gql`
   mutation($sourceId: ID!, $targetId: ID!) {
     createEdge(sourceId: $sourceId, targetId: $targetId) {
@@ -150,13 +154,5 @@ export const DELETE_EDGE = gql`
       success
       message
     }
-  }
-`;
-
-//local mutations
-
-export const UPDATE_VERTEX_LABEL = gql`
-  mutation($id: Int!, $newLabel: String!) {
-    updateVertexLabel(id: $id, newLabel: $newLabel) @client
   }
 `;
