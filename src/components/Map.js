@@ -8,7 +8,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 
 import inputNode from "./inputNode";
 import useNode from "../hooks/useNode";
-import useEdge from "../hooks/useEdge";
+import useLink from "../hooks/useLink";
 
 const graphStyles = { width: "100%", height: "93vh" };
 
@@ -22,10 +22,9 @@ export default function Map(props) {
   const [selectedEdge, setSelectedEdge] = useState(null);
   const [stateCoord, setStateCoord] = useState(initialState);
   const { createNode, updateCoordinates, deleteNode } = useNode();
-  const {createLink, deleteLink} = useEdge();
+  const { createLink, deleteLink } = useLink();
 
   const elements = [...props.graphData.vertices, ...props.graphData.edges];
-
 
   /* handlers for context menu */
   const handleClickMenu = (event) => {
