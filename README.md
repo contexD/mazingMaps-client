@@ -42,7 +42,6 @@ Next, I plan to add extensive testing to this project.
 - [React](https://reactjs.org/)
 - [Apollo Client](https://www.apollographql.com/docs/react/)
 - [GraphQL](https://graphql.org/)
-- [Node.js](https://nodejs.org/en/)
 - [React Flow](https://github.com/wbkd/react-flow)
 - [React Latex](https://www.npmjs.com/package/react-latex)
 - [KaTeX](https://katex.org/)
