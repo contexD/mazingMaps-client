@@ -5,7 +5,6 @@ import { BrowserRouter as Router } from "react-router-dom";
 import { ApolloClient, createHttpLink, ApolloProvider } from "@apollo/client";
 import { setContext } from "apollo-link-context";
 import { cache } from "./cache";
-import { typeDefs } from "./cache/schema";
 
 import "fontsource-roboto";
 import "./index.css";
@@ -32,7 +31,6 @@ const authLink = setContext((_, { headers }) => {
 const client = new ApolloClient({
   link: authLink.concat(httpLink),
   cache,
-  typeDefs,
   connectToDevTools: true,
 });
 
