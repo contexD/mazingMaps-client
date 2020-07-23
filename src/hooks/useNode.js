@@ -1,5 +1,4 @@
 import { useMutation } from "@apollo/client";
-
 import { GET_GRAPH } from "../model/operations/queries";
 import {
   CREATE_VERTEX,
@@ -8,7 +7,7 @@ import {
 } from "../model/operations/mutations";
 
 export function useNode() {
-  const [createVertex] = useMutation(CREATE_VERTEX, {
+  const [createNode] = useMutation(CREATE_VERTEX, {
     update(
       cache,
       {
@@ -29,16 +28,13 @@ export function useNode() {
       });
     },
   });
-  //thunk for export
-  const createNode = (label, x, y, graphId) =>
-    createVertex({ variables: { label, x, y, graphId } });
 
   const [updatePosition] = useMutation(UPDATE_POSITION);
   //callback for react flow renderer
   const updateCoordinates = ({ id, position: { x, y } }) =>
     updatePosition({ variables: { id, x, y } });
 
-  const [deleteVertex] = useMutation(DELETE_VERTEX, {
+  const [deleteNode] = useMutation(DELETE_VERTEX, {
     update(
       cache,
       {
@@ -64,8 +60,6 @@ export function useNode() {
       });
     },
   });
-  //thunk for export
-  const deleteNode = (id, x, y) => deleteVertex({ variables: { id, x, y } });
 
   return { createNode, updateCoordinates, deleteNode };
 }
