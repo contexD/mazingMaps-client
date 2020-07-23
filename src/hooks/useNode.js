@@ -6,7 +6,7 @@ import {
   DELETE_VERTEX,
 } from "../model/operations/mutations";
 
-export function useNode() {
+export default function useNode() {
   const [createNode] = useMutation(CREATE_VERTEX, {
     update(
       cache,
