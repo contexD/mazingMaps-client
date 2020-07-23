@@ -1,24 +1,13 @@
 import React, { useState } from "react";
+import { useQuery } from "@apollo/client";
+import { GET_GRAPH } from "../model/operations/queries";
 
-import { useMutation, useQuery } from "@apollo/client";
-import { GET_GRAPH, GET_SELECTED_NODE } from "../model/operations/queries";
-import {
-  CREATE_VERTEX,
-  CREATE_EDGE,
-  UPDATE_POSITION,
-  DELETE_VERTEX,
-  DELETE_EDGE,
-} from "../model/operations/mutations";
-
-import ReactFlow, {
-  Background,
-  Controls,
-  isEdge,
-} from "react-flow-renderer";
+import ReactFlow, { Background, Controls, isEdge } from "react-flow-renderer";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 
 import inputNode from "./inputNode";
+import { useNode } from "../hooks";
 
 const graphStyles = { width: "100%", height: "93vh" };
 
@@ -28,33 +17,12 @@ const initialState = {
 };
 
 export default function Map(props) {
-  const { data: nodeData } = useQuery(GET_SELECTED_NODE);
+  //const { data: nodeData } = useQuery(GET_SELECTED_NODE);
   const [selectedEdge, setSelectedEdge] = useState(null);
   const [stateCoord, setStateCoord] = useState(initialState);
+  const { createNode, updateCoordinates, deleteNode } = useNode();
 
   const elements = [...props.graphData.vertices, ...props.graphData.edges];
-
-  const [createVertex] = useMutation(CREATE_VERTEX, {
-    update(
-      cache,
-      {
-        data: {
-          createVertex: { vertex },
-        },
-      }
-    ) {
-      const data = cache.readQuery({
-        query: GET_GRAPH,
-        variables: { id: props.graphId },
-      });
-      data.graph.vertices = [...data.graph.vertices, vertex];
-      cache.writeQuery({
-        query: GET_GRAPH,
-        variables: { id: props.graphId },
-        data,
-      });
-    },
-  });
 
   const [createEdge] = useMutation(CREATE_EDGE, {
     update(
@@ -81,38 +49,6 @@ export default function Map(props) {
   const makeEdge = ({ source, target }) => {
     createEdge({ variables: { sourceId: source, targetId: target } });
   };
-
-  const [updatePosition] = useMutation(UPDATE_POSITION);
-  //callback for react flow renderer
-  const updateCoordinates = ({ id, position: { x, y } }) =>
-    updatePosition({ variables: { id, x, y } });
-
-  const [deleteVertex] = useMutation(DELETE_VERTEX, {
-    update(
-      cache,
-      {
-        data: {
-          deleteVertex: { vertex },
-        },
-      }
-    ) {
-      const data = cache.readQuery({
-        query: GET_GRAPH,
-        variables: { id: props.graphId },
-      });
-      data.graph.vertices = [...data.graph.vertices].filter(
-        (ele) => ele.id !== vertex.id
-      );
-      data.graph.edges = [...data.graph.edges].filter(
-        (ele) => ele.source !== vertex.id && ele.target !== vertex.id
-      );
-      cache.writeQuery({
-        query: GET_GRAPH,
-        variables: { id: props.graphId },
-        data,
-      });
-    },
-  });
 
   const [deleteEdge] = useMutation(DELETE_EDGE, {
     update(
@@ -156,11 +92,11 @@ export default function Map(props) {
     const { mouseX: x, mouseY: y } = stateCoord;
 
     if (item === "new node") {
-      createVertex({
+      createNode({
         variables: { label: "new node", x, y, graphId: props.graphId },
       });
     } else if (item === "delete node") {
-      deleteVertex({ variables: { id: nodeData.selectedNode.id } });
+      deleteNode({ variables: { id: nodeData.selectedNode.id } });
     } else if (item === "delete link") {
       deleteEdge({ variables: { id: selectedEdge.id } });
     }
