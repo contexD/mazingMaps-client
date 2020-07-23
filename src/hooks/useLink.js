@@ -2,7 +2,7 @@ import { useMutation } from "@apollo/client";
 import { GET_GRAPH } from "../model/operations/queries";
 import { CREATE_EDGE, DELETE_EDGE } from "../model/operations/mutations";
 
-export default function useEdge() {
+export default function useLink() {
   const [createEdge] = useMutation(CREATE_EDGE, {
     update(
       cache,
