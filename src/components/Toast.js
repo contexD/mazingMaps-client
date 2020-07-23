@@ -2,7 +2,7 @@ import React from "react";
 
 import { useQuery } from "@apollo/client";
 import { MESSAGE } from "../cache/queries";
-import { showToast } from "../cache";
+import { toastMessageVar } from "../cache";
 
 import Snackbar from "@material-ui/core/Snackbar";
 import IconButton from "@material-ui/core/IconButton";
@@ -19,7 +19,7 @@ export default function Toast() {
   const { data } = useQuery(MESSAGE);
 
   const handleClose = () => {
-    showToast(false);
+    console.log("to do");
   };
 
   return (
