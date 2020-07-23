@@ -3,7 +3,7 @@ import { Switch, Route, Redirect } from "react-router-dom";
 import { Helmet } from "react-helmet";
 
 import { useQuery } from "@apollo/client";
-import { ME } from "./cache/queries";
+import { ME } from "./model/queries";
 
 import Home from "./pages/Home";
 import MapCreator from "./pages/MapCreator";

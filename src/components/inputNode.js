@@ -1,6 +1,6 @@
 import React, { memo, useEffect } from "react";
 import { useMutation, useApolloClient } from "@apollo/client";
-import { UPDATE_VERTEX_DATA } from "../cache/mutations";
+import { UPDATE_VERTEX_DATA } from "../model/mutations";
 import { Handle } from "react-flow-renderer";
 
 import InputBase from "@material-ui/core/InputBase";

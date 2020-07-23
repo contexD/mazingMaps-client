@@ -1,8 +1,8 @@
 import React from "react";
 
 import { useQuery } from "@apollo/client";
-import { MESSAGE } from "../cache/queries";
-import { toastMessageVar } from "../cache";
+import { MESSAGE } from "../model/queries";
+import { toastMessageVar } from "../model";
 
 import Snackbar from "@material-ui/core/Snackbar";
 import IconButton from "@material-ui/core/IconButton";
