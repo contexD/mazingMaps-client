@@ -5,6 +5,7 @@ import {
   UPDATE_POSITION,
   DELETE_VERTEX,
 } from "../model/operations/mutations";
+import { selectedNodeIdVar } from "../model/cache";
 
 export default function useNode(graphId) {
   const [createNode] = useMutation(CREATE_VERTEX, {
@@ -61,5 +62,7 @@ export default function useNode(graphId) {
     },
   });
 
-  return { createNode, updateCoordinates, deleteNode };
+  const setSelectedNode = (id) => selectedNodeIdVar(id);
+
+  return { createNode, updateCoordinates, deleteNode, setSelectedNode };
 }
