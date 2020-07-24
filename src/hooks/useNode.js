@@ -6,7 +6,7 @@ import {
   DELETE_VERTEX,
 } from "../model/operations/mutations";
 
-export default function useNode() {
+export default function useNode(graphId) {
   const [createNode] = useMutation(CREATE_VERTEX, {
     update(
       cache,
@@ -18,12 +18,12 @@ export default function useNode() {
     ) {
       const data = cache.readQuery({
         query: GET_GRAPH,
-        variables: { id: props.graphId },
+        variables: { id: graphId },
       });
       data.graph.vertices = [...data.graph.vertices, vertex];
       cache.writeQuery({
         query: GET_GRAPH,
-        variables: { id: props.graphId },
+        variables: { id: graphId },
         data,
       });
     },
@@ -45,7 +45,7 @@ export default function useNode() {
     ) {
       const data = cache.readQuery({
         query: GET_GRAPH,
-        variables: { id: props.graphId },
+        variables: { id: graphId },
       });
       data.graph.vertices = [...data.graph.vertices].filter(
         (ele) => ele.id !== vertex.id
@@ -55,7 +55,7 @@ export default function useNode() {
       );
       cache.writeQuery({
         query: GET_GRAPH,
-        variables: { id: props.graphId },
+        variables: { id: graphId },
         data,
       });
     },
