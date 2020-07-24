@@ -44,7 +44,7 @@ function App() {
 
       <Switch>
         <Route exact path="/" component={Home} />
-        <Route path="/mapcreator/:id" component={MapCreator} />
+        <Route path="/mapcreator/:id" component={Map} />
         <Route path="/tutorial" component={Tutorial} />
         <Route path="/mymaps">
           {data && data.me ? <MyMaps /> : <Redirect to="/" />}
