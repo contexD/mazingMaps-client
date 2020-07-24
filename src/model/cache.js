@@ -5,8 +5,8 @@ export const isLoggedInVar = makeVar(false);
 export const toastMessageVar = makeVar({
   text: "",
   severity: false,
-  show: false,
 });
+export const showToastVar = makeVar(false);
 export const selectedNodeIdVar = makeVar(null);
 
 export const cache = new InMemoryCache({
