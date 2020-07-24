@@ -1,7 +1,6 @@
 import React from "react";
 
 import { useQuery } from "@apollo/client";
-import { MESSAGE } from "../model/operations/queries";
 import { toastMessageVar } from "../model/cache";
 
 import Snackbar from "@material-ui/core/Snackbar";
