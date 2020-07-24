@@ -6,9 +6,10 @@ import ReactFlow, { Background, Controls, isEdge } from "react-flow-renderer";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 
-import inputNode from "./inputNode";
 import useNode from "../hooks/useNode";
 import useLink from "../hooks/useLink";
+import inputNode from "./inputNode";
+import Loader from "../components/Loader";
 
 const graphStyles = { width: "100%", height: "93vh" };
 
@@ -18,6 +19,13 @@ const initialState = {
 };
 
 export default function Map(props) {
+  const graphId = useParams().id;
+
+  //fetch graph
+  const { data: graphData, loading } = useQuery(GET_GRAPH, {
+    variables: { id: graphId },
+  });
+
   //const { data: nodeData } = useQuery(GET_SELECTED_NODE);
   const [selectedEdge, setSelectedEdge] = useState(null);
   const [stateCoord, setStateCoord] = useState(initialState);
@@ -56,7 +64,9 @@ export default function Map(props) {
     handleCloseMenu();
   };
 
-  return (
+  return loading && !graphData ? (
+    <Loader open={loading} />
+  ) : (
     <div onContextMenu={handleClickMenu}>
       <ReactFlow
         elements={elements}
