@@ -1,6 +1,7 @@
 import React, { useState } from "react";
+import { useParams } from "react-router-dom";
 import { useQuery } from "@apollo/client";
-import { GET_GRAPH } from "../model/operations/queries";
+import { GET_GRAPH, SELECTED_NODE } from "../model/operations/queries";
 
 import ReactFlow, { Background, Controls, isEdge } from "react-flow-renderer";
 import Menu from "@material-ui/core/Menu";
@@ -21,10 +22,13 @@ const initialState = {
 export default function Map(props) {
   const graphId = useParams().id;
 
-  //fetch graph
+  //query graph
   const { data: graphData, loading } = useQuery(GET_GRAPH, {
     variables: { id: graphId },
   });
+
+  //query selected node
+  const { data: selectedNodeData } = useQuery(SELECTED_NODE);
 
   //const { data: nodeData } = useQuery(GET_SELECTED_NODE);
   const [selectedEdge, setSelectedEdge] = useState(null);
@@ -56,7 +60,7 @@ export default function Map(props) {
         variables: { label: "new node", x, y, graphId: props.graphId },
       });
     } else if (item === "delete node") {
-      deleteNode({ variables: { id: nodeData.selectedNode.id } });
+      //deleteNode({ variables: { id: nodeData.selectedNode.id } });
     } else if (item === "delete link") {
       deleteLink({ variables: { id: selectedEdge.id } });
     }
@@ -90,7 +94,7 @@ export default function Map(props) {
             : undefined
         }
       >
-        {nodeData && nodeData.selectedNode.id ? (
+        {selectedNodeData ? (
           <MenuItem onClick={handleMenuItemClick("delete node")}>
             delete node
           </MenuItem>
