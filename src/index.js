@@ -4,7 +4,7 @@ import { BrowserRouter as Router } from "react-router-dom";
 
 import { ApolloClient, createHttpLink, ApolloProvider } from "@apollo/client";
 import { setContext } from "apollo-link-context";
-import { cache } from "./cache";
+import { cache } from "./model/cache";
 
 import "fontsource-roboto";
 import "./index.css";
