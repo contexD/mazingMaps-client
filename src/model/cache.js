@@ -23,6 +23,11 @@ export const cache = new InMemoryCache({
             return toastMessageVar();
           },
         },
+        showMsg: {
+          read() {
+            return showToastVar();
+          }
+        },
         selectedNodeId: {
           read() {
             return selectedNodeIdVar();
