@@ -37,7 +37,7 @@ export default function Toast() {
         autoHideDuration={DEFAULT_MESSAGE_TIMEOUT}
         onClose={handleClose}
         action={
-          <React.Fragment>
+          <>
             <IconButton
               size="small"
               aria-label="close"
@@ -46,7 +46,7 @@ export default function Toast() {
             >
               <CloseIcon fontSize="small" />
             </IconButton>
-          </React.Fragment>
+          </>
         }
       >
         <Alert
