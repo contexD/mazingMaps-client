@@ -8,6 +8,7 @@ import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
 import MuiAlert from "@material-ui/lab/Alert";
 
+import useMessage from "../hooks/useMessage";
 import { DEFAULT_MESSAGE_TIMEOUT } from "../config/constants";
 
 function Alert(props) {
@@ -15,14 +16,14 @@ function Alert(props) {
 }
 
 export default function Toast() {
+  const { setShowMsg } = useMessage();
+
+  //queries
   const { data: msgData } = useQuery(MESSAGE);
   const { data: showMsgData } = useQuery(SHOW_MESSAGE);
 
-  if (msgData) console.log("msgData", msgData);
-  if (showMsgData) console.log("showMsgData", showMsgData);
-
   const handleClose = () => {
-    console.log("to do");
+    setShowMsg(false);
   };
 
   return (
@@ -32,7 +33,7 @@ export default function Toast() {
           vertical: "bottom",
           horizontal: "right",
         }}
-        open={showMsgData}
+        open={showMsgData && showMsgData.showMsg}
         autoHideDuration={DEFAULT_MESSAGE_TIMEOUT}
         onClose={handleClose}
         action={
@@ -48,8 +49,11 @@ export default function Toast() {
           </React.Fragment>
         }
       >
-        <Alert onClose={handleClose} severity={msgData && msgData.severity}>
-          {msgData && msgData.text}
+        <Alert
+          onClose={handleClose}
+          severity={msgData && msgData.message.severity}
+        >
+          {msgData && msgData.message.text}
         </Alert>
       </Snackbar>
     </div>
