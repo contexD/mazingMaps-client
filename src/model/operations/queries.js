@@ -1,5 +1,31 @@
 import gql from "graphql-tag";
 
+//local fields
+
+export const IS_LOGGED_IN = gql`
+  query {
+    isLoggedIn @client
+  }
+`;
+
+export const SELECTED_NODE = gql`
+  query {
+    selectedNodeId @client
+  }
+`;
+
+export const MESSAGE = gql`
+  query {
+    message @client
+  }
+`;
+
+export const SHOW_MESSAGE = gql`
+  query {
+    showMsg @client
+  }
+`;
+
 export const ME = gql`
   query {
     me {
