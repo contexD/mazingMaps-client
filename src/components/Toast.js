@@ -1,7 +1,7 @@
 import React from "react";
 
 import { useQuery } from "@apollo/client";
-import { toastMessageVar } from "../model/cache";
+import { SHOW_MESSAGE, MESSAGE } from "../model/operations/queries";
 
 import Snackbar from "@material-ui/core/Snackbar";
 import IconButton from "@material-ui/core/IconButton";
@@ -15,7 +15,11 @@ function Alert(props) {
 }
 
 export default function Toast() {
-  const { data } = useQuery(MESSAGE);
+  const { data: msgData } = useQuery(MESSAGE);
+  const { data: showMsgData } = useQuery(SHOW_MESSAGE);
+
+  if (msgData) console.log("msgData", msgData);
+  if (showMsgData) console.log("showMsgData", showMsgData);
 
   const handleClose = () => {
     console.log("to do");
@@ -28,7 +32,7 @@ export default function Toast() {
           vertical: "bottom",
           horizontal: "right",
         }}
-        open={data && data.showMessage}
+        open={showMsgData}
         autoHideDuration={DEFAULT_MESSAGE_TIMEOUT}
         onClose={handleClose}
         action={
@@ -44,8 +48,8 @@ export default function Toast() {
           </React.Fragment>
         }
       >
-        <Alert onClose={handleClose} severity={data && data.message.severity}>
-          {data && data.message.text}
+        <Alert onClose={handleClose} severity={msgData && msgData.severity}>
+          {msgData && msgData.text}
         </Alert>
       </Snackbar>
     </div>
