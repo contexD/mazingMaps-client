@@ -1,18 +1,26 @@
+import { useEffect } from "react";
 import { useMutation } from "@apollo/client";
 import { SEND_LOGIN_DATA } from "../model/operations/mutations";
 
-import useMessage from "../hooks/useMessage";
+import useApp from "./useApp";
 
 export default function useAuth() {
-  const { setMessage, setShowMsg } = useMessage();
+  const { setMessage, setShowMsg, setAppLoading } = useApp();
 
-  const [sendLogin, { client }] = useMutation(SEND_LOGIN_DATA, {
-    onCompleted: ({ signIn: { token, message, success } }) => {
-      client.resetStore();
-      localStorage.setItem("token", token.jwt);
-      setMessage({ text: message, severity: success });
-      setShowMsg(true);
-    },
-  });
+  useEffect(() => {
+    setAppLoading(!!loginLoading);
+  }, [loginLoading]);
+
+  const [sendLogin, { loading: loginLoading, client }] = useMutation(
+    SEND_LOGIN_DATA,
+    {
+      onCompleted: ({ signIn: { token, message, success } }) => {
+        client.resetStore();
+        localStorage.setItem("token", token.jwt);
+        setMessage({ text: message, severity: success });
+        setShowMsg(true);
+      },
+    }
+  );
   return { sendLogin };
 }
