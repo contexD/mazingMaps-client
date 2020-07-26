@@ -7,10 +7,6 @@ import useApp from "./useApp";
 export default function useAuth() {
   const { setMessage, setShowMsg, setAppLoading } = useApp();
 
-  useEffect(() => {
-    setAppLoading(!!loginLoading);
-  }, [loginLoading]);
-
   const [sendLogin, { loading: loginLoading, client }] = useMutation(
     SEND_LOGIN_DATA,
     {
@@ -22,5 +18,10 @@ export default function useAuth() {
       },
     }
   );
+
+  useEffect(() => {
+    setAppLoading(!!loginLoading);
+  }, [loginLoading]);
+
   return { sendLogin };
 }
