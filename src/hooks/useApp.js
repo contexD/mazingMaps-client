@@ -7,5 +7,5 @@ export default function useApp() {
 
   const setAppLoading = (loading) => appLoadingVar(loading);
 
-  return { setMessage, setShowMsg };
+  return { setMessage, setShowMsg, setAppLoading };
 }
