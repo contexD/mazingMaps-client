@@ -8,7 +8,7 @@ import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
 import MuiAlert from "@material-ui/lab/Alert";
 
-import useMessage from "../hooks/useMessage";
+import useMessage from "../hooks/useApp";
 import { DEFAULT_MESSAGE_TIMEOUT } from "../config/constants";
 
 function Alert(props) {

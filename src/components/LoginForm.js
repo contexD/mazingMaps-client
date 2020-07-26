@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Link as RouterLink } from "react-router-dom";
-import { useMutation, useApolloClient } from "@apollo/client";
-import { SEND_LOGIN_DATA } from "../model/operations/mutations";
 
 import { makeStyles } from "@material-ui/core/styles";
 import {
@@ -14,9 +12,8 @@ import {
   Link,
 } from "@material-ui/core";
 
+import useAuth from "../hooks/useAuth";
 import Loader from "./Loader";
-import { toastMessageVar } from "../model/cache";
-import { showMessage } from "../utils/appState";
 
 function Buffer(email = "", password = "") {
   this.email = email;
@@ -36,72 +33,26 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function LoginForm(props) {
-  const classes = useStyles();
-  const client = useApolloClient();
   const [buffer, setBuffer] = useState(new Buffer());
-  const [sendLogin, { data, error, loading }] = useMutation(SEND_LOGIN_DATA, {
-    onCompleted: (data) => {
-      localStorage.setItem("token", data.signIn.token.jwt);
-      toastMessageVar({
-        text: data.signIn.message,
-        severity: data.signIn.success,
-      });
-    },
-  });
-  //   const [getMe, { data: me, meLoading }] = useLazyQuery(ME);
+  const { sendLogin } = useAuth();
+  const classes = useStyles();
 
-  //   console.log("me", me);
-
-  console.log("dat in login", data);
-
-  useEffect(() => {
-    if (data && data.signIn.token.jwt) {
-      const updateCache = async () => {
-        await localStorage.setItem("token", data.signIn.token.jwt);
-        await client.resetStore();
-        await showMessage(client, data.signIn.message, data.signIn.success);
-        props.refetchMe();
-      };
-      updateCache();
-    } else if (data) {
-      showMessage(client, data.signIn.message, data.signIn.success);
-    }
-  }, [data, error, client, props]);
-
-  //   if (data && data.signIn.token && !meLoading) {
+  // useEffect(() => {
+  //   if (data && data.signIn.token.jwt) {
   //     const updateCache = async () => {
+  //       await localStorage.setItem("token", data.signIn.token.jwt);
   //       await client.resetStore();
-  //       await client.writeData({
-  //         data: {
-  //           message: {
-  //             __typename: "Message",
-  //             severity: "success",
-  //             text: "You're logged in now",
-  //           },
-  //           showMessage: true,
-  //           loggedIn: true,
-  //           auth: { __typename: "Auth", accessToken: data.signIn.token },
-  //         },
-  //       });
-  //       await localStorage.setItem("token", data.signIn.token);
+  //       await showMessage(client, data.signIn.message, data.signIn.success);
+  //       props.refetchMe();
   //     };
   //     updateCache();
-  //   } else if (error) {
-  //     client.writeData({
-  //       data: {
-  //         message: {
-  //           __typename: "Message",
-  //           severity: "error",
-  //           text: "Login failed. Please provide valid credentials.",
-  //         },
-  //         showMessage: true,
-  //       },
-  //     });
+  //   } else if (data) {
+  //     showMessage(client, data.signIn.message, data.signIn.success);
   //   }
+  // }, [data, error, client, props]);
 
   const loginHandler = (event) => {
     event.preventDefault();
-    // client.resetStore();
     sendLogin({
       variables: { login: buffer.email, password: buffer.password },
     });
