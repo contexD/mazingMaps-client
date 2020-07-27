@@ -13,7 +13,7 @@ export default function useAuth() {
       onCompleted: ({ signIn: { token, message, success } }) => {
         client.resetStore();
         localStorage.setItem("token", token.jwt);
-        setMessage({ text: message, severity: success });
+        setMessage(message, success);
         setShowMsg(true);
       },
     }
