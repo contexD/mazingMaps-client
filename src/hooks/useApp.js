@@ -1,7 +1,10 @@
 import { toastMessageVar, showToastVar, appLoadingVar } from "../model/cache";
 
 export default function useApp() {
-  const setMessage = (text, severity) => toastMessageVar({ text, severity });
+  const setMessage = (text, success) => {
+    const severity = success ? "success" : "error";
+    toastMessageVar({ text, severity });
+  }
 
   const setShowMsg = (show) => showToastVar(show);
 
