@@ -30,13 +30,15 @@ export default function Map(props) {
   //query selected node
   const { data: selectedNodeData } = useQuery(SELECTED_NODE);
 
+  if (selectedNodeData) console.log("selectedNodeData", selectedNodeData);
+
   //const { data: nodeData } = useQuery(GET_SELECTED_NODE);
   const [selectedEdge, setSelectedEdge] = useState(null);
   const [stateCoord, setStateCoord] = useState(initialState);
   const { createNode, updateCoordinates, deleteNode } = useNode();
   const { createLink, deleteLink } = useLink();
 
-  const elements = [...props.graphData.vertices, ...props.graphData.edges];
+  const elements = [...graphData.vertices, ...graphData.edges];
 
   /* handlers for context menu */
   const handleClickMenu = (event) => {
