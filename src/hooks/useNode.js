@@ -2,6 +2,7 @@ import { useMutation } from "@apollo/client";
 import { GET_GRAPH } from "../model/operations/queries";
 import {
   CREATE_VERTEX,
+  UPDATE_VERTEX_DATA,
   UPDATE_POSITION,
   DELETE_VERTEX,
 } from "../model/operations/mutations";
@@ -29,6 +30,8 @@ export default function useNode(graphId) {
       });
     },
   });
+
+  const [updateVertexData] = useMutation(UPDATE_VERTEX_DATA);
 
   const [updatePosition] = useMutation(UPDATE_POSITION);
   //callback for react flow renderer
@@ -64,5 +67,5 @@ export default function useNode(graphId) {
 
   const setSelectedNode = (id) => selectedNodeIdVar(id);
 
-  return { createNode, updateCoordinates, deleteNode, setSelectedNode };
+  return { createNode, updateVertexData, updateCoordinates, deleteNode, setSelectedNode };
 }
