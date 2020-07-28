@@ -14,6 +14,12 @@ export const SELECTED_NODE = gql`
   }
 `;
 
+export const APP_LOADING = gql`
+  query {
+    appLoading @client
+  }
+`;
+
 export const MESSAGE = gql`
   query {
     message @client
