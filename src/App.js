@@ -6,7 +6,7 @@ import { useQuery } from "@apollo/client";
 import { ME } from "./model/operations/queries";
 
 import Home from "./pages/Home";
-import MapCreator from "./pages/MapCreator";
+import Map from "./components/Map";
 import Tutorial from "./pages/Tutorial";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
