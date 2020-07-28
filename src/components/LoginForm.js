@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Link as RouterLink } from "react-router-dom";
 
+import { useQuery } from "@apollo/client";
+import { APP_LOADING } from "../model/operations/queries";
+
 import { makeStyles } from "@material-ui/core/styles";
 import {
   Grid,
@@ -33,23 +36,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function LoginForm(props) {
+  const { data } = useQuery(APP_LOADING);
   const [buffer, setBuffer] = useState(new Buffer());
   const { sendLogin } = useAuth();
   const classes = useStyles();
-
-  // useEffect(() => {
-  //   if (data && data.signIn.token.jwt) {
-  //     const updateCache = async () => {
-  //       await localStorage.setItem("token", data.signIn.token.jwt);
-  //       await client.resetStore();
-  //       await showMessage(client, data.signIn.message, data.signIn.success);
-  //       props.refetchMe();
-  //     };
-  //     updateCache();
-  //   } else if (data) {
-  //     showMessage(client, data.signIn.message, data.signIn.success);
-  //   }
-  // }, [data, error, client, props]);
 
   const loginHandler = (event) => {
     event.preventDefault();
@@ -59,8 +49,8 @@ export default function LoginForm(props) {
     setBuffer(new Buffer());
   };
 
-  return loading ? (
-    <Loader open={loading} />
+  return data.appLoading ? (
+    <Loader open={data.appLoading} />
   ) : (
     <Grid container justify="center">
       <Paper className={classes.paper}>
