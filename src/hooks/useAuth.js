@@ -21,7 +21,7 @@ export default function useAuth() {
 
   useEffect(() => {
     setAppLoading(!!loginLoading);
-  }, [loginLoading]);
+  }, [loginLoading, setAppLoading]);
 
   return { sendLogin };
 }
