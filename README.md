@@ -47,6 +47,7 @@ Next, I plan to add extensive testing to this project.
 - [KaTeX](https://katex.org/)
 - [React Helmet](https://github.com/nfl/react-helmet)
 - [MaterialUI](https://material-ui.com/)
+- [CSS](https://developer.mozilla.org/en-US/docs/Web/CSS)
 
 ### Backend
 
