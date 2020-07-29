@@ -57,6 +57,7 @@ export const GET_GRAPHS = gql`
 export const GET_GRAPH = gql`
   query($id: ID!) {
     graph(id: $id) {
+      id
       vertices {
         id
         type
