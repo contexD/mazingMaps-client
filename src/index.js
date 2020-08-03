@@ -2,7 +2,11 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter as Router } from "react-router-dom";
 
-import { ApolloClient, createHttpLink, ApolloProvider } from "@apollo/client";
+import {
+  ApolloClient,
+  ApolloProvider,
+  HttpLink,
+} from "@apollo/client";
 import { setContext } from "apollo-link-context";
 import { cache } from "./model/cache";
 
@@ -12,7 +16,7 @@ import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 
 //"https://mazing-mapper-server.herokuapp.com/graphql"
-const httpLink = createHttpLink({
+const httpLink = new HttpLink({
   uri: "http://localhost:4000/graphql",
 });
 
