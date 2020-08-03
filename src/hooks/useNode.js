@@ -1,5 +1,4 @@
-import { useMutation, gql } from "@apollo/client";
-import { GET_GRAPH } from "../model/operations/queries";
+import { useMutation } from "@apollo/client";
 import {
   CREATE_VERTEX,
   UPDATE_VERTEX_DATA,
@@ -44,25 +43,40 @@ export default function useNode(graphId) {
       cache,
       {
         data: {
-          deleteVertex: { vertex },
+          deleteVertex: { vertex: deletedVertex },
         },
       }
     ) {
-      const data = cache.readQuery({
-        query: GET_GRAPH,
-        variables: { id: graphId },
+      const edgesToDelete = [];
+      cache.modify({
+        id: `Graph:${graphId}`,
+        fields: {
+          vertices(existingVertices, { readField }) {
+            return existingVertices.filter(
+              (vertex) => readField("id", vertex) !== deletedVertex.id
+            );
+          },
+          edges(existingEdges, { readField }) {
+            return existingEdges.filter((edge) => {
+              if (
+                readField("source", edge) === deletedVertex.id ||
+                readField("target", edge) === deletedVertex.id
+              ) {
+                edgesToDelete.push(readField("id", edge));
+                return false;
+              }
+              return true;
+            });
+          },
+        },
       });
-      data.graph.vertices = [...data.graph.vertices].filter(
-        (ele) => ele.id !== vertex.id
-      );
-      data.graph.edges = [...data.graph.edges].filter(
-        (ele) => ele.source !== vertex.id && ele.target !== vertex.id
-      );
-      cache.writeQuery({
-        query: GET_GRAPH,
-        variables: { id: graphId },
-        data,
-      });
+
+      //remove vertex object from cache
+      cache.evict({ id: `Vertex:${deletedVertex.id}` });
+      //remove edge objects from cache
+      for (let i = 0; i < edgesToDelete.length; i++) {
+        cache.evict({ id: `Edge:${edgesToDelete[i]}` });
+      }
     },
   });
 
