@@ -1,5 +1,4 @@
 import { useMutation } from "@apollo/client";
-import { GET_GRAPH } from "../model/operations/queries";
 import { CREATE_EDGE, DELETE_EDGE } from "../model/operations/mutations";
 
 export default function useLink(graphId) {
@@ -35,22 +34,22 @@ export default function useLink(graphId) {
       cache,
       {
         data: {
-          deleteEdge: { edge },
+          deleteEdge: { edge: deletedEdge },
         },
       }
     ) {
-      const data = cache.readQuery({
-        query: GET_GRAPH,
-        variables: { id: graphId },
+      cache.modify({
+        id: `Graph:${graphId}`,
+        fields: {
+          edges(existingEdges, { readField }) {
+            return existingEdges.filter(
+              (edge) => readField("id", edge) !== deletedEdge.id
+            );
+          },
+        },
       });
-      data.graph.edges = [...data.graph.edges].filter(
-        (ele) => ele.id !== edge.id
-      );
-      cache.writeQuery({
-        query: GET_GRAPH,
-        variables: { id: graphId },
-        data,
-      });
+      //remove edge object from cache
+      cache.evict({ id: `Edge:${deletedEdge.id}` });
     },
   });
 
