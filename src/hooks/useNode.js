@@ -1,4 +1,4 @@
-import { useMutation } from "@apollo/client";
+import { useMutation, gql } from "@apollo/client";
 import { GET_GRAPH } from "../model/operations/queries";
 import {
   CREATE_VERTEX,
@@ -18,15 +18,16 @@ export default function useNode(graphId) {
         },
       }
     ) {
-      const data = cache.readQuery({
-        query: GET_GRAPH,
-        variables: { id: graphId },
-      });
-      data.graph.vertices = [...data.graph.vertices, vertex];
-      cache.writeQuery({
-        query: GET_GRAPH,
-        variables: { id: graphId },
-        data,
+      cache.modify({
+        id: `Graph:${graphId}`,
+        fields: {
+          vertices(existingVertices, { toReference }) {
+            return [
+              ...existingVertices,
+              { __typename: "Vertex", Vertex: toReference(vertex) },
+            ];
+          },
+        },
       });
     },
   });
@@ -67,5 +68,11 @@ export default function useNode(graphId) {
 
   const setSelectedNode = (id) => selectedNodeIdVar(id);
 
-  return { createNode, updateVertexData, updateCoordinates, deleteNode, setSelectedNode };
+  return {
+    createNode,
+    updateVertexData,
+    updateCoordinates,
+    deleteNode,
+    setSelectedNode,
+  };
 }
