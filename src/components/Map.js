@@ -31,15 +31,16 @@ export default function Map(props) {
   const { data: selectedNodeData } = useQuery(SELECTED_NODE);
 
   if (selectedNodeData) console.log("selectedNodeData", selectedNodeData);
+  if (graphData) console.log("graphData", graphData);
 
-  //const { data: nodeData } = useQuery(GET_SELECTED_NODE);
   const [selectedEdge, setSelectedEdge] = useState(null);
   const [stateCoord, setStateCoord] = useState(initialState);
-  const { createNode, updateCoordinates, deleteNode } = useNode();
-  const { createLink, deleteLink } = useLink();
+  const { createNode, updateCoordinates, deleteNode } = useNode(graphId);
+  const { createLink, deleteLink } = useLink(graphId);
 
-  const elements = [...graphData.vertices, ...graphData.edges];
-
+  //elements for ReactFlow
+  const elements = graphData && [...graphData.graph.vertices, ...graphData.graph.edges];
+  
   /* handlers for context menu */
   const handleClickMenu = (event) => {
     event.preventDefault();
@@ -59,10 +60,10 @@ export default function Map(props) {
 
     if (item === "new node") {
       createNode({
-        variables: { label: "new node", x, y, graphId: props.graphId },
+        variables: { label: "new node", x, y, graphId },
       });
     } else if (item === "delete node") {
-      //deleteNode({ variables: { id: nodeData.selectedNode.id } });
+      deleteNode({ variables: { id: selectedNodeData.selectedNodeId } });
     } else if (item === "delete link") {
       deleteLink({ variables: { id: selectedEdge.id } });
     }
@@ -96,7 +97,7 @@ export default function Map(props) {
             : undefined
         }
       >
-        {selectedNodeData ? (
+        {selectedNodeData.selectedNodeId ? (
           <MenuItem onClick={handleMenuItemClick("delete node")}>
             delete node
           </MenuItem>
