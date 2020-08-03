@@ -8,19 +8,20 @@ export default function useLink(graphId) {
       cache,
       {
         data: {
-          createEdge: { edge },
+          createEdge: { edge: createdEdge },
         },
       }
     ) {
-      const data = cache.readQuery({
-        query: GET_GRAPH,
-        variables: { id: graphId },
-      });
-      data.graph.edges = [...data.graph.edges, edge];
-      cache.writeQuery({
-        query: GET_GRAPH,
-        variables: { id: graphId },
-        data,
+      cache.modify({
+        id: `Graph:${graphId}`,
+        fields: {
+          edges(existingEdges, { toReference }) {
+            return [
+              ...existingEdges,
+              { __typename: "Edge", Edge: toReference(createdEdge) },
+            ];
+          },
+        },
       });
     },
   });
