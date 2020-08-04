@@ -1,27 +1,43 @@
 import { useEffect } from "react";
-import { useMutation } from "@apollo/client";
+import { useQuery, useMutation } from "@apollo/client";
+import { ME } from "../model/operations/queries";
 import { SEND_LOGIN_DATA } from "../model/operations/mutations";
 
 import useApp from "./useApp";
 
 export default function useAuth() {
-  const { setMessage, setShowMsg, setAppLoading } = useApp();
+  const { setMessage, setShowMsg, setIsLoggedIn, setAppLoading } = useApp();
 
   const [sendLogin, { loading: loginLoading, client }] = useMutation(
     SEND_LOGIN_DATA,
     {
       onCompleted: ({ signIn: { token, message, success } }) => {
         client.resetStore();
-        localStorage.setItem("token", token.jwt);
+        if (success) {
+          localStorage.setItem("token", token.jwt);
+          setIsLoggedIn(true);
+        }
         setMessage(message, success);
         setShowMsg(true);
       },
     }
   );
 
+  const { refetch: checkIsLoggedIn } = useQuery(ME, {
+    onCompleted(data) {
+      if (data.me) {
+        setIsLoggedIn(true);
+      } else {
+        client.resetStore();
+        localStorage.removeItem("token");
+        setIsLoggedIn(false);
+      }
+    },
+  });
+
   useEffect(() => {
     setAppLoading(!!loginLoading);
   }, [loginLoading, setAppLoading]);
 
-  return { sendLogin };
+  return { sendLogin, checkIsLoggedIn };
 }
