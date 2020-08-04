@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 
 import { useMutation } from "@apollo/client";
 import { CREATE_GRAPH, DELETE_GRAPH } from "../model/operations/mutations";
