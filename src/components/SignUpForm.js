@@ -12,8 +12,6 @@ import {
   Button,
 } from "@material-ui/core";
 
-// import { showMessage } from "../utils/appState";
-
 function Buffer(
   email = "",
   password = "",
@@ -41,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SignUpForm(props) {
+export default function SignUpForm() {
   const [buffer, setBuffer] = useState(new Buffer());
   const [sendSignUp, { data, error, client }] = useMutation(SEND_SIGN_UP_DATA);
   const classes = useStyles();
