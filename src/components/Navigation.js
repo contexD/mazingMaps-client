@@ -13,7 +13,7 @@ import {
 } from "@material-ui/core";
 import HomeIcon from "@material-ui/icons/Home";
 
-import { showMessage } from "../utils/appState";
+//import { showMessage } from "../utils/appState";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -34,7 +34,7 @@ export default function Navigation(props) {
   const logoutHandler = async () => {
     await localStorage.removeItem("token");
     await client.resetStore();
-    showMessage(client, "You're logged out now", true);
+    //showMessage(client, "You're logged out now", true);
     props.refetchMe();
   };
 
