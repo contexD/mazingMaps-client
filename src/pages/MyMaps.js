@@ -2,15 +2,22 @@ import React, { useState } from "react";
 
 import { useQuery, useMutation } from "@apollo/client";
 import { GET_GRAPHS } from "../model/operations/queries";
-import { DELETE_GRAPH, CREATE_GRAPH } from "../model/operations/mutations";
+import { CREATE_GRAPH, DELETE_GRAPH } from "../model/operations/mutations";
 
-import { makeStyles, List, Grid, Typography, Divider, Fab } from "@material-ui/core";
+import {
+  makeStyles,
+  List,
+  Grid,
+  Typography,
+  Divider,
+  Fab,
+} from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 
 import Graph from "../components/Graph";
 import Loader from "../components/Loader";
 import DialogForm from "../components/DialogForm";
-import { showMessage } from "../utils/appState";
+import useMap from "../hooks/useMap";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -30,8 +37,13 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function MyMaps(props) {
+  /* query graphs */
+  const { data, loading, client } = useQuery(GET_GRAPHS);
+
+  //hooks
   const [open, setOpen] = useState(false);
   const classes = useStyles();
+  const { createMap } = useMap();
 
   /* handlers for showing form dialog */
   const handleClickOpen = () => {
@@ -42,73 +54,35 @@ export default function MyMaps(props) {
     setOpen(false);
   };
 
-  /* fetch graphs */
-  const { data, loading, client } = useQuery(GET_GRAPHS);
-
   /* mutation for deleting graphs */
-  const [deleteGraph] = useMutation(
-    DELETE_GRAPH,
-    {
-      update(
-        cache,
-        {
-          data: {
-            deleteGraph: {
-              graph: { id },
-            },
+  const [deleteGraph] = useMutation(DELETE_GRAPH, {
+    update(
+      cache,
+      {
+        data: {
+          deleteGraph: {
+            graph: { id },
           },
-        }
-      ) {
-        const { allGraphs } = cache.readQuery({ query: GET_GRAPHS });
-        cache.writeQuery({
-          query: GET_GRAPHS,
-          data: { allGraphs: allGraphs.filter((graph) => graph.id !== id) },
-        });
-      },
-      onCompleted(data) {
-        const {
-          deleteGraph: { message, success },
-        } = data;
-        showMessage(client, message, success);
-      },
-    }
-  );
+        },
+      }
+    ) {
+      const { allGraphs } = cache.readQuery({ query: GET_GRAPHS });
+      cache.writeQuery({
+        query: GET_GRAPHS,
+        data: { allGraphs: allGraphs.filter((graph) => graph.id !== id) },
+      });
+    },
+    // onCompleted(data) {
+    //   const {
+    //     deleteGraph: { message, success },
+    //   } = data;
+    //   showMessage(client, message, success);
+    // },
+  });
 
   /* thunk for deleting graphs */
   const deleteGraphThunk = (id) => {
     deleteGraph({ variables: { id } });
-  };
-
-  /* mutation for creating graphs */
-  const [createGraph] = useMutation(
-    CREATE_GRAPH,
-    {
-      update(
-        cache,
-        {
-          data: {
-            createGraph: { graph },
-          },
-        }
-      ) {
-        const { allGraphs } = cache.readQuery({ query: GET_GRAPHS });
-        cache.writeQuery({
-          query: GET_GRAPHS,
-          data: { allGraphs: [...allGraphs, graph] },
-        });
-      },
-      onCompleted(data) {
-        const {
-          createGraph: { message, success },
-        } = data;
-        showMessage(client, message, success);
-      },
-    }
-  );
-
-  /* thunk for creating graphs */
-  const createGraphThunk = (name) => {
-    createGraph({ variables: { name } });
   };
 
   return loading ? (
@@ -147,7 +121,7 @@ export default function MyMaps(props) {
               open={open}
               handleClose={handleClose}
               title="create new mind map"
-              create={createGraphThunk}
+              create={createMap}
               labelTextField="Name"
               buttonText="create"
             />
