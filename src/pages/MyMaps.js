@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 
-import { useQuery, useMutation } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 import { GET_GRAPHS } from "../model/operations/queries";
-import { CREATE_GRAPH, DELETE_GRAPH } from "../model/operations/mutations";
 
 import {
   makeStyles,
@@ -38,12 +37,12 @@ const useStyles = makeStyles((theme) => ({
 
 export default function MyMaps(props) {
   /* query graphs */
-  const { data, loading, client } = useQuery(GET_GRAPHS);
+  const { data, loading } = useQuery(GET_GRAPHS);
 
   //hooks
   const [open, setOpen] = useState(false);
   const classes = useStyles();
-  const { createMap } = useMap();
+  const { createMap, deleteMap } = useMap();
 
   /* handlers for showing form dialog */
   const handleClickOpen = () => {
@@ -52,37 +51,6 @@ export default function MyMaps(props) {
 
   const handleClose = () => {
     setOpen(false);
-  };
-
-  /* mutation for deleting graphs */
-  const [deleteGraph] = useMutation(DELETE_GRAPH, {
-    update(
-      cache,
-      {
-        data: {
-          deleteGraph: {
-            graph: { id },
-          },
-        },
-      }
-    ) {
-      const { allGraphs } = cache.readQuery({ query: GET_GRAPHS });
-      cache.writeQuery({
-        query: GET_GRAPHS,
-        data: { allGraphs: allGraphs.filter((graph) => graph.id !== id) },
-      });
-    },
-    // onCompleted(data) {
-    //   const {
-    //     deleteGraph: { message, success },
-    //   } = data;
-    //   showMessage(client, message, success);
-    // },
-  });
-
-  /* thunk for deleting graphs */
-  const deleteGraphThunk = (id) => {
-    deleteGraph({ variables: { id } });
   };
 
   return loading ? (
@@ -104,7 +72,7 @@ export default function MyMaps(props) {
                         <Graph
                           id={graph.id}
                           name={graph.name}
-                          delete={deleteGraphThunk}
+                          delete={deleteMap}
                         />
                         <Divider variant="inset" component="li" />
                       </div>
