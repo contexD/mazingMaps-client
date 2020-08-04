@@ -30,17 +30,18 @@ export default function Map(props) {
   //query selected node
   const { data: selectedNodeData } = useQuery(SELECTED_NODE);
 
-  if (selectedNodeData) console.log("selectedNodeData", selectedNodeData);
-  if (graphData) console.log("graphData", graphData);
-
+  //hooks
   const [selectedEdge, setSelectedEdge] = useState(null);
   const [stateCoord, setStateCoord] = useState(initialState);
   const { createNode, updateCoordinates, deleteNode } = useNode(graphId);
   const { createLink, deleteLink } = useLink(graphId);
 
   //elements for ReactFlow
-  const elements = graphData && [...graphData.graph.vertices, ...graphData.graph.edges];
-  
+  const elements = graphData && [
+    ...graphData.graph.vertices,
+    ...graphData.graph.edges,
+  ];
+
   /* handlers for context menu */
   const handleClickMenu = (event) => {
     event.preventDefault();
