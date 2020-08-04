@@ -23,21 +23,23 @@ export default function useAuth() {
     }
   );
 
-  const { refetch: checkIsLoggedIn } = useQuery(ME, {
-    onCompleted(data) {
-      if (data.me) {
-        setIsLoggedIn(true);
-      } else {
-        client.resetStore();
-        localStorage.removeItem("token");
-        setIsLoggedIn(false);
-      }
-    },
-  });
-
   useEffect(() => {
     setAppLoading(!!loginLoading);
   }, [loginLoading, setAppLoading]);
 
-  return { sendLogin, checkIsLoggedIn };
+  const logout = () => {
+    client.resetStore();
+    localStorage.removeItem("token");
+    setIsLoggedIn(false);
+  };
+
+  const { refetch: checkIsLoggedIn } = useQuery(ME, {
+    onCompleted(data) {
+      if (!data.me) {
+        logout();
+      }
+    },
+  });
+
+  return { sendLogin, checkIsLoggedIn, logout };
 }
