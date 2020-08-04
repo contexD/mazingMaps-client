@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function LoginForm(props) {
+export default function LoginForm() {
   const { data } = useQuery(APP_LOADING);
   const [buffer, setBuffer] = useState(new Buffer());
   const { sendLogin } = useAuth();
