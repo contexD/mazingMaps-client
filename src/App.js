@@ -50,7 +50,7 @@ function App() {
           {data && data.isLoggedIn ? <MyMaps /> : <Redirect to="/" />}
         </Route>
         <Route path="/signup">
-          {data && data.isLoggedIn ? <Redirect to="/mapcreator" /> : <SignUp />}
+          {data && data.isLoggedIn ? <Redirect to="/mymaps" /> : <SignUp />}
         </Route>
         <Route path="/login">
           {data && data.isLoggedIn ? <Redirect to="/mymaps" /> : <Login />}
