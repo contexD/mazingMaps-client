@@ -1,7 +1,7 @@
 import React from "react";
 import { Link as RouterLink } from "react-router-dom";
-import { useQuery } from "react-apollo";
-import { ME } from "../cache/queries";
+import { useQuery } from "@apollo/client";
+import { ME } from "../model/operations/queries";
 
 import { makeStyles } from "@material-ui/core/styles";
 import {
@@ -13,7 +13,8 @@ import {
 } from "@material-ui/core";
 import HomeIcon from "@material-ui/icons/Home";
 
-import { showMessage } from "../utils/appState";
+import useApp from "../hooks/useApp";
+import useAuth from "../hooks/useAuth";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -28,14 +29,15 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Navigation(props) {
+  const { data } = useQuery(ME);
+  const { setMessage, setShowMsg } = useApp();
+  const { logout } = useAuth();
   const classes = useStyles();
-  const { data, client } = useQuery(ME);
 
   const logoutHandler = async () => {
-    await localStorage.removeItem("token");
-    await client.resetStore();
-    showMessage(client, "You're logged out now", true);
-    props.refetchMe();
+    logout();
+    setMessage("You're logged out now", true);
+    setShowMsg(true);
   };
 
   return (

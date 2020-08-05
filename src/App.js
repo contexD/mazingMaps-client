@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
 import { Helmet } from "react-helmet";
-import { useQuery } from "@apollo/react-hooks";
+
+import { useQuery } from "@apollo/client";
+import { IS_LOGGED_IN } from "./model/operations/queries";
 
 import Home from "./pages/Home";
-import MapCreator from "./pages/MapCreator";
+import Map from "./components/Map";
 import Tutorial from "./pages/Tutorial";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
@@ -12,16 +14,15 @@ import Navigation from "./components/Navigation";
 import Loader from "./components/Loader";
 import Toast from "./components/Toast";
 import MyMaps from "./pages/MyMaps";
-import { ME } from "./cache/queries";
+import useAuth from "./hooks/useAuth";
 
 function App() {
-  //poll ME every 60 min, to check whether token expired
-  const pollInterval = 60 * 60 * 1000;
-  const { data, refetch } = useQuery(ME, { pollInterval });
+  const { data } = useQuery(IS_LOGGED_IN);
+  const { checkIsLoggedIn } = useAuth();
 
-  const refetchMe = () => refetch();
-
-  if (data) console.log("me in App", data.me);
+  useEffect(() => {
+    checkIsLoggedIn();
+  }, [checkIsLoggedIn]);
 
   //items for navigation bar (public)
   const menuItems = [
@@ -37,30 +38,22 @@ function App() {
           href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css"
         />
       </Helmet>
-      <Navigation menuItems={menuItems} refetchMe={refetchMe} />
+      <Navigation menuItems={menuItems} />
       <Loader />
       <Toast />
 
       <Switch>
         <Route exact path="/" component={Home} />
-        <Route path="/mapcreator/:id" component={MapCreator} />
+        <Route path="/mapcreator/:id" component={Map} />
         <Route path="/tutorial" component={Tutorial} />
         <Route path="/mymaps">
-          {data && data.me ? <MyMaps /> : <Redirect to="/" />}
+          {data && data.isLoggedIn ? <MyMaps /> : <Redirect to="/" />}
         </Route>
         <Route path="/signup">
-          {data && data.me ? (
-            <Redirect to="/mapcreator" />
-          ) : (
-            <SignUp refetchMe={refetchMe} />
-          )}
+          {data && data.isLoggedIn ? <Redirect to="/mymaps" /> : <SignUp />}
         </Route>
         <Route path="/login">
-          {data && data.me ? (
-            <Redirect to="/mymaps" />
-          ) : (
-            <Login refetchMe={refetchMe} />
-          )}
+          {data && data.isLoggedIn ? <Redirect to="/mymaps" /> : <Login />}
         </Route>
       </Switch>
     </div>

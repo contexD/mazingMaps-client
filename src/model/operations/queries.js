@@ -1,31 +1,34 @@
 import gql from "graphql-tag";
 
-export const GET_APP_STATE = gql`
-  query getAppState {
-    loggedIn @client
-    appLoading @client
-    showMessage @client
-    message @client {
-      severity
-      text
-    }
-    auth @client {
-      accessToken
-      me {
-        id
-        firstName
-        lastName
-        email
-      }
-    }
-  }
-`;
+//local fields
 
 export const IS_LOGGED_IN = gql`
   query {
-    getAppState {
-      loggedIn @client
-    }
+    isLoggedIn @client
+  }
+`;
+
+export const SELECTED_NODE = gql`
+  query {
+    selectedNodeId @client
+  }
+`;
+
+export const APP_LOADING = gql`
+  query {
+    appLoading @client
+  }
+`;
+
+export const MESSAGE = gql`
+  query {
+    message @client
+  }
+`;
+
+export const SHOW_MESSAGE = gql`
+  query {
+    showMsg @client
   }
 `;
 
@@ -36,41 +39,6 @@ export const ME = gql`
       firstName
       lastName
       email
-    }
-  }
-`;
-
-export const ME_CACHE = gql`
-  query {
-    me @client {
-      id
-      firstName
-      lastName
-      email
-    }
-  }
-`;
-
-export const IS_APP_LOADING = gql`
-  query getAppState {
-    appLoading @client
-  }
-`;
-
-export const MESSAGE = gql`
-  query getAppState {
-    showMessage @client
-    message @client {
-      severity
-      text
-    }
-  }
-`;
-
-export const GET_SELECTED_NODE = gql`
-  query {
-    selectedNode @client {
-      id
     }
   }
 `;
@@ -89,6 +57,7 @@ export const GET_GRAPHS = gql`
 export const GET_GRAPH = gql`
   query($id: ID!) {
     graph(id: $id) {
+      id
       vertices {
         id
         type

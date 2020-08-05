@@ -1,10 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Link as RouterLink } from "react-router-dom";
-import {
-  useMutation,
-  useApolloClient,
-} from "@apollo/react-hooks";
-import { SEND_LOGIN_DATA } from "../cache/mutations";
+
+import { useQuery } from "@apollo/client";
+import { APP_LOADING } from "../model/operations/queries";
 
 import { makeStyles } from "@material-ui/core/styles";
 import {
@@ -17,8 +15,8 @@ import {
   Link,
 } from "@material-ui/core";
 
+import useAuth from "../hooks/useAuth";
 import Loader from "./Loader";
-import { showMessage } from "../utils/appState";
 
 function Buffer(email = "", password = "") {
   this.email = email;
@@ -37,73 +35,22 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function LoginForm(props) {
-  const classes = useStyles();
-  const client = useApolloClient();
+export default function LoginForm() {
+  const { data } = useQuery(APP_LOADING);
   const [buffer, setBuffer] = useState(new Buffer());
-  const [sendLogin, { data, error, loading }] = useMutation(SEND_LOGIN_DATA);
-  //   const [getMe, { data: me, meLoading }] = useLazyQuery(ME);
-
-  //   console.log("me", me);
-
-  console.log("dat in login", data);
-
-  useEffect(() => {
-    if (data && data.signIn.token.jwt) {
-      const updateCache = async () => {
-        await localStorage.setItem("token", data.signIn.token.jwt);
-        await client.resetStore();
-        await showMessage(client, data.signIn.message, data.signIn.success);
-        props.refetchMe();
-      };
-      updateCache();
-    } else if (data) {
-      showMessage(client, data.signIn.message, data.signIn.success);
-    }
-  }, [data, error, client, props]);
-
-  //   if (data && data.signIn.token && !meLoading) {
-  //     const updateCache = async () => {
-  //       await client.resetStore();
-  //       await client.writeData({
-  //         data: {
-  //           message: {
-  //             __typename: "Message",
-  //             severity: "success",
-  //             text: "You're logged in now",
-  //           },
-  //           showMessage: true,
-  //           loggedIn: true,
-  //           auth: { __typename: "Auth", accessToken: data.signIn.token },
-  //         },
-  //       });
-  //       await localStorage.setItem("token", data.signIn.token);
-  //     };
-  //     updateCache();
-  //   } else if (error) {
-  //     client.writeData({
-  //       data: {
-  //         message: {
-  //           __typename: "Message",
-  //           severity: "error",
-  //           text: "Login failed. Please provide valid credentials.",
-  //         },
-  //         showMessage: true,
-  //       },
-  //     });
-  //   }
+  const { sendLogin } = useAuth();
+  const classes = useStyles();
 
   const loginHandler = (event) => {
     event.preventDefault();
-    // client.resetStore();
     sendLogin({
       variables: { login: buffer.email, password: buffer.password },
     });
     setBuffer(new Buffer());
   };
 
-  return loading ? (
-    <Loader open={loading} />
+  return data.appLoading ? (
+    <Loader open={data.appLoading} />
   ) : (
     <Grid container justify="center">
       <Paper className={classes.paper}>

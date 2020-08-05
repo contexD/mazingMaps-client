@@ -6,7 +6,7 @@ import Backdrop from "@material-ui/core/Backdrop";
 export default function Loader(props) {
   return (
     <div>
-      <Backdrop open={props.open || false}>
+      <Backdrop open={!!props.open}>
         <CircularProgress />
       </Backdrop>
     </div>

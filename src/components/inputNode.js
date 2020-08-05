@@ -1,6 +1,4 @@
 import React, { memo, useEffect } from "react";
-import { useMutation, useApolloClient } from "@apollo/react-hooks";
-import { UPDATE_VERTEX_DATA } from "../cache/mutations";
 import { Handle } from "react-flow-renderer";
 
 import InputBase from "@material-ui/core/InputBase";
@@ -9,7 +7,7 @@ import CardContent from "@material-ui/core/CardContent";
 import { makeStyles } from "@material-ui/core/styles";
 
 import Editable from "./Editable";
-import { setSelectedNode } from "../utils";
+import useNode from "../hooks/useNode";
 
 const useStyles = makeStyles((theme) => ({
   margin: {
@@ -38,17 +36,16 @@ const useStyles = makeStyles((theme) => ({
 
 export default memo(({ id, data, selected }) => {
   const classes = useStyles();
-  const client = useApolloClient();
-  const [updateVertexData] = useMutation(UPDATE_VERTEX_DATA);
+  const { updateVertexData, setSelectedNode } = useNode();
 
   useEffect(() => {
     if (selected) {
-      setSelectedNode(client, id);
+      setSelectedNode(id);
     }
     return () => {
-      setSelectedNode(client, null);
+      setSelectedNode(null);
     };
-  }, [client, id, selected]);
+  }, [id, selected, setSelectedNode]);
 
   const handleChange = (event) => {
     updateVertexData({

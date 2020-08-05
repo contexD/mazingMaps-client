@@ -1,18 +1,21 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import { BrowserRouter as Router } from "react-router-dom";
+
+import {
+  ApolloClient,
+  ApolloProvider,
+  HttpLink,
+} from "@apollo/client";
+import { setContext } from "apollo-link-context";
+import { cache } from "./model/cache";
+
+import "fontsource-roboto";
 import "./index.css";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
-import "fontsource-roboto";
-import { BrowserRouter as Router } from "react-router-dom";
-import { ApolloProvider } from "@apollo/react-hooks";
-import { ApolloClient } from "apollo-client";
-import { createHttpLink } from "apollo-link-http";
-import { InMemoryCache } from "apollo-cache-inmemory";
-import { setContext } from "apollo-link-context";
-import { typeDefs } from "./cache/schema";
 
-const httpLink = createHttpLink({
+const httpLink = new HttpLink({
   uri: "https://mazing-mapper-server.herokuapp.com/graphql",
 });
 
@@ -28,44 +31,18 @@ const authLink = setContext((_, { headers }) => {
   };
 });
 
-const cache = new InMemoryCache();
-
 const client = new ApolloClient({
   link: authLink.concat(httpLink),
   cache,
-  typeDefs,
   connectToDevTools: true,
 });
 
-cache.writeData({
-  data: {
-    appLoading: false,
-    showMessage: false,
-    message: { __typename: "Message", severity: "", text: "" },
-    auth: {
-      __typename: "Auth",
-      me: {
-        __typename: "User",
-        id: null,
-        email: "",
-        firstName: "",
-        lastName: "",
-      },
-      accessToken: null,
-    },
-    selectedNode: {
-      __typename: "selectedNode",
-      id: null,
-    },
-  },
-});
-
 ReactDOM.render(
-  <Router>
-    <ApolloProvider client={client}>
+  <ApolloProvider client={client}>
+    <Router>
       <App />
-    </ApolloProvider>
-  </Router>,
+    </Router>
+  </ApolloProvider>,
   document.getElementById("root")
 );
 
