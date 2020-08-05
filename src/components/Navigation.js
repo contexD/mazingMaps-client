@@ -42,7 +42,7 @@ export default function Navigation(props) {
 
   return (
     <div className={classes.root}>
-      <AppBar position="static">
+      <AppBar position="fixed">
         <Toolbar>
           <IconButton
             edge="start"
@@ -107,6 +107,7 @@ export default function Navigation(props) {
           )}
         </Toolbar>
       </AppBar>
+      <Toolbar />
     </div>
   );
 }
