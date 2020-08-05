@@ -1,5 +1,5 @@
 import React from "react";
-import {Link as RouterLink} from "react-router-dom";
+import { Link as RouterLink } from "react-router-dom";
 
 import { makeStyles } from "@material-ui/core/styles";
 import { Grid, Typography, Button } from "@material-ui/core";
@@ -15,6 +15,9 @@ const useStyles = makeStyles((theme) => ({
   },
   descr: {
     marginTop: "5%",
+  },
+  illustration: {
+    width: "100%",
   },
 }));
 
@@ -41,7 +44,7 @@ export default function Home() {
           </Button>
         </Grid>
         <Grid item xs={6}>
-          <MindMapSvg />
+          <MindMapSvg className={classes.illustration} />
         </Grid>
       </Grid>
     </Grid>
