@@ -15,9 +15,8 @@ import "./index.css";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 
-//"https://mazing-mapper-server.herokuapp.com/graphql"
 const httpLink = new HttpLink({
-  uri: "http://localhost:4000/graphql",
+  uri: "https://mazing-mapper-server.herokuapp.com/graphql",
 });
 
 const authLink = setContext((_, { headers }) => {
