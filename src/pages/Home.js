@@ -1,5 +1,7 @@
 import React from "react";
 import { Link as RouterLink } from "react-router-dom";
+import { useQuery } from "@apollo/client";
+import { IS_LOGGED_IN } from "../model/operations/queries";
 
 import { makeStyles } from "@material-ui/core/styles";
 import { Grid, Typography, Button } from "@material-ui/core";
@@ -22,6 +24,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Home() {
+  const { data } = useQuery(IS_LOGGED_IN);
   const classes = useStyles();
   return (
     <Grid container className={classes.root}>
@@ -37,7 +40,7 @@ export default function Home() {
             color="primary"
             size="large"
             component={RouterLink}
-            to="/signup"
+            to={data && data.isLoggedIn ? "/mymaps" : "/signup"}
             className={classes.descr}
           >
             Get started
