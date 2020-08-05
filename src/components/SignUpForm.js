@@ -1,6 +1,4 @@
-import React, { useState, useEffect } from "react";
-import { useMutation } from "@apollo/client";
-import { SEND_SIGN_UP_DATA } from "../model/operations/mutations";
+import React, { useState } from "react";
 
 import { makeStyles } from "@material-ui/core/styles";
 import {
@@ -11,6 +9,8 @@ import {
   Typography,
   Button,
 } from "@material-ui/core";
+
+import useAuth from "../hooks/useAuth";
 
 function Buffer(
   email = "",
@@ -40,23 +40,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function SignUpForm() {
+  const { sendSignUp } = useAuth();
   const [buffer, setBuffer] = useState(new Buffer());
-  const [sendSignUp, { data, error, client }] = useMutation(SEND_SIGN_UP_DATA);
   const classes = useStyles();
-
-  useEffect(() => {
-    if (data && data.signUp.token.jwt) {
-      const updateCache = async () => {
-        await localStorage.setItem("token", data.signUp.token.jwt);
-        await client.resetStore();
-        //showMessage(client, data.signUp.message, data.signUp.success);
-        props.refetchMe();
-      };
-      updateCache();
-    } else if (data) {
-      //showMessage(client, data.signUp.message, data.signUp.success);
-    }
-  }, [data, client, error, props]);
 
   const signUpHandler = (event) => {
     event.preventDefault();
