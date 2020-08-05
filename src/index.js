@@ -10,7 +10,6 @@ import {
 import { setContext } from "apollo-link-context";
 import { cache } from "./model/cache";
 
-import "fontsource-roboto";
 import "./index.css";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
