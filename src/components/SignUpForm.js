@@ -11,6 +11,7 @@ import {
 } from "@material-ui/core";
 
 import useAuth from "../hooks/useAuth";
+import { comparePasswords } from "../utils/index";
 
 function Buffer(
   email = "",
@@ -43,6 +44,8 @@ export default function SignUpForm() {
   const { sendSignUp } = useAuth();
   const [buffer, setBuffer] = useState(new Buffer());
   const classes = useStyles();
+
+  const passwordComparison = comparePasswords(buffer.password, buffer.passwordRepeat);
 
   const signUpHandler = (event) => {
     event.preventDefault();
@@ -125,6 +128,9 @@ export default function SignUpForm() {
             <TextField
               id="outlined-password-input"
               label="repeat password"
+              error={passwordComparison.error}
+              helperText={passwordComparison.helperText
+              }
               type="password"
               required
               variant="outlined"
