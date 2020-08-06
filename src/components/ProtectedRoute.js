@@ -6,11 +6,11 @@ import { IS_LOGGED_IN } from "../model/operations/queries";
 
 export default function ProtectedRoute(props) {
   const { data } = useQuery(IS_LOGGED_IN);
-  const { component: Component } = props;
+  const { component: Component, redirectTo } = props;
 
   return data && data.isLoggedIn ? (
     <Component />
   ) : (
-    <Redirect to={{ pathname: "/" }} />
+    <Redirect to={{ pathname: redirectTo }} />
   );
 }
