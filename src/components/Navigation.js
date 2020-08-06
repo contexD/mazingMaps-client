@@ -72,6 +72,16 @@ export default function Navigation(props) {
             <Button
               color="inherit"
               className={classes.title}
+              to="/tutorial"
+              component={RouterLink}
+            >
+              Tutorial
+            </Button>
+          ) : null}
+          {data && data.me ? (
+            <Button
+              color="inherit"
+              className={classes.title}
               to={"/mymaps/" + data.me.id}
               component={RouterLink}
             >
