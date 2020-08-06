@@ -6,7 +6,7 @@ import { IS_LOGGED_IN } from "../model/operations/queries";
 
 export default function ProtectedRoute(props) {
   const { data } = useQuery(IS_LOGGED_IN);
-  const { Component } = props;
+  const { component: Component } = props;
 
   return data && data.isLoggedIn ? (
     <Component />
