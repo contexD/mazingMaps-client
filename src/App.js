@@ -27,7 +27,6 @@ function App() {
   //items for navigation bar (public)
   const menuItems = [
     { route: "/mapcreator", linkText: "Mapcreator" },
-    { route: "/tutorial", linkText: "Tutorial" },
   ];
 
   return (
