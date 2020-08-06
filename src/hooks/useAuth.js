@@ -38,8 +38,6 @@ export default function useAuth() {
 
   const { refetch: checkIsLoggedIn } = useQuery(ME, {
     onCompleted(data) {
-      console.log("checkIsLoggedIn called");
-      console.log("data", data);
       if (!data.me) {
         logout();
       } else {
