@@ -19,7 +19,6 @@
 MazingMaps is an app for creating mind maps with KaTeX (LaTeX) support. I love to organize new concepts I'm learning with the help of mind maps and I like learning about math. Since none of the apps I use support LaTeX (for entering mathematical expressions), I decided to code my own.
 
 __Note__: This is a MVP and a work in progress.
-Currently I am in the process of implementing __local state management with _reactive variables___ instead of _local resolvers_. For more details on cache policies and reactive variables (introduced with Apollo Client 3), see [this blog post](https://www.apollographql.com/blog/local-state-management-with-reactive-variables/).
 
 ## Demo
 
