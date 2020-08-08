@@ -40,6 +40,8 @@ export default function useAuth() {
     onCompleted(data) {
       if (!data.me) {
         logout();
+      } else {
+        setIsLoggedIn(true);
       }
     },
   });
@@ -47,13 +49,13 @@ export default function useAuth() {
   const [sendSignUp] = useMutation(SEND_SIGN_UP_DATA, {
     onCompleted({ signUp: { token, message, success } }) {
       client.resetStore();
-      if(success) {
+      if (success) {
         localStorage.setItem("token", token.jwt);
         setIsLoggedIn(true);
       }
       setMessage(message, success);
       setShowMsg(true);
-    }
+    },
   });
 
   return { sendLogin, checkIsLoggedIn, logout, sendSignUp };

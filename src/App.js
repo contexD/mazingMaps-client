@@ -15,6 +15,7 @@ import Loader from "./components/Loader";
 import Toast from "./components/Toast";
 import MyMaps from "./pages/MyMaps";
 import useAuth from "./hooks/useAuth";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
   const { data } = useQuery(IS_LOGGED_IN);
@@ -25,10 +26,7 @@ function App() {
   }, [checkIsLoggedIn]);
 
   //items for navigation bar (public)
-  const menuItems = [
-    { route: "/mapcreator", linkText: "Mapcreator" },
-    { route: "/tutorial", linkText: "Tutorial" },
-  ];
+  const menuItems = [{ route: "/mapcreator", linkText: "Mapcreator" }];
 
   return (
     <div className="App">
@@ -49,10 +47,8 @@ function App() {
       <Switch>
         <Route exact path="/" component={Home} />
         <Route path="/mapcreator/:id" component={Map} />
-        <Route path="/tutorial" component={Tutorial} />
-        <Route path="/mymaps">
-          {data && data.isLoggedIn ? <MyMaps /> : <Redirect to="/" />}
-        </Route>
+        <ProtectedRoute path="/tutorial" redirectTo="/" component={Tutorial} />
+        <ProtectedRoute path="/mymaps" redirectTo="/" component={MyMaps} />
         <Route path="/signup">
           {data && data.isLoggedIn ? <Redirect to="/mymaps" /> : <SignUp />}
         </Route>
