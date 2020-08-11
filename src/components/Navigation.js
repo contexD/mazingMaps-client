@@ -52,7 +52,8 @@ export default function Navigation(props) {
             component={RouterLink}
             to={"/"}
           >
-            <HomeIcon />
+            <HomeIcon className={classes.menuButton} />
+            <Typography>MazingMapper</Typography>
           </IconButton>
 
           {props.menuItems.map((item) => {
@@ -71,9 +72,10 @@ export default function Navigation(props) {
           {data && data.me ? (
             <Button
               color="inherit"
+              variant="text"
               className={classes.title}
-              to="/tutorial"
               component={RouterLink}
+              to="/tutorial"
             >
               Tutorial
             </Button>
@@ -81,9 +83,10 @@ export default function Navigation(props) {
           {data && data.me ? (
             <Button
               color="inherit"
+              variant="text"
               className={classes.title}
-              to={"/mymaps/" + data.me.id}
               component={RouterLink}
+              to={"/mymaps/" + data.me.id}
             >
               MyMaps
             </Button>
@@ -96,7 +99,7 @@ export default function Navigation(props) {
           {data && data.me ? (
             <Button
               color="inherit"
-              edge=""
+              variant="text"
               onClick={logoutHandler}
               component={RouterLink}
               to={"/"}
@@ -107,7 +110,7 @@ export default function Navigation(props) {
             <>
               <Button
                 color="inherit"
-                edge=""
+                variant="text"
                 component={RouterLink}
                 to={"/login"}
               >
