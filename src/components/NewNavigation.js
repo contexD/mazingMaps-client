@@ -101,7 +101,7 @@ export default function NewNavigation() {
                 onClose={handleClose}
               >
                 <MenuItem onClick={handleClose}>Profile</MenuItem>
-                <MenuItem onClick={handleClose}>My Maps</MenuItem>
+                <MenuItem onClick={handleClose} to="/mymaps" component={RouterLink}>My Maps</MenuItem>
                 <MenuItem onClick={logoutHandler}>Logout</MenuItem>
               </Menu>
             </div>
