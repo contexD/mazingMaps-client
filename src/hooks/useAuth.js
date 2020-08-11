@@ -31,9 +31,9 @@ export default function useAuth() {
   }, [loginLoading, setAppLoading]);
 
   const logout = () => {
-    client.clearStore();
     localStorage.removeItem("token");
     setIsLoggedIn(false);
+    client.resetStore();
   };
 
   const { refetch: checkIsLoggedIn } = useQuery(ME, {
