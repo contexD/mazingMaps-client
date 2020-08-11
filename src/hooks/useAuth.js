@@ -31,7 +31,7 @@ export default function useAuth() {
   }, [loginLoading, setAppLoading]);
 
   const logout = () => {
-    client.resetStore();
+    client.clearStore();
     localStorage.removeItem("token");
     setIsLoggedIn(false);
   };
