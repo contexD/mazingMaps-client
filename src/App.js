@@ -10,12 +10,12 @@ import Map from "./components/Map";
 import Tutorial from "./pages/Tutorial";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
-import Navigation from "./components/Navigation";
 import Loader from "./components/Loader";
 import Toast from "./components/Toast";
 import MyMaps from "./pages/MyMaps";
 import useAuth from "./hooks/useAuth";
 import ProtectedRoute from "./components/ProtectedRoute";
+import Navigation from "./components/Navigation/";
 
 function App() {
   const { data } = useQuery(IS_LOGGED_IN);
@@ -24,9 +24,6 @@ function App() {
   useEffect(() => {
     checkIsLoggedIn();
   }, [checkIsLoggedIn]);
-
-  //items for navigation bar (public)
-  const menuItems = [{ route: "/mapcreator", linkText: "Mapcreator" }];
 
   return (
     <div className="App">
@@ -40,7 +37,8 @@ function App() {
           href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
         />
       </Helmet>
-      <Navigation menuItems={menuItems} />
+
+      <Navigation />
       <Loader />
       <Toast />
 
