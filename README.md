@@ -14,6 +14,8 @@
 - [Server Repo](https://github.com/contexD/mazingMaps-client#server-repo)
 - [Scripts](https://github.com/contexD/mazingMaps-client#available-scripts)
 
+[Click here](https://mazing-maps.netlify.app/) to view the deployed version of my web app.
+
 ## About
 
 MazingMaps is an app for creating mind maps with KaTeX (LaTeX) support. I love to organize new concepts I'm learning with the help of mind maps and I like learning about math. Since none of the apps I use support LaTeX (for entering mathematical expressions), I decided to code my own.
