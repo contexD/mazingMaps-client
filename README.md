@@ -1,5 +1,7 @@
 # MazingMaps
 
+[Click here](https://mazing-maps.netlify.app/) to view the deployed web app.
+
 ## Table of Contents
 
 - [About](https://github.com/contexD/mazingMaps-client#About)
@@ -13,6 +15,7 @@
 - [Wireframes](https://github.com/contexD/mazingMaps-client#wireframes)
 - [Server Repo](https://github.com/contexD/mazingMaps-client#server-repo)
 - [Scripts](https://github.com/contexD/mazingMaps-client#available-scripts)
+
 
 ## About
 
