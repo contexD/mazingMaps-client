@@ -21,6 +21,9 @@ const useStyles = makeStyles((theme) => ({
   illustration: {
     width: "100%",
   },
+  title: {
+    fontFamily: 'Architects Daughter'
+  }
 }));
 
 export default function Home() {
@@ -30,8 +33,8 @@ export default function Home() {
     <Grid container className={classes.root}>
       <Grid container justify="center">
         <Grid item xs={4}>
-          <Typography variant="h2">MazingMapper</Typography>
-          <Typography variant="h3">Create mind maps online</Typography>
+          <Typography variant="h2" className={classes.title}>MazingMapper</Typography>
+          <Typography variant="h3" className={classes.title}>Create mind maps online</Typography>
           <Typography variant="h4" className={classes.descr}>
             It's never been easier and more intuitive to organize your ideas.
           </Typography>
