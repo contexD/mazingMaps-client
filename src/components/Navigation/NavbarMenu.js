@@ -34,10 +34,10 @@ export default function NavbarMenu({data}) {
         aria-label="account of current user"
         aria-controls="menu-appbar"
         aria-haspopup="true"
-        onClick={handleMenu}
         color="inherit"
+        onClick={handleMenu}
       >
-        <AccountCircle />
+        <AccountCircle fontSize="large" />
       </IconButton>
       <Menu
         id="menu-appbar"

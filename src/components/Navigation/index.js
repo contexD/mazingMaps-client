@@ -44,8 +44,13 @@ export default function Navigation() {
               component={RouterLink}
               to={"/"}
             >
-              <HomeIcon className={classes.menuButton} />
-              <Typography variant="h5" style={{fontFamily: 'Architects Daughter'}}>MazingMapper</Typography>
+              <HomeIcon className={classes.menuButton} fontSize="large" />
+              <Typography
+                variant="h5"
+                style={{ fontFamily: "Architects Daughter" }}
+              >
+                MazingMapper
+              </Typography>
             </IconButton>
           </div>
           {data && data.me ? (
@@ -54,8 +59,8 @@ export default function Navigation() {
             <Button
               aria-label="login-button"
               color="inherit"
-              to="/login"
               component={RouterLink}
+              to="/login"
             >
               Login
             </Button>
