@@ -45,7 +45,7 @@ export default function Navigation() {
               to={"/"}
             >
               <HomeIcon className={classes.menuButton} />
-              <Typography>MazingMapper</Typography>
+              <Typography variant="h5" style={{fontFamily: 'Architects Daughter'}}>MazingMapper</Typography>
             </IconButton>
           </div>
           {data && data.me ? (
